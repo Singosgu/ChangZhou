@@ -1,0 +1,1 @@
+const baseurl="https://wms.czlingyue.com/",wsurl="wss://wms.czlingyue.com/";window.g={BaseUrl:baseurl,WsUrl:wsurl};
