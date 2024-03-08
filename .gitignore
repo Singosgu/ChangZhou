@@ -1,0 +1,12 @@
+node_modules/
+__pycache__/
+Authorization/
+authorization.txt
+authorization.json
+db.sqlite3
+.idea/
+delete.py
+*.xlsx
+logs/
+bfg.jar
+data.json

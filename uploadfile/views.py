@@ -1484,7 +1484,7 @@ class BinViewSet(views.APIView):
             staff_name = staff.objects.filter(openid=self.request.auth.openid,
                                               id=self.request.META.get('HTTP_OPERATOR')).first().staff_name
             if excel_type in ['xlsx', 'xls', 'csv']:
-                if excel_type is 'csv':
+                if excel_type == 'csv':
                     df = pd.read_csv(files)
                 else:
                     df = pd.read_excel(files)
