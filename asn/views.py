@@ -702,15 +702,27 @@ class AsnSortedViewSet(viewsets.ModelViewSet):
             data = self.request.data
             staff_name = staff.objects.filter(openid=self.request.auth.openid,
                                               id=self.request.META.get('HTTP_OPERATOR')).first().staff_name
+            for v in range(len(data['goodsData'])):
+                asn_detail_list = AsnDetailModel.objects.filter(openid=self.request.auth.openid,
+                                                           asn_code=str(data['asn_code']),
+                                                           asn_status=3, supplier=str(data['supplier']),
+                                                           goods_code=str(
+                                                               data['goodsData'][v].get('goods_code')))
+                if asn_detail_list.exists() is False:
+                    raise APIException({"detail": data['goodsData'][v].get('goods_code') + '不存在'})
             for j in range(len(data['goodsData'])):
                 goods_qty_change = stocklist.objects.filter(openid=self.request.auth.openid,
                                                             goods_code=str(
                                                                 data['goodsData'][j].get('goods_code'))).first()
-                asn_detail = AsnDetailModel.objects.filter(openid=self.request.auth.openid,
+                asn_detail_list = AsnDetailModel.objects.filter(openid=self.request.auth.openid,
                                                            asn_code=str(data['asn_code']),
                                                            asn_status=3, supplier=str(data['supplier']),
                                                            goods_code=str(
-                                                               data['goodsData'][j].get('goods_code'))).first()
+                                                               data['goodsData'][j].get('goods_code')))
+                if asn_detail_list.exists():
+                    asn_detail = asn_detail_list.first()
+                else:
+                    raise APIException({"detail": data['goodsData'][j].get('goods_code') + '不存在'})
                 goods_detail = goods.objects.filter(goods_code=str(data['goodsData'][j].get('goods_code')), is_delete=False).first()
                 if int(data['goodsData'][j].get('goods_actual_qty')) == 0:
                     asn_detail.goods_actual_qty = int(data['goodsData'][j].get('goods_actual_qty'))

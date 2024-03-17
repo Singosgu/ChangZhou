@@ -1,1 +1,1 @@
-const baseurl="https://wms.czlingyue.com/",wsurl="wss://wms.czlingyue.com/";window.g={BaseUrl:baseurl,WsUrl:wsurl};
+const wsurl="wss://wms.czlingyue.com/",baseurl="http://127.0.0.1:8008/";window.g={BaseUrl:baseurl,WsUrl:wsurl};

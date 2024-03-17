@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class DnListModel(models.Model):
     dn_code = models.CharField(max_length=255, verbose_name="DN Code")
     dn_status = models.BigIntegerField(default=1, verbose_name="DN Status")
