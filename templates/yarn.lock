@@ -1232,6 +1232,11 @@
   resolved "https://registry.npmjs.org/@quasar/fastclick/-/fastclick-1.1.5.tgz"
   integrity sha512-p3JKgTjRlJ1YQXbqTw3Bsa4j0mQdt5dq+WfYvyb7MgKGdephHCKdR/kxA5PCTAmJanGJuDKqRdyGYX/hYN4KGw==
 
+"@quasar/quasar-app-extension-qpdfviewer@^1.0.0-beta.9":
+  version "1.0.0-beta.9"
+  resolved "https://registry.npmmirror.com/@quasar/quasar-app-extension-qpdfviewer/-/quasar-app-extension-qpdfviewer-1.0.0-beta.9.tgz#ec92e429061a9c7bd399b6f3b0e1a4866ba02320"
+  integrity sha512-3RBpPJkExSCmc1boVsZ8EB1CteVlwPobyfHcCxo7J28gt6yj++/2HTlVPao/wp55pLS+kk9N1tekYHMUgyuXfw==
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-0.14.0.tgz"

@@ -2,6 +2,8 @@ from django.db import models
 
 
 class DnListModel(models.Model):
+    txnid = models.CharField(default='', max_length=255, verbose_name="tp Code")
+    order_line = models.IntegerField(default=1, verbose_name="Order Line")
     dn_code = models.CharField(max_length=255, verbose_name="DN Code")
     dn_status = models.BigIntegerField(default=1, verbose_name="DN Status")
     total_weight = models.FloatField(default=0, verbose_name="Total Weight")
@@ -29,6 +31,7 @@ class DnListModel(models.Model):
         return self.pk
 
 class DnDetailModel(models.Model):
+    txnid = models.CharField(default='', max_length=255, verbose_name="tp Code")
     dn_code = models.CharField(max_length=255, verbose_name="DN Code")
     dn_status = models.BigIntegerField(default=1, verbose_name="DN Status")
     customer = models.CharField(max_length=255, verbose_name="DN Customer")

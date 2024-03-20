@@ -74,6 +74,7 @@ urlpatterns = [
     path('login/', include('userlogin.urls')),
     path('register/', include('userregister.urls')),
     path('uploadfile/', include('uploadfile.urls')),
+    path('task/', include('task.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path(r'checkstock/<str:t_code>/<int:qty>/', views.checkstock, name='checkstock'),
     path(r'changetype/<str:bin>/<str:type>/', views.changetype, name='changetype'),

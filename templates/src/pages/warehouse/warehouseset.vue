@@ -165,6 +165,19 @@
             <template v-if="!editMode">
               <q-td key="action" :props="props" style="width: 100px">
                 <q-btn
+                  round
+                  flat
+                  push
+                  color="primary"
+                  icon="list_alt"
+                  @click="getOrder(props.row)">
+                  <q-tooltip
+                    content-class="bg-amber text-black shadow-4"
+                    :offset="[10, 10]"
+                    content-style="font-size: 12px"
+                  >获取该仓库订单</q-tooltip>
+                </q-btn>
+                <q-btn
                   v-if="isVip9 === 9"
                   round
                   flat
@@ -706,7 +719,27 @@ export default {
       var _this = this
       _this.deleteForm = false
       _this.deleteid = 0
-    }
+    },
+    getOrder (e) {
+      var _this = this
+      postauth(_this.pathname + 'getorder/', e)
+        .then((res) => {
+          if (!res.detail) {
+            _this.$q.notify({
+              message: 'Success Get Order',
+              icon: 'check',
+              color: 'green'
+            })
+          }
+        })
+        .catch((err) => {
+          _this.$q.notify({
+            message: err.detail,
+            icon: 'close',
+            color: 'negative'
+          })
+        })
+    },
   },
   created () {
     var _this = this

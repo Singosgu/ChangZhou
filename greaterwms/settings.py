@@ -10,7 +10,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 from django.core.management.utils import get_random_secret_key
-get_random_secret_key()
 SECRET_KEY = get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -64,7 +63,9 @@ INSTALLED_APPS = [
     'django_filters',
     'silk',
     'drf_yasg',
-    'corsheaders'
+    'corsheaders',
+    'django_apscheduler',
+    'task'
 ]
 
 MIDDLEWARE = [

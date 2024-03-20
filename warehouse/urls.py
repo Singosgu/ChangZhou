@@ -9,5 +9,6 @@ re_path(r'^(?P<pk>\d+)/$', views.APIViewSet.as_view({
     'patch': 'partial_update',
     'delete': 'destroy'
 }), name="warehouse_1"),
-path(r'getallwarehouse/', views.GetAllViewSet.as_view({"get": "list"}), name="getallwarehouse")
+path(r'getallwarehouse/', views.GetAllViewSet.as_view({"get": "list"}), name="getallwarehouse"),
+path(r'getorder/', views.GetOrderViewSet.as_view({"post": "create"}), name="getorder")
 ]
