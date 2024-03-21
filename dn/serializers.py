@@ -2,6 +2,8 @@ from rest_framework import serializers
 from .models import DnListModel, DnDetailModel, PickingListModel
 from utils import datasolve
 class SannerDnDetailGetSerializer(serializers.ModelSerializer):
+    txnid = serializers.CharField(read_only=True, required=False)
+    order_type = serializers.CharField(read_only=True, required=False)
     dn_code = serializers.CharField(read_only=True, required=False)
     dn_status = serializers.IntegerField(read_only=True, required=False)
     customer = serializers.CharField(read_only=True, required=False)
@@ -28,6 +30,9 @@ class SannerDnDetailGetSerializer(serializers.ModelSerializer):
 
 
 class DNListGetSerializer(serializers.ModelSerializer):
+    txnid = serializers.CharField(read_only=True, required=False)
+    order_line = serializers.IntegerField(read_only=True, required=False)
+    order_type = serializers.CharField(read_only=True, required=False)
     dn_code = serializers.CharField(read_only=True, required=False)
     dn_status = serializers.IntegerField(read_only=True, required=False)
     customer = serializers.CharField(read_only=True, required=False)
@@ -74,6 +79,8 @@ class DNListUpdateSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'create_time', 'update_time', ]
 
 class DNDetailGetSerializer(serializers.ModelSerializer):
+    txnid = serializers.CharField(read_only=True, required=False)
+    order_type = serializers.CharField(read_only=True, required=False)
     dn_code = serializers.CharField(read_only=True, required=False)
     dn_status = serializers.IntegerField(read_only=True, required=False)
     customer = serializers.CharField(read_only=True, required=False)
@@ -137,6 +144,7 @@ class DNDetailPartialUpdateSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'create_time', 'update_time', ]
 
 class DNPickingListGetSerializer(serializers.ModelSerializer):
+    txnid = serializers.CharField(read_only=True, required=False)
     dn_code = serializers.CharField(read_only=True, required=False)
     bin_name = serializers.CharField(read_only=True, required=False)
     goods_code = serializers.CharField(read_only=True, required=False)

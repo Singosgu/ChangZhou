@@ -3,7 +3,10 @@ from django.db import models
 
 class DnListModel(models.Model):
     txnid = models.CharField(default='', max_length=255, verbose_name="tp Code")
-    order_line = models.IntegerField(default=1, verbose_name="Order Line")
+    order_line = models.SmallIntegerField(default=1, verbose_name="Order Line")
+    order_type = models.CharField(default='', max_length=255, verbose_name="Order Type")
+    mian_dan = models.TextField(default='', verbose_name='Mian Dan')
+    tp_detail = models.JSONField(default=dict, verbose_name="tp detail")
     dn_code = models.CharField(max_length=255, verbose_name="DN Code")
     dn_status = models.BigIntegerField(default=1, verbose_name="DN Status")
     total_weight = models.FloatField(default=0, verbose_name="Total Weight")
@@ -32,6 +35,7 @@ class DnListModel(models.Model):
 
 class DnDetailModel(models.Model):
     txnid = models.CharField(default='', max_length=255, verbose_name="tp Code")
+    order_type = models.CharField(default='', max_length=255, verbose_name="Order Type")
     dn_code = models.CharField(max_length=255, verbose_name="DN Code")
     dn_status = models.BigIntegerField(default=1, verbose_name="DN Status")
     customer = models.CharField(max_length=255, verbose_name="DN Customer")
@@ -66,6 +70,7 @@ class DnDetailModel(models.Model):
         return self.pk
 
 class PickingListModel(models.Model):
+    txnid = models.CharField(default='', max_length=255, verbose_name="tp Code")
     dn_code = models.CharField(max_length=255, verbose_name="DN Code")
     bin_name = models.CharField(max_length=255, verbose_name="Bin Name")
     goods_code = models.CharField(max_length=255, verbose_name="Goods Code")

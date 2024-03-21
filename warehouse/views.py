@@ -12,7 +12,14 @@ from .filter import Filter
 from rest_framework.exceptions import APIException
 from userprofile.models import Users
 from .page import MyPageNumberPaginationWarehouse
-
+from django.utils import timezone
+from dn.models import DnListModel, DnDetailModel, PickingListModel
+from utils.md5 import Md5
+from scanner.models import ListModel as scanner
+from customer.models import ListModel as customer
+from goods.models import ListModel as goods
+from utils.datasolve import sumOfList
+from stock.models import StockListModel as stocklist
 
 class APIViewSet(viewsets.ModelViewSet):
     """
@@ -227,16 +234,117 @@ class GetOrderViewSet(viewsets.ModelViewSet):
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
             'APItoken': 'e7d82-0913c-5fe10-603c2-be99e-a42e9-a837'
         }
-        print(data.get('openid', ''))
-        pay_day = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y/%m/%d")
+        # pay_day = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y/%m/%d")
         get_orders = requests.get(
-            'https://api.teapplix.com/api2/OrderNotification?NotShipped=0&PageSize=100&WarehouseId=' + str(data.get('warehouse_id', '')) + '&PaymentDateStart=' + pay_day,
+            'https://api.teapplix.com/api2/OrderNotification?DetailLevel=shipping|none|inventory|dropship&NotShipped=1&PageSize=100&WarehouseId=' + str(data.get('warehouse_id', '')),
             headers=headers).json()
         for i in range(get_orders.get('Pagination', '').get('TotalPages', '')):
             get_order = requests.get(
-                'https://api.teapplix.com/api2/OrderNotification?NotShipped=0&PageSize=100&PageNumber=' + str(
-                    i + 1) + '&WarehouseId=' + str(data.get('warehouse_id', '')) + '&PaymentDateStart=' + pay_day,
+                'https://api.teapplix.com/api2/OrderNotification?DetailLevel=shipping|none|inventory|dropship&NotShipped=1&PageSize=100&PageNumber=' + str(
+                    i + 1) + '&WarehouseId=' + str(data.get('warehouse_id', '')),
                 headers=headers).json().get('Orders')
+            for v in get_order:
+                for x in v.get('OrderItems', ''):
+                    if goods.objects.filter(goods_code=x.get('Name', ''), is_delete=False).exists() is False:
+                        goods_bar_code = Md5.md5(x.get('Name', ''))
+                        goods.objects.create(
+                            goods_code=x.get('Name', ''),
+                            goods_desc='N/A',
+                            goods_supplier='N/A',
+                            goods_unit='N/A',
+                            goods_class='N/A',
+                            goods_brand='N/A',
+                            goods_color='N/A',
+                            goods_shape='N/A',
+                            goods_specs='N/A',
+                            goods_origin='N/A',
+                            creater=self.request.auth.name,
+                            bar_code=goods_bar_code,
+                            openid=data.get('openid')
+                        )
+                        scanner.objects.create(openid=data.get('openid', ''), mode="GOODS", code=x.get('Name', ''),
+                                               bar_code=goods_bar_code)
             for j in get_order:
-                print(j)
+                qs_set = DnListModel.objects.filter(is_delete=False)
+                order_day = str(timezone.now().strftime('%Y%m%d'))
+                if len(qs_set) > 0:
+                    dn_last_code = qs_set.order_by('-id').first().dn_code
+                    if dn_last_code[2:10] == order_day:
+                        order_create_no = str(int(dn_last_code[10:]) + 1)
+                        dn_code = 'DN' + order_day + order_create_no
+                    else:
+                        dn_code = 'DN' + order_day + '1'
+                else:
+                    dn_code = 'DN' + order_day + '1'
+                bar_code = Md5.md5(str(j.get('TxnId', '')))
+                if DnListModel.objects.filter(txnid=j.get('TxnId', ''), is_delete=False).exists() is False:
+                    total_weight_list = []
+                    total_volume_list = []
+                    total_cost_list = []
+                    for p in j.get('OrderItems', ''):
+                        goods_detail = goods.objects.filter(goods_code=p.get('Name', '')).first()
+                        total_weight_list.append(round(goods_detail.goods_weight * int(p.get('Quantity', '')) / 1000, 4))
+                        total_volume_list.append(round(goods_detail.unit_volume * int(p.get('Quantity', '')) / 1000 / 1000 / 1000, 4))
+                        total_cost_list.append(round(goods_detail.goods_price * int(p.get('Quantity', '')), 2))
+                    DnListModel.objects.create(
+                        txnid=j.get('TxnId', ''),
+                        order_line=len(j.get('OrderItems', '')),
+                        order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', ''),
+                        tp_detail=j,
+                        dn_code=dn_code,
+                        total_weight=sumOfList(total_weight_list, len(total_weight_list)),
+                        total_volume=sumOfList(total_volume_list, len(total_volume_list)),
+                        total_cost=sumOfList(total_cost_list, len(total_cost_list)),
+                        customer=j.get('To', '').get('Name', ''),
+                        creater=self.request.auth.name,
+                        bar_code=bar_code,
+                        openid=data.get('openid', ''),
+                        warehouse_id=int(data.get('warehouse_id', ''))
+                    ),
+                    if customer.objects.filter(openid=data.get('openid', ''), customer_name=j.get('To', '').get('Name', ''), is_delete=False).exists() is False:
+                        customer.objects.create(
+                            openid=data.get('openid', ''),
+                            customer_name=j.get('To', '').get('Name', ''),
+                            customer_city=j.get('To', '').get('City', ''),
+                            customer_address=j.get('To', '').get('Street', '') + j.get('To', '').get('Street2', ''),
+                            customer_contact=j.get('To', '').get('PhoneNumber', ''),
+                            customer_manager=j.get('To', '').get('Email', ''),
+                            creater=self.request.auth.name
+                        )
+                    for k in j.get('OrderItems', ''):
+                        goods_detail = goods.objects.filter(goods_code=k.get('Name', '')).first()
+                        DnDetailModel.objects.create(
+                            openid=data.get('openid', ''),
+                            txnid=j.get('TxnId', ''),
+                            order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', ''),
+                            dn_code=dn_code,
+                            customer=j.get('To', '').get('Name', ''),
+                            goods_code=goods_detail.goods_code,
+                            goods_desc=goods_detail.goods_desc,
+                            goods_qty=k.get('Quantity'),
+                            goods_weight=round(goods_detail.goods_weight * k.get('Quantity') / 1000 , 4),
+                            goods_volume=round(goods_detail.unit_volume * k.get('Quantity') / 1000 / 1000 / 1000, 4),
+                            goods_cost=round(goods_detail.goods_price * k.get('Quantity'), 2),
+                            creater=self.request.auth.name,
+                            warehouse_id=int(data.get('warehouse_id', ''))
+                        )
+                        if stocklist.objects.filter(
+                                openid=data.get('openid', ''),
+                                goods_code=goods_detail.goods_code,
+                                can_order_stock__gte=0
+                        ).exists():
+                            goods_qty_change = stocklist.objects.filter(
+                                openid=data.get('openid'),
+                                goods_code=goods_detail.goods_code
+                            ).first()
+                            goods_qty_change.dn_stock = goods_qty_change.dn_stock + int(k.get('Quantity'))
+                            goods_qty_change.save()
+                        else:
+                            stocklist.objects.create(
+                                openid=data.get('openid'),
+                                goods_code=goods_detail.goods_code,
+                                goods_desc=goods_detail.goods_desc,
+                                dn_stock=int(k.get('Quantity'))
+                            )
+                    scanner.objects.create(openid=data.get('openid', ''), mode="DN", code=dn_code, bar_code=bar_code)
         return Response({'msg': 'success'}, status=200)
