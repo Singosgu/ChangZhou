@@ -1,7 +1,7 @@
 // const baseurl = 'https://wms.czlingyue.com/'
-const wsurl = 'wss://wms.czlingyue.com/'
+const wsurl = 'wss://wms25.czlingyue.com/websocket/'
 
-const baseurl = 'http://127.0.0.1:8008/'
+const baseurl = 'https://wms25.czlingyue.com/'
 
 window.g = {
   BaseUrl: baseurl,
