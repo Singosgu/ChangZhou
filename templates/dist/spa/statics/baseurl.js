@@ -1,1 +1,1 @@
-const wsurl="wss://wms25.czlingyue.com/websocket/",baseurl="https://wms25.czlingyue.com/";window.g={BaseUrl:baseurl,WsUrl:wsurl};
+const baseurl="https://wms25.czlingyue.com/",wsurl="wss://wms25.czlingyue.com/websocket/";window.g={BaseUrl:baseurl,WsUrl:wsurl};

@@ -29,7 +29,7 @@ def task_job():
             i.mian_dan = res
             i.save()
             decoded_data = base64.b64decode(res)
-            with open(str(settings.BASE_DIR) + '/' + str(i.get('TxnId', '')) + '.pdf', 'wb') as file:
+            with open(str(settings.BASE_DIR) + '/media/miandan/' + str(i.get('TxnId', '')) + '.pdf', 'wb') as file:
                 file.write(decoded_data)
         except:
             pass

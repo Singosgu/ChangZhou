@@ -21,26 +21,26 @@
       >
         <template v-slot:top>
           <q-btn-group push>
-            <q-btn
-              v-show="
-                $q.localStorage.getItem('staff_type') !== 'Supplier' &&
-                $q.localStorage.getItem('staff_type') !== 'Customer' &&
-                $q.localStorage.getItem('staff_type') !== 'Inbound' &&
-                $q.localStorage.getItem('staff_type') !== 'StockControl' &&
-                $q.localStorage.getItem('is_vip') === 9
-              "
-              :label="$t('new')"
-              icon="add"
-              @click="newFormOpen()"
-            >
-              <q-tooltip
-                content-class="bg-amber text-black shadow-4"
-                :offset="[10, 10]"
-                content-style="font-size: 12px"
-              >{{ $t("newtip") }}
-              </q-tooltip
-              >
-            </q-btn>
+<!--            <q-btn-->
+<!--              v-show="-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Supplier' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Customer' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Inbound' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'StockControl' &&-->
+<!--                $q.localStorage.getItem('is_vip') === 9-->
+<!--              "-->
+<!--              :label="$t('new')"-->
+<!--              icon="add"-->
+<!--              @click="newFormOpen()"-->
+<!--            >-->
+<!--              <q-tooltip-->
+<!--                content-class="bg-amber text-black shadow-4"-->
+<!--                :offset="[10, 10]"-->
+<!--                content-style="font-size: 12px"-->
+<!--              >{{ $t("newtip") }}-->
+<!--              </q-tooltip-->
+<!--              >-->
+<!--            </q-btn>-->
             <q-btn :label="$t('refresh')" icon="refresh" @click="reFresh()">
               <q-tooltip
                 content-class="bg-amber text-black shadow-4"
@@ -50,60 +50,60 @@
               </q-tooltip
               >
             </q-btn>
-            <q-btn
-              v-show="
-                  $q.localStorage.getItem('staff_type') !== 'Supplier' &&
-                  $q.localStorage.getItem('staff_type') !== 'Customer' &&
-                  $q.localStorage.getItem('staff_type') !== 'Inbound' &&
-                  $q.localStorage.getItem('staff_type') !== 'StockControl'
-                "
-              @click="BatchConfirmorderClick"
-              :label="$t('batch_confirmorder')"
-              :disable="selected.length === 0"
-              icon="img:statics/outbound/order.png"
-            >
-              <q-tooltip
-                content-class="bg-amber text-black shadow-4"
-                :offset="[10, 10]"
-                content-style="font-size: 12px"
-              >
-                {{ $t("batch_confirmorder") }}
-              </q-tooltip>
-            </q-btn>
-            <q-btn
-              v-show="
-                $q.localStorage.getItem('staff_type') !== 'Supplier' &&
-                $q.localStorage.getItem('staff_type') !== 'Customer' &&
-                $q.localStorage.getItem('staff_type') !== 'Inbound' &&
-                $q.localStorage.getItem('staff_type') !== 'StockControl'
-              "
-              :label="$t('release')"
-              icon="img:statics/outbound/orderrelease.png"
-              @click="orderreleaseAllData()"
-            >
-              <q-tooltip
-                content-class="bg-amber text-black shadow-4"
-                :offset="[10, 10]"
-                content-style="font-size: 12px"
-              >{{ $t("releaseallorder") }}
-              </q-tooltip
-              >
-            </q-btn>
+<!--            <q-btn-->
+<!--              v-show="-->
+<!--                  $q.localStorage.getItem('staff_type') !== 'Supplier' &&-->
+<!--                  $q.localStorage.getItem('staff_type') !== 'Customer' &&-->
+<!--                  $q.localStorage.getItem('staff_type') !== 'Inbound' &&-->
+<!--                  $q.localStorage.getItem('staff_type') !== 'StockControl'-->
+<!--                "-->
+<!--              @click="BatchConfirmorderClick"-->
+<!--              :label="$t('batch_confirmorder')"-->
+<!--              :disable="selected.length === 0"-->
+<!--              icon="img:statics/outbound/order.png"-->
+<!--            >-->
+<!--              <q-tooltip-->
+<!--                content-class="bg-amber text-black shadow-4"-->
+<!--                :offset="[10, 10]"-->
+<!--                content-style="font-size: 12px"-->
+<!--              >-->
+<!--                {{ $t("batch_confirmorder") }}-->
+<!--              </q-tooltip>-->
+<!--            </q-btn>-->
+<!--            <q-btn-->
+<!--              v-show="-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Supplier' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Customer' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Inbound' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'StockControl'-->
+<!--              "-->
+<!--              :label="$t('release')"-->
+<!--              icon="img:statics/outbound/orderrelease.png"-->
+<!--              @click="orderreleaseAllData()"-->
+<!--            >-->
+<!--              <q-tooltip-->
+<!--                content-class="bg-amber text-black shadow-4"-->
+<!--                :offset="[10, 10]"-->
+<!--                content-style="font-size: 12px"-->
+<!--              >{{ $t("releaseallorder") }}-->
+<!--              </q-tooltip-->
+<!--              >-->
+<!--            </q-btn>-->
 
-            <q-btn
-              v-if="isVip9 === 9"
-              @click="uploadVisible = true"
-              :label="$t('upload_center.upload')"
-              icon="file_upload"
-            >
-              <q-tooltip
-                content-class="bg-amber text-black shadow-4"
-                :offset="[10, 10]"
-                content-style="font-size: 12px"
-              >
-                {{ $t("upload_center.uploadfiles") }}
-              </q-tooltip>
-            </q-btn>
+<!--            <q-btn-->
+<!--              v-if="isVip9 === 9"-->
+<!--              @click="uploadVisible = true"-->
+<!--              :label="$t('upload_center.upload')"-->
+<!--              icon="file_upload"-->
+<!--            >-->
+<!--              <q-tooltip-->
+<!--                content-class="bg-amber text-black shadow-4"-->
+<!--                :offset="[10, 10]"-->
+<!--                content-style="font-size: 12px"-->
+<!--              >-->
+<!--                {{ $t("upload_center.uploadfiles") }}-->
+<!--              </q-tooltip>-->
+<!--            </q-btn>-->
 
             <q-btn
               :label="$t('download')"
@@ -139,18 +139,13 @@
         <template v-slot:body-cell-action="props">
           <q-td key="action" :props="props" style="width: 100px">
             <q-btn
-              v-show="
-                $q.localStorage.getItem('staff_type') !== 'Supplier' &&
-                $q.localStorage.getItem('staff_type') !== 'Customer' &&
-                $q.localStorage.getItem('staff_type') !== 'Inbound' &&
-                $q.localStorage.getItem('staff_type') !== 'StockControl'
-              "
+              v-show="props.row.mian_dan !== ''"
               round
               flat
               push
               color="info"
               icon="visibility"
-              @click="viewData(props.row)"
+              @click="openPdf(props.row.txnid)"
             >
               <q-tooltip
                 content-class="bg-amber text-black shadow-4"
@@ -159,7 +154,7 @@
               >{{ $t("printthisdn") }}
               </q-tooltip
               >
-      </q-btn>
+            </q-btn>
             <q-btn
               v-show="
                 $q.localStorage.getItem('staff_type') !== 'Supplier' &&
@@ -182,28 +177,28 @@
               </q-tooltip
               >
             </q-btn>
-            <q-btn
-              v-show="
-                $q.localStorage.getItem('staff_type') !== 'Supplier' &&
-                $q.localStorage.getItem('staff_type') !== 'Customer' &&
-                $q.localStorage.getItem('staff_type') !== 'Inbound' &&
-                $q.localStorage.getItem('staff_type') !== 'StockControl'
-              "
-              round
-              flat
-              push
-              color="positive"
-              icon="img:statics/outbound/orderrelease.png"
-              @click="orderreleaseData(props.row)"
-            >
-              <q-tooltip
-                content-class="bg-amber text-black shadow-4"
-                :offset="[10, 10]"
-                content-style="font-size: 12px"
-              >{{ $t("releaseorder") }}
-              </q-tooltip
-              >
-            </q-btn>
+<!--            <q-btn-->
+<!--              v-show="-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Supplier' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Customer' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Inbound' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'StockControl'-->
+<!--              "-->
+<!--              round-->
+<!--              flat-->
+<!--              push-->
+<!--              color="positive"-->
+<!--              icon="img:statics/outbound/orderrelease.png"-->
+<!--              @click="orderreleaseData(props.row)"-->
+<!--            >-->
+<!--              <q-tooltip-->
+<!--                content-class="bg-amber text-black shadow-4"-->
+<!--                :offset="[10, 10]"-->
+<!--                content-style="font-size: 12px"-->
+<!--              >{{ $t("releaseorder") }}-->
+<!--              </q-tooltip-->
+<!--              >-->
+<!--            </q-btn>-->
             <!-- <q-btn
               round
               flat
@@ -1154,78 +1149,12 @@
       </q-card>
     </q-dialog>
     <q-dialog v-model="viewForm">
-      <q-card id="printMe">
-        <q-bar
-          class="bg-light-blue-10 text-white rounded-borders"
-          style="height: 50px"
-        >
-          <div>{{ viewdn }}</div>
-          <q-space/>
-          {{ $t("outbound.dn") }}
-        </q-bar>
-        <q-card-section>
-          <div class="row">
-            <div class="col-8">
-              <div class="text-h6">
-                Sender: {{ warehouse_detail.warehouse_name }}
-              </div>
-              <div class="text-subtitle2">
-                Address: {{
-                  warehouse_detail.warehouse_city
-                }}{{ warehouse_detail.warehouse_address }}
-              </div>
-              <div class="text-subtitle2">
-                Tel: {{ warehouse_detail.warehouse_contact }}
-              </div>
-              <div class="text-h6">
-                Receiver: {{ customer_detail.customer_name }}
-              </div>
-              <div class="text-subtitle2">
-                Address: {{
-                  customer_detail.customer_city
-                }}{{ customer_detail.customer_address }}
-              </div>
-              <div class="text-subtitle2">
-                Tel: {{ customer_detail.customer_contact }}
-              </div>
-            </div>
-            <div class="col-4">
-              <img :src="bar_code" style="width: 70%; margin-left: 15%"/>
-            </div>
-          </div>
-        </q-card-section>
-        <q-markup-table>
-          <thead>
-          <tr>
-            <th class="text-left">
-              {{ $t("goods.view_goodslist.goods_code") }}
-            </th>
-            <th class="text-right">
-              {{ $t("outbound.view_dn.total_weight") }}
-            </th>
-            <th class="text-right">
-              {{ $t("outbound.view_dn.total_volume") }}
-            </th>
-            <th class="text-right">
-              {{ $t("outbound.view_dn.intransit_qty") }}
-            </th>
-            <th class="text-right">Comments</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="(view, index) in viewprint_table" :key="index">
-            <td class="text-left">{{ view.goods_code }}</td>
-            <td class="text-right">{{ view.goods_weight }}</td>
-            <td class="text-right">{{ view.goods_volume }}</td>
-            <td class="text-right">{{ view.picked_qty }}</td>
-            <td class="text-right"></td>
-          </tr>
-          </tbody>
-        </q-markup-table>
-      </q-card>
-      <div style="float: right; padding: 15px 15px 15px 0">
-        <q-btn color="primary" icon="print" v-print="printObj">print</q-btn>
-      </div>
+        <q-pdfviewer
+          v-model="show"
+          type="pdfjs"
+          :src="updatedSrc"
+          content-class="absolute"
+        />
     </q-dialog>
     <q-dialog v-model="viewPLForm">
       <q-card id="printPL">
@@ -1256,6 +1185,8 @@
           </thead>
           <tbody>
           <tr v-for="(view, index) in pickinglist_print_table" :key="index">
+            <td class="text-left">{{ view.txnid }}</td>
+            <td class="text-left">{{ view.order_type }}</td>
             <td class="text-left">{{ view.dn_code }}</td>
 
             <td class="text-right">{{ view.bin_name }}</td>
@@ -1536,6 +1467,7 @@
 
 <script>
 import {
+  baseurl,
   getauth,
   getfile,
   postauth,
@@ -1582,6 +1514,20 @@ export default {
       commentsDic: {},
       columns: [
         {
+          name: 'TxnId',
+          required: true,
+          label: 'TxnId',
+          align: 'left',
+          field: 'txnid'
+        },
+        {
+          name: 'order_type',
+          required: true,
+          label: 'Method',
+          align: 'left',
+          field: 'order_type'
+        },
+        {
           name: 'dn_code',
           required: true,
           label: this.$t('outbound.view_dn.dn_code'),
@@ -1605,27 +1551,27 @@ export default {
           label: this.$t('twoKai.warehouse_id'),
           field: 'warehouse_id',
           align: 'center',
-          format: ((val, row) => {
-              return this.switchWarehouse(row)
-          })
+          format: (val, row) => {
+            return this.switchWarehouse(row)
+          }
         },
         {
           name: 'total_weight',
           label: this.$t('outbound.view_dn.total_weight'),
           field: 'total_weight',
           align: 'center',
-          format: ((val, row) => {
-              return row.total_weight.toFixed(4)
-          })
+          format: (val, row) => {
+            return row.total_weight.toFixed(4)
+          }
         },
         {
           name: 'total_volume',
           label: this.$t('outbound.view_dn.total_volume'),
           field: 'total_volume',
           align: 'center',
-          format: ((val, row) => {
-              return row.total_volume.toFixed(4)
-          })
+          format: (val, row) => {
+            return row.total_volume.toFixed(4)
+          }
         },
         {
           name: 'customer',
@@ -1731,13 +1677,23 @@ export default {
       isError2: false,
       selected: [],
       neworderidList: [],
-      neworderListForm: false
+      neworderListForm: false,
+      show: true,
+      src: 'media/miandan/'
+    }
+  },
+  computed: {
+    updatedSrc () {
+      if (process.env.MODE === 'electron') {
+        return '/' + this.src
+      }
+      return this.getLocation(this.src)
     }
   },
   methods: {
     handleRecordDownload (record) {
       if (!record.id) {
-        _this.$q.notify({
+        this.$q.notify({
           message: 'Browser denied file download...',
           color: 'negative',
           icon: 'warning'
@@ -1766,7 +1722,7 @@ export default {
         })
       } else {
         this.$q.notify({
-          message: _this.$t('notice.loginerror'),
+          message: this.$t('notice.loginerror'),
           color: 'negative',
           icon: 'warning'
         })
@@ -1794,7 +1750,7 @@ export default {
         })
       } else {
         this.$q.notify({
-          message: _this.$t('notice.loginerror'),
+          message: this.$t('notice.loginerror'),
           color: 'negative',
           icon: 'warning'
         })
@@ -1832,8 +1788,8 @@ export default {
           openURL(baseurl + 'media/upload_example/dnlist_en.xlsx')
         }
       } else {
-        _this.$q.notify({
-          message: _this.$t('notice.loginerror'),
+        this.$q.notify({
+          message: this.$t('notice.loginerror'),
           color: 'negative',
           icon: 'warning'
         })
@@ -1870,7 +1826,7 @@ export default {
       if (LocalStorage.has('auth')) {
         getauth(_this.pathname + 'list/' + '?page=' + this.current, {})
           .then((res) => {
-            _this.page_count = res.count;
+            _this.page_count = res.count
             _this.table_list = []
             res.results.forEach((item) => {
               if (item.dn_status === 1) {
@@ -2431,8 +2387,8 @@ export default {
     },
     orderreleaseAllData () {
       var _this = this
-      //this.$q.loading.show({ message: '确认中' })
-      this.$q.loading.show({ message: this.$t('twoKai.confirming') });
+      // this.$q.loading.show({ message: '确认中' })
+      this.$q.loading.show({ message: this.$t('twoKai.confirming') })
       postauth(_this.pathname + 'orderrelease/', {})
         .then((res) => {
           _this.table_list = []
@@ -2589,8 +2545,8 @@ export default {
     },
     pickedDataSubmit () {
       var _this = this
-      //this.$q.loading.show({ message: '发货确认中' })
-      this.$q.loading.show({ message: this.$t('twoKai.confirmingshipment') });
+      // this.$q.loading.show({ message: '发货确认中' })
+      this.$q.loading.show({ message: this.$t('twoKai.confirmingshipment') })
       _this.pickFormData.creater = _this.login_name
       postauth(
         _this.pathname + 'picked/' + _this.pickedid + '/',
@@ -2703,8 +2659,8 @@ export default {
     },
     dispatchDataSubmit () {
       var _this = this
-      //this.$q.loading.show({ message: '发车确认中' })
-      this.$q.loading.show({ message: this.$t('twoKai.confirmationinprogress') });
+      // this.$q.loading.show({ message: '发车确认中' })
+      this.$q.loading.show({ message: this.$t('twoKai.confirmationinprogress') })
       postauth(
         _this.pathname + 'dispatch/' + _this.dispatchid + '/',
         _this.dispatchFormData
@@ -2817,6 +2773,17 @@ export default {
           color: 'negative'
         })
       })
+    },
+    openPdf (e) {
+      // this.viewForm = true
+      this.src = baseurl + 'media/miandan/'+ e + '.pdf'
+      openURL(this.src)
+    },
+    getLocation (source) {
+      let url = baseurl
+      url += source
+      console.log(url)
+      return url
     }
   },
   created () {

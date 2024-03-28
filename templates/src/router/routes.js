@@ -93,6 +93,11 @@ const routes = [
                 component: () => import("pages/outbound/dn.vue"),
               },
               {
+                path: "pdf/:name",
+                name: "pdf",
+                component: () => import("pages/outbound/miandan.vue"),
+              },
+              {
                 path: "freshorder",
                 name: "freshorder",
                 component: () => import("pages/outbound/freshorder.vue"),
