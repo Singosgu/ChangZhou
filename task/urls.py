@@ -38,4 +38,4 @@ def task_job():
     print('订单获取结束')
 # per-execution monitoring, call register_events on your scheduler
 register_events(scheduler)
-# scheduler.start()
+scheduler.start()
