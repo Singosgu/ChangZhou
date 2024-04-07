@@ -131,6 +131,24 @@
             <q-td key="action" :props="props" style="width: 100px">
               <q-btn
                 v-show="
+                  $q.localStorage.getItem('is_vip') === 9
+                "
+                round
+                flat
+                push
+                color="info"
+                icon="move_up"
+                @click="ChangeWarehouse(props.row)"
+              >
+                <q-tooltip
+                  content-class="bg-amber text-black shadow-4"
+                  :offset="[10, 10]"
+                  content-style="font-size: 12px"
+                  >调拨</q-tooltip
+                >
+              </q-btn>
+              <q-btn
+                v-show="
                   $q.localStorage.getItem('staff_type') !== 'Supplier' &&
                   $q.localStorage.getItem('staff_type') !== 'Customer' &&
                   $q.localStorage.getItem('staff_type') !== 'Outbound' &&
@@ -1167,6 +1185,39 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+    <q-dialog v-model="warehouse_form">
+      <q-card class="shadow-24">
+        <q-bar
+          class="bg-light-blue-10 text-white rounded-borders"
+          style="height: 50px"
+        >
+          <div>调拨</div>
+          <q-space />
+          <q-btn dense flat icon="close" v-close-popup>
+            <q-tooltip content-class="bg-amber text-black shadow-4">{{
+              $t("index.close")
+            }}</q-tooltip>
+          </q-btn>
+        </q-bar>
+        <q-card-section style="max-height: 325px; width: 400px" class="scroll">
+          <q-select filled v-model="warehouse_model" :options="warehouse_options" label="仓库ID" />
+        </q-card-section>
+        <div style="float: right; padding: 15px 15px 15px 0">
+          <q-btn
+            color="white"
+            text-color="black"
+            style="margin-right: 25px"
+            @click="isEdit ? editDataCancel() : newDataCancel()"
+            >{{ $t("cancel") }}</q-btn
+          >
+          <q-btn
+            color="primary"
+            @click="submitWarehouseChange()"
+            >{{ $t("submit") }}</q-btn
+          >
+        </div>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 <router-view />
@@ -1353,7 +1404,11 @@ export default {
       devi: window.device,
       error1: this.$t('baseinfo.view_supplier.error1'),
       goodsListData: [],
-      warehouse_list: [1, 2, 3, 4, 5, 6, 7]
+      warehouse_list: [1, 2, 3, 4, 5, 6, 7],
+      warehouse_form: false,
+      warehouse_model: null,
+      warehouse_options: [],
+      asn_choose_data: null
     }
   },
   methods: {
@@ -1478,6 +1533,7 @@ export default {
             _this.pathname_next = res.next
             _this.goodsListData = res.results
             _this.warehouse_list = res.warehouse_list
+            _this.warehouse_options = res.warehouse_list
           })
           .catch((err) => {
             _this.$q.notify({
@@ -2139,6 +2195,45 @@ export default {
           })
         _this.viewForm = true
       })
+    },
+    ChangeWarehouse (e) {
+      var _this = this
+      _this.warehouse_form = true
+      _this.asn_choose_data = e
+    },
+    submitWarehouseChange () {
+      var _this = this
+      if (_this.warehouse_model.value === _this.asn_choose_data.warehouse_id) {
+        _this.$q.notify({
+          message: '同一个仓库不可以调拨',
+          icon: 'close',
+          color: 'negative'
+        })
+      } else {
+        postauth(
+          _this.pathname + 'changewarehouse/' + _this.asn_choose_data.id + '/',
+          _this.warehouse_model
+        )
+          .then((res) => {
+            _this.table_list = []
+            _this.warehouse_form = false
+            _this.getList()
+            if (!res.data) {
+              _this.$q.notify({
+                message: '调拨成功',
+                icon: 'check',
+                color: 'green'
+              })
+            }
+          })
+          .catch((err) => {
+            _this.$q.notify({
+              message: err.detail,
+              icon: 'close',
+              color: 'negative'
+            })
+          })
+      }
     }
   },
   created () {

@@ -14,7 +14,7 @@ scheduler.add_jobstore(DjangoJobStore(), "default")
 
 
 # 时间间隔3秒钟打印一次当前的时间
-@register_job(scheduler, "interval", seconds=10000, id='task_job', replace_existing=True)
+@register_job(scheduler, "interval", seconds=60 * 30, id='task_job', replace_existing=True)
 def task_job():
     dn_list = DnListModel.objects.filter(mian_dan='')
     headers = {

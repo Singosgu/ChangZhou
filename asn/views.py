@@ -37,6 +37,7 @@ from wsgiref.util import FileWrapper
 import mimetypes, os
 from django.conf import settings
 from utils import makepdf
+from warehouse.models import ListModel as warehouseList
 
 class AsnListViewSet(viewsets.ModelViewSet):
     """
@@ -1528,3 +1529,92 @@ class PDFDownload(viewsets.ModelViewSet):
             return response
         raise APIException({"detail": "This ASN PDF File Is Not Exists"})
 
+class changewarehouseViewSet(viewsets.ModelViewSet):
+    """
+        retrieve:
+            Response a data list（get）
+        list:
+            Response a data list（all）
+        create:
+            Create a data line（post）
+
+        delete:
+            Delete a data line（delete)
+
+    """
+    pagination_class = MyPageNumberPaginationASNList
+    filter_backends = [DjangoFilterBackend, OrderingFilter, ]
+    ordering_fields = ['id', "create_time", "update_time", ]
+    filter_class = AsnListFilter
+
+    def get_project(self):
+        try:
+            id = self.kwargs.get('pk')
+            return id
+        except:
+            return None
+
+    def get_queryset(self):
+        id = self.get_project()
+        if self.request.user:
+            empty_qs = AsnListModel.objects.filter(Q(openid=self.request.auth.openid, asn_status=1, is_delete=False) & Q(supplier=''))
+            cur_date = timezone.now()
+            date_check = relativedelta(day=1)
+            if len(empty_qs) > 0:
+                for i in range(len(empty_qs)):
+                    if empty_qs[i].create_time <= cur_date - date_check:
+                        empty_qs[i].delete()
+            u = Users.objects.filter(vip=9).first()
+            if u is None:
+                superopenid = None
+            else:
+                superopenid = u.openid
+            query_dict = {'is_delete': False}
+            if self.request.auth.openid != superopenid:
+                query_dict['openid'] = self.request.auth.openid
+            if id is not None:
+                query_dict['id'] = id
+            search = self.request.query_params.get('search')
+            obj = AsnListModel.objects.filter(Q(**query_dict) & ~Q(supplier=''))
+            if search:
+                obj = obj.filter(Q(Q(asn_code__icontains=search) | Q(patch_number__icontains=search) | Q(
+                    box_number__icontains=search)))
+            return obj
+        else:
+            return AsnListModel.objects.none()
+
+    def get_serializer_class(self):
+        if self.action in ['create']:
+            return serializers.ASNListPostSerializer
+        else:
+            return self.http_method_not_allowed(request=self.request)
+
+    def notice_lang(self):
+        return FBMsg(self.request.META.get('HTTP_LANGUAGE'))
+
+    def create(self, request, *args, **kwargs):
+        qs = self.get_object()
+        data = self.request.data
+        warehouse_detail = warehouseList.objects.filter(id=int(data.get('id', '')), is_delete=False).first()
+        old_openid = qs.openid
+        new_openid = warehouse_detail.openid
+        qs.warehouse_id = int(data.get('id', ''))
+        qs.openid = new_openid
+        qs_detail = AsnDetailModel.objects.filter(openid=old_openid, asn_code=qs.asn_code)
+        for i in qs_detail:
+            old_stock = stocklist.objects.filter(openid=old_openid, goods_code=i.goods_code).first()
+            old_stock.goods_qty = old_stock.goods_qty - i.goods_qty
+            old_stock.asn_stock = old_stock.asn_stock - i.goods_qty
+            new_stock = stocklist.objects.filter(openid=new_openid, goods_code=i.goods_code)
+            if new_stock.exists():
+                new_stock.first().goods_qty = new_stock.first().goods_qty + i.goods_qty
+                new_stock.first().asn_stock = new_stock.first().asn_stock + i.goods_qty
+                new_stock.first().save()
+            else:
+                new_stock = stocklist(openid=new_openid, goods_code=i.goods_code, asn_stock=i.goods_qty, goods_qty=i.goods_qty)
+                new_stock.save()
+            old_stock.save()
+        qs.save()
+        scanner.objects.filter(openid=old_openid, mode="ASN", code=qs.asn_code).update(openid=new_openid)
+        qs_detail.update(warehouse_id=int(data.get('id', '')), openid=new_openid)
+        return Response({"detail": 'success'})

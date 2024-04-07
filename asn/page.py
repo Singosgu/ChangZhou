@@ -55,15 +55,20 @@ class MyPageNumberPaginationASNList(PageNumberPagination):
         supplier_list = []
         for i in range(len(supplier_list_data)):
             supplier_list.append(supplier_list_data[i].supplier_name)
-        warehouse_list_data = warehouse.objects.filter(openid=self.request.auth.openid, is_delete=False)
+        warehouse_list_data = warehouse.objects.filter(is_delete=False).order_by('id')
         warehouse_list = []
         for i in range(len(warehouse_list_data)):
-            warehouse_dict = {
-                "id": warehouse_list_data[i].pk,
-                "warehosue_name": warehouse_list_data[i].warehouse_name,
-                "warehouse_id": warehouse_list_data[i].warehouse_id
-            }
-            warehouse_list.append(warehouse_dict)
+            if warehouse_list_data[i].warehouse_id is not None:
+                warehouse_dict = {
+                    "id": warehouse_list_data[i].pk,
+                    "warehosue_name": warehouse_list_data[i].warehouse_name,
+                    "warehouse_id": warehouse_list_data[i].warehouse_id,
+                    "label": warehouse_list_data[i].warehouse_id,
+                    "value": warehouse_list_data[i].warehouse_id,
+                    "description": warehouse_list_data[i].warehouse_name,
+                    "category": warehouse_list_data[i].pk
+                }
+                warehouse_list.append(warehouse_dict)
         return Response(OrderedDict([
             ('supplier_list', supplier_list),
             ('warehouse_list', warehouse_list),

@@ -9,6 +9,9 @@ re_path(r'^list/(?P<pk>\d+)/$', views.AsnListViewSet.as_view({
     'patch': 'partial_update',
     'delete': 'destroy'
 }), name="asnlist_1"),
+re_path(r'^changewarehouse/(?P<pk>\d+)/$', views.changewarehouseViewSet.as_view({
+    'post': 'create',
+}), name="changewarehouse_1"),
 path(r'detail/', views.AsnDetailViewSet.as_view({"get": "list", "post": "create", 'put': 'update'}), name="asndetail"),
 re_path(r'^detail/(?P<pk>\d+)/$', views.AsnDetailViewSet.as_view({
     'get': 'retrieve',
