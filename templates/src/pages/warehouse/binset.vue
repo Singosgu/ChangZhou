@@ -91,6 +91,23 @@
             <q-td key="bin_property" :props="props">{{
               props.row.bin_property
             }}</q-td>
+             <template v-if="props.row.id === editid">
+              <q-td key="bin_level" :props="props">
+                <q-input
+                  dense
+                  outlined
+                  square
+                  v-model="editFormData.bin_level"
+                  label="库位等级"
+                  :rules="[(val) => (val && val > 0) || '请输入库位等级']"
+                />
+              </q-td>
+            </template>
+            <template v-else-if="props.row.id !== editid">
+              <q-td key="bin_level" :props="props">{{
+                props.row.bin_level
+              }}</q-td>
+            </template>
             <q-td key="empty_label" :props="props">{{
               props.row.empty_label
             }}</q-td>
@@ -435,6 +452,12 @@ export default {
           align: "center",
         },
         {
+          name: "bin_level",
+          label: '库位等级',
+          field: "bin_level",
+          align: "center",
+        },
+        {
           name: "empty_label",
           label: this.$t("warehouse.view_binset.empty_label"),
           field: "empty_label",
@@ -768,6 +791,7 @@ export default {
         bin_name: e.bin_name,
         bin_size: e.bin_size,
         bin_property: e.bin_property,
+        bin_level: e.bin_level,
         creater: _this.login_name,
       };
     },
@@ -819,6 +843,7 @@ export default {
         bin_size: "",
         bin_property: "",
         empty_label: "",
+        bin_level: 1,
         creater: "",
       };
     },

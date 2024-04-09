@@ -409,8 +409,8 @@
           v-show="page_count!==0"
           v-model="current"
           color="purple"
-          :max="Math.ceil(page_count / 30 ) "
-          :max-pages="30"
+          :max="Math.ceil(page_count / 1000 ) "
+          :max-pages="1000"
           boundary-numbers
           direction-links
           @click="getList()"
@@ -1527,13 +1527,13 @@ export default {
           align: 'left',
           field: 'order_type'
         },
-        {
-          name: 'dn_code',
-          required: true,
-          label: this.$t('outbound.view_dn.dn_code'),
-          align: 'left',
-          field: 'dn_code'
-        },
+        // {
+        //   name: 'dn_code',
+        //   required: true,
+        //   label: this.$t('outbound.view_dn.dn_code'),
+        //   align: 'left',
+        //   field: 'dn_code'
+        // },
         {
           name: 'comments',
           label: '备注',
@@ -1602,7 +1602,7 @@ export default {
       filter: '',
       pagination: {
         page: 1,
-        rowsPerPage: '30'
+        rowsPerPage: '1000'
       },
       newForm: false,
       options1: [],
@@ -1824,7 +1824,7 @@ export default {
     getList () {
       var _this = this
       if (LocalStorage.has('auth')) {
-        getauth(_this.pathname + 'list/' + '?page=' + this.current, {})
+        getauth(_this.pathname + 'list/' + '?max_page=1000&page=' + this.current, {})
           .then((res) => {
             _this.page_count = res.count
             _this.table_list = []
@@ -1870,7 +1870,7 @@ export default {
     getSearchList () {
       var _this = this
       if (LocalStorage.has('auth')) {
-        getauth(_this.pathname + 'list/?dn_code__icontains=' + _this.filter + '&page=' + this.current, {})
+        getauth(_this.pathname + 'list/?max_page=1000&dn_code__icontains=' + _this.filter + '&page=' + this.current, {})
           .then((res) => {
             _this.table_list = []
             _this.page_count = res.count

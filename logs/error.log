@@ -53347,3 +53347,615 @@ Traceback (most recent call last):
     return getattr(self.get_queryset(), name)(*args, **kwargs)
 TypeError: create() takes 1 positional argument but 2 were given
 [2024-03-21 07:45:18,593][django.server.log_message():157] [ERROR] "POST /warehouse/getorder/ HTTP/1.1" 500 127177
+[2024-04-10 06:24:18,270][django.request.log_response():224] [ERROR] Internal Server Error: /warehouse/getallwarehouse/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 200, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\mysql\base.py", line 234, in get_new_connection
+    return Database.connect(**conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\connections.py", line 195, in __init__
+    super().__init__(*args, **kwargs2)
+MySQLdb.OperationalError: (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 70, in __call__
+    self.process_request(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 104, in process_request
+    if not _should_intercept(request):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 49, in _should_intercept
+    silky = request.path.startswith(get_fpath())
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 31, in get_fpath
+    return silky_reverse('summary')
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 21, in silky_reverse
+    r = reverse('silk:%s' % name, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\base.py", line 55, in reverse
+    app_list = resolver.app_dict[ns]
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 526, in app_dict
+    self._populate()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 460, in _populate
+    for url_pattern in reversed(self.url_patterns):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 593, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 586, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "E:\Github_desktop\ChangZhou\.\greaterwms\urls.py", line 77, in <module>
+    path('task/', include('task.urls')),
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\conf.py", line 34, in include
+    urlconf_module = import_module(urlconf_module)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "E:\Github_desktop\ChangZhou\.\task\urls.py", line 41, in <module>
+    scheduler.start()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\background.py", line 35, in start
+    BaseScheduler.start(self, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\base.py", line 167, in start
+    self._real_add_job(job, jobstore_alias, replace_existing)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\base.py", line 872, in _real_add_job
+    store.add_job(job)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django_apscheduler\jobstores.py", line 231, in add_job
+    with transaction.atomic():
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\transaction.py", line 175, in __enter__
+    if not connection.get_autocommit():
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 389, in get_autocommit
+    self.ensure_connection()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 200, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\mysql\base.py", line 234, in get_new_connection
+    return Database.connect(**conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\connections.py", line 195, in __init__
+    super().__init__(*args, **kwargs2)
+django.db.utils.OperationalError: (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+[2024-04-10 06:24:18,486][django.request.log_response():224] [ERROR] Internal Server Error: /warehouse/getallwarehouse/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 200, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\mysql\base.py", line 234, in get_new_connection
+    return Database.connect(**conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\connections.py", line 195, in __init__
+    super().__init__(*args, **kwargs2)
+MySQLdb.OperationalError: (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 70, in __call__
+    self.process_request(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 104, in process_request
+    if not _should_intercept(request):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 49, in _should_intercept
+    silky = request.path.startswith(get_fpath())
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 31, in get_fpath
+    return silky_reverse('summary')
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 21, in silky_reverse
+    r = reverse('silk:%s' % name, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\base.py", line 55, in reverse
+    app_list = resolver.app_dict[ns]
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 526, in app_dict
+    self._populate()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 460, in _populate
+    for url_pattern in reversed(self.url_patterns):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 593, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 586, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "E:\Github_desktop\ChangZhou\.\greaterwms\urls.py", line 77, in <module>
+    path('task/', include('task.urls')),
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\conf.py", line 34, in include
+    urlconf_module = import_module(urlconf_module)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "E:\Github_desktop\ChangZhou\.\task\urls.py", line 41, in <module>
+    scheduler.start()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\background.py", line 35, in start
+    BaseScheduler.start(self, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\base.py", line 167, in start
+    self._real_add_job(job, jobstore_alias, replace_existing)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\base.py", line 872, in _real_add_job
+    store.add_job(job)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django_apscheduler\jobstores.py", line 231, in add_job
+    with transaction.atomic():
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\transaction.py", line 175, in __enter__
+    if not connection.get_autocommit():
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 389, in get_autocommit
+    self.ensure_connection()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 200, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\mysql\base.py", line 234, in get_new_connection
+    return Database.connect(**conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\connections.py", line 195, in __init__
+    super().__init__(*args, **kwargs2)
+django.db.utils.OperationalError: (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+[2024-04-10 06:25:29,066][django.request.log_response():224] [ERROR] Internal Server Error: /dn/list/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 200, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\mysql\base.py", line 234, in get_new_connection
+    return Database.connect(**conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\connections.py", line 195, in __init__
+    super().__init__(*args, **kwargs2)
+MySQLdb.OperationalError: (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 70, in __call__
+    self.process_request(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 104, in process_request
+    if not _should_intercept(request):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 49, in _should_intercept
+    silky = request.path.startswith(get_fpath())
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 31, in get_fpath
+    return silky_reverse('summary')
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 21, in silky_reverse
+    r = reverse('silk:%s' % name, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\base.py", line 55, in reverse
+    app_list = resolver.app_dict[ns]
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 526, in app_dict
+    self._populate()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 460, in _populate
+    for url_pattern in reversed(self.url_patterns):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 593, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 586, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "E:\Github_desktop\ChangZhou\.\greaterwms\urls.py", line 77, in <module>
+    path('task/', include('task.urls')),
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\conf.py", line 34, in include
+    urlconf_module = import_module(urlconf_module)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "E:\Github_desktop\ChangZhou\.\task\urls.py", line 41, in <module>
+    scheduler.start()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\background.py", line 35, in start
+    BaseScheduler.start(self, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\base.py", line 167, in start
+    self._real_add_job(job, jobstore_alias, replace_existing)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\base.py", line 872, in _real_add_job
+    store.add_job(job)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django_apscheduler\jobstores.py", line 231, in add_job
+    with transaction.atomic():
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\transaction.py", line 175, in __enter__
+    if not connection.get_autocommit():
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 389, in get_autocommit
+    self.ensure_connection()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 200, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\mysql\base.py", line 234, in get_new_connection
+    return Database.connect(**conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\connections.py", line 195, in __init__
+    super().__init__(*args, **kwargs2)
+django.db.utils.OperationalError: (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+[2024-04-10 06:26:34,637][django.request.log_response():224] [ERROR] Internal Server Error: /dn/list/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 200, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\mysql\base.py", line 234, in get_new_connection
+    return Database.connect(**conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\connections.py", line 195, in __init__
+    super().__init__(*args, **kwargs2)
+MySQLdb.OperationalError: (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 70, in __call__
+    self.process_request(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 104, in process_request
+    if not _should_intercept(request):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 49, in _should_intercept
+    silky = request.path.startswith(get_fpath())
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 31, in get_fpath
+    return silky_reverse('summary')
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 21, in silky_reverse
+    r = reverse('silk:%s' % name, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\base.py", line 55, in reverse
+    app_list = resolver.app_dict[ns]
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 526, in app_dict
+    self._populate()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 460, in _populate
+    for url_pattern in reversed(self.url_patterns):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 593, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 586, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "E:\Github_desktop\ChangZhou\.\greaterwms\urls.py", line 77, in <module>
+    path('task/', include('task.urls')),
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\conf.py", line 34, in include
+    urlconf_module = import_module(urlconf_module)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "E:\Github_desktop\ChangZhou\.\task\urls.py", line 41, in <module>
+    scheduler.start()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\background.py", line 35, in start
+    BaseScheduler.start(self, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\base.py", line 167, in start
+    self._real_add_job(job, jobstore_alias, replace_existing)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\base.py", line 872, in _real_add_job
+    store.add_job(job)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django_apscheduler\jobstores.py", line 231, in add_job
+    with transaction.atomic():
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\transaction.py", line 175, in __enter__
+    if not connection.get_autocommit():
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 389, in get_autocommit
+    self.ensure_connection()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 200, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\mysql\base.py", line 234, in get_new_connection
+    return Database.connect(**conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\connections.py", line 195, in __init__
+    super().__init__(*args, **kwargs2)
+django.db.utils.OperationalError: (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+[2024-04-10 06:27:05,110][django.request.log_response():224] [ERROR] Internal Server Error: /warehouse/getallwarehouse/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 200, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\mysql\base.py", line 234, in get_new_connection
+    return Database.connect(**conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\connections.py", line 195, in __init__
+    super().__init__(*args, **kwargs2)
+MySQLdb.OperationalError: (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 70, in __call__
+    self.process_request(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 104, in process_request
+    if not _should_intercept(request):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 49, in _should_intercept
+    silky = request.path.startswith(get_fpath())
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 31, in get_fpath
+    return silky_reverse('summary')
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 21, in silky_reverse
+    r = reverse('silk:%s' % name, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\base.py", line 55, in reverse
+    app_list = resolver.app_dict[ns]
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 526, in app_dict
+    self._populate()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 460, in _populate
+    for url_pattern in reversed(self.url_patterns):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 593, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 586, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "E:\Github_desktop\ChangZhou\.\greaterwms\urls.py", line 77, in <module>
+    path('task/', include('task.urls')),
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\conf.py", line 34, in include
+    urlconf_module = import_module(urlconf_module)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "E:\Github_desktop\ChangZhou\.\task\urls.py", line 41, in <module>
+    scheduler.start()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\background.py", line 35, in start
+    BaseScheduler.start(self, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\base.py", line 167, in start
+    self._real_add_job(job, jobstore_alias, replace_existing)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\base.py", line 872, in _real_add_job
+    store.add_job(job)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django_apscheduler\jobstores.py", line 231, in add_job
+    with transaction.atomic():
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\transaction.py", line 175, in __enter__
+    if not connection.get_autocommit():
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 389, in get_autocommit
+    self.ensure_connection()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 200, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\mysql\base.py", line 234, in get_new_connection
+    return Database.connect(**conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\connections.py", line 195, in __init__
+    super().__init__(*args, **kwargs2)
+django.db.utils.OperationalError: (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+[2024-04-10 06:27:07,460][django.request.log_response():224] [ERROR] Internal Server Error: /dn/list/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 200, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\mysql\base.py", line 234, in get_new_connection
+    return Database.connect(**conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\connections.py", line 195, in __init__
+    super().__init__(*args, **kwargs2)
+MySQLdb.OperationalError: (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 70, in __call__
+    self.process_request(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 104, in process_request
+    if not _should_intercept(request):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 49, in _should_intercept
+    silky = request.path.startswith(get_fpath())
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 31, in get_fpath
+    return silky_reverse('summary')
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\silk\middleware.py", line 21, in silky_reverse
+    r = reverse('silk:%s' % name, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\base.py", line 55, in reverse
+    app_list = resolver.app_dict[ns]
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 526, in app_dict
+    self._populate()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 460, in _populate
+    for url_pattern in reversed(self.url_patterns):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 593, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\resolvers.py", line 586, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "E:\Github_desktop\ChangZhou\.\greaterwms\urls.py", line 77, in <module>
+    path('task/', include('task.urls')),
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\urls\conf.py", line 34, in include
+    urlconf_module = import_module(urlconf_module)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "E:\Github_desktop\ChangZhou\.\task\urls.py", line 41, in <module>
+    scheduler.start()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\background.py", line 35, in start
+    BaseScheduler.start(self, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\base.py", line 167, in start
+    self._real_add_job(job, jobstore_alias, replace_existing)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\apscheduler\schedulers\base.py", line 872, in _real_add_job
+    store.add_job(job)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django_apscheduler\jobstores.py", line 231, in add_job
+    with transaction.atomic():
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\transaction.py", line 175, in __enter__
+    if not connection.get_autocommit():
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 389, in get_autocommit
+    self.ensure_connection()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 219, in ensure_connection
+    self.connect()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\base\base.py", line 200, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\utils\asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\backends\mysql\base.py", line 234, in get_new_connection
+    return Database.connect(**conn_params)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\MySQLdb\connections.py", line 195, in __init__
+    super().__init__(*args, **kwargs2)
+django.db.utils.OperationalError: (1045, "Access denied for user 'root'@'localhost' (using password: YES)")

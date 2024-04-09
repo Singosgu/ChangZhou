@@ -6,6 +6,7 @@ class ScannerBinsetTagGetSerializer(serializers.ModelSerializer):
     bin_name = serializers.CharField(read_only=True, required=False)
     bin_size = serializers.CharField(read_only=True, required=False)
     bin_property = serializers.CharField(read_only=True, required=False)
+    bin_level = serializers.IntegerField(read_only=True, required=False)
     empty_label = serializers.BooleanField(read_only=True, required=False)
     creater = serializers.CharField(read_only=True, required=False)
     bar_code = serializers.CharField(read_only=True, required=False)

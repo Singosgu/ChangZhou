@@ -4,6 +4,7 @@ class ListModel(models.Model):
     bin_name = models.CharField(max_length=255, verbose_name="Bin Name")
     bin_size = models.CharField(max_length=255, verbose_name="Bin Size")
     bin_property = models.CharField(max_length=11, verbose_name="Bin Property")
+    bin_level = models.BigIntegerField(default=1, verbose_name="Bin Level")
     empty_label = models.BooleanField(default=True, verbose_name="Empty Label")
     creater = models.CharField(max_length=255, verbose_name="Who Created")
     bar_code = models.CharField(max_length=255, verbose_name="Bar Code")
