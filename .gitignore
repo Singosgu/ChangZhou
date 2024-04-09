@@ -10,3 +10,5 @@ delete.py
 logs/
 bfg.jar
 data.json
+error.log
+server.log
