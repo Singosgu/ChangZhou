@@ -45,5 +45,5 @@ re_path(r'^comments/(?P<pk>\d+)/$', views.DnCommentsViewSet.as_view({
 path(r'filelist/', views.FileListDownloadView.as_view({"get": "list"}), name="dnfilelistdownload"),
 path(r'filedetail/', views.FileDetailDownloadView.as_view({"get": "list"}), name="dnfiledetaildownload"),
 path(r'picklistdownload/', views.PickListDownloadView.as_view({"get": "list"}), name='picklistdownload'),
-path(r'getmiandan/', views.get_mian_dan(), name='getmiandan'),
+path(r'getmiandan/', views.get_mian_dan, name='getmiandan'),
 ]
