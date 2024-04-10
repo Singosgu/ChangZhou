@@ -72,15 +72,15 @@ class MyPageNumberPaginationASNList(PageNumberPagination):
                 warehouse_list.append(warehouse_dict)
         bin_list_data = binset.objects.filter(bin_level=1)
         bin_list = []
-        for i in range(len(bin_list_data)):
+        for j in range(len(bin_list_data)):
             bin_dict = {
-                "id": bin_list_data[i].pk,
-                "bin_name": bin_list_data[i].bin_name,
-                "openid": bin_list_data[i].openid,
-                "label": bin_list_data[i].bin_name,
-                "value": bin_list_data[i].bin_name,
-                "description": bin_list_data[i].openid,
-                "category": warehouse_list_data[i].pk
+                "id": bin_list_data[j].pk,
+                "bin_name": bin_list_data[j].bin_name,
+                "openid": bin_list_data[j].openid,
+                "label": bin_list_data[j].bin_name,
+                "value": bin_list_data[j].bin_name,
+                "description": bin_list_data[j].bin_property,
+                "category": bin_list_data[j].pk
             }
             bin_list.append(bin_dict)
         return Response(OrderedDict([

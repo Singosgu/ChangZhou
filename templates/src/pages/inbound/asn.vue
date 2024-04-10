@@ -1541,6 +1541,7 @@ export default {
             _this.bin_list = res.bin_list
           })
           .catch((err) => {
+            console.log(err)
             _this.$q.notify({
               message: err.detail,
               icon: 'close',
@@ -2127,7 +2128,6 @@ export default {
       } else {
         _this.bin_list.forEach(item => {
           if (item.openid === e.openid) {
-            _this.bin_list_detail.push(item)
           }
         })
         _this.sorted_list.asn_code = e.asn_code
