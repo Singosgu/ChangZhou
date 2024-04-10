@@ -68,6 +68,15 @@
               </q-tooltip
               >
             </q-btn>
+            <q-btn label="全部生成拣货单" icon="confirmation_number" @click="pickingOrders()">
+              <q-tooltip
+                content-class="bg-amber text-black shadow-4"
+                :offset="[10, 10]"
+                content-style="font-size: 12px"
+              >全部生成拣货单
+              </q-tooltip
+              >
+            </q-btn>
 <!--            <q-btn-->
 <!--              v-show="-->
 <!--                  $q.localStorage.getItem('staff_type') !== 'Supplier' &&-->
@@ -1709,6 +1718,9 @@ export default {
     }
   },
   methods: {
+    pickingOrders () {
+      console.log(111)
+    },
     confirmOrders () {
       var _this = this
       getauth(_this.pathname + 'confirmorders/', {})
