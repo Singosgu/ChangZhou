@@ -1084,6 +1084,7 @@
           </q-btn>
         </q-bar>
         <q-card-section style="max-height: 325px; width: 400px" class="scroll">
+          <q-select outlined v-model="sorted_list.bin_name" :options="bin_list_detail" label="缓存区" />
           <q-input
             dense
             outlined
@@ -1383,6 +1384,7 @@ export default {
       sortedForm: false,
       sortedid: 0,
       sorted_list: {
+        bin_name: '',
         asn_code: '',
         supplier: '',
         goodsData: [],
@@ -1408,7 +1410,9 @@ export default {
       warehouse_form: false,
       warehouse_model: null,
       warehouse_options: [],
-      asn_choose_data: null
+      asn_choose_data: null,
+      bin_list_detail: [],
+      bin_list: []
     }
   },
   methods: {
@@ -1534,6 +1538,7 @@ export default {
             _this.goodsListData = res.results
             _this.warehouse_list = res.warehouse_list
             _this.warehouse_options = res.warehouse_list
+            _this.bin_list = res.bin_list
           })
           .catch((err) => {
             _this.$q.notify({
@@ -1575,6 +1580,7 @@ export default {
             _this.supplier_list1 = res.supplier_list
             _this.pathname_previous = res.previous
             _this.pathname_next = res.next
+            _this.bin_list = res.bin_list
           })
           .catch((err) => {
             _this.$q.notify({
@@ -1612,6 +1618,7 @@ export default {
             _this.supplier_list1 = res.supplier_list
             _this.pathname_previous = res.previous
             _this.pathname_next = res.next
+            _this.bin_list = res.bin_list
           })
           .catch((err) => {
             _this.$q.notify({
@@ -1649,6 +1656,7 @@ export default {
             _this.supplier_list1 = res.supplier_list
             _this.pathname_previous = res.previous
             _this.pathname_next = res.next
+            _this.bin_list = res.bin_list
           })
           .catch((err) => {
             _this.$q.notify({
@@ -2117,6 +2125,11 @@ export default {
           color: 'negative'
         })
       } else {
+        _this.bin_list.forEach(item => {
+          if (item.openid === e.openid) {
+            _this.bin_list_detail.push(item)
+          }
+        })
         _this.sorted_list.asn_code = e.asn_code
         _this.sorted_list.supplier = e.supplier
         getauth(_this.pathname + 'detail/?max_page=10000&asn_code=' + e.asn_code).then(
@@ -2164,6 +2177,7 @@ export default {
       _this.sortedForm = false
       _this.sortedid = 0
       _this.sorted_list = {
+        bin_name: '',
         asn_code: '',
         supplier: '',
         goodsData: [],

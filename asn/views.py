@@ -762,31 +762,31 @@ class AsnSortedViewSet(viewsets.ModelViewSet):
                     goods_qty_change.can_order_stock = goods_qty_change.can_order_stock + int(data['goodsData'][j].get('goods_actual_qty'))
                     asn_detail.sorted_qty = int(data['goodsData'][j].get('goods_actual_qty'))
                     asn_detail.asn_status = 5
-                    bin_bar_code = Md5.md5('W99-01-9-L' + str(random.randint(1000, 9999)))
-                    if binset.objects.filter(openid=self.request.auth.openid, bin_name='W99-01-9-L').exists() is False:
+                    bin_bar_code = Md5.md5(data['bin_name'] + str(random.randint(1000, 9999)))
+                    if binset.objects.filter(openid=self.request.auth.openid, bin_name=data['bin_name']).exists() is False:
                         binset.objects.create(openid=self.request.auth.openid,
-                                              bin_name='W99-01-9-L',
+                                              bin_name=data['bin_name'],
                                               bin_size='Floor',
                                               bin_property='Normal',
                                               creater=str(staff_name),
                                               bar_code=bin_bar_code
                                               )
-                        scanner.objects.create(openid=self.request.auth.openid, mode="BINSET", code='W99-01-9-L',
+                        scanner.objects.create(openid=self.request.auth.openid, mode="BINSET", code=data['bin_name'],
                                                bar_code=bin_bar_code)
                     qtychangerecorder.objects.create(openid=self.request.auth.openid,
                                                      mode_code=asn_detail.asn_code,
-                                                     bin_name="W99-01-9-L",
+                                                     bin_name=data['bin_name'],
                                                      goods_code=str(data['goodsData'][j].get('goods_code')),
                                                      goods_qty=int(data['goodsData'][j].get('goods_actual_qty')),
                                                      creater=str(staff_name)
                                                      )
                     cur_date = timezone.now().date()
                     line_data = cyclecount.objects.filter(openid=self.request.auth.openid,
-                                                          bin_name="W99-01-9-L",
+                                                          bin_name=data['bin_name'],
                                                           goods_code=str(data['goodsData'][j].get('goods_code')),
                                                           create_time__gte=cur_date)
                     bin_check = stockbin.objects.filter(openid=self.request.auth.openid,
-                                                        bin_name="W99-01-9-L",
+                                                        bin_name=data['bin_name'],
                                                         goods_code=str(data['goodsData'][j].get('goods_code'))
                                                         )
                     if bin_check.exists():
@@ -798,19 +798,19 @@ class AsnSortedViewSet(viewsets.ModelViewSet):
                         line_data.update(goods_qty=line_data.goods_qty)
                     else:
                         cyclecount.objects.create(openid=self.request.auth.openid,
-                                                  bin_name="W99-01-9-L",
+                                                  bin_name=data['bin_name'],
                                                   goods_code=str(data['goodsData'][j].get('goods_code')),
                                                   goods_qty=int(data['goodsData'][j].get('goods_actual_qty')),
                                                   creater=str(staff_name),
                                                   t_code=Md5.md5(str(data['goodsData'][j].get('goods_actual_qty')))
                                                   )
                     bin_check = binset.objects.filter(openid=self.request.auth.openid,
-                                                      bin_name="W99-01-9-L")
+                                                      bin_name=data['bin_name'])
                     if bin_check.exists():
                         bin_detail = bin_check.first()
                     else:
                         bin_detail = binset.objects.create(
-                            bin_name="W99-01-9-L",
+                            bin_name=data['bin_name'],
                             bin_size="Floor",
                             bin_property="Normal",
                             creater=str(staff_name),
@@ -818,7 +818,7 @@ class AsnSortedViewSet(viewsets.ModelViewSet):
                             openid=self.request.auth.openid,
                         )
                     stockbin.objects.create(openid=self.request.auth.openid,
-                                            bin_name="W99-01-9-L",
+                                            bin_name=data['bin_name'],
                                             goods_code=str(data['goodsData'][j].get('goods_code')),
                                             goods_desc=goods_qty_change.goods_desc,
                                             goods_qty=int(data['goodsData'][j].get('goods_actual_qty')),
@@ -896,31 +896,31 @@ class AsnSortedViewSet(viewsets.ModelViewSet):
                     goods_qty_change.can_order_stock = goods_qty_change.can_order_stock + int(data['goodsData'][j].get('goods_actual_qty'))
                     asn_detail.sorted_qty = int(data['goodsData'][j].get('goods_actual_qty'))
                     asn_detail.asn_status = 5
-                    bin_bar_code = Md5.md5('W99-01-9-L' + str(random.randint(1000, 9999)))
-                    if binset.objects.filter(openid=self.request.auth.openid, bin_name='W99-01-9-L').exists() is False:
+                    bin_bar_code = Md5.md5(data['bin_name'] + str(random.randint(1000, 9999)))
+                    if binset.objects.filter(openid=self.request.auth.openid, bin_name=data['bin_name']).exists() is False:
                         binset.objects.create(openid=self.request.auth.openid,
-                                              bin_name='W99-01-9-L',
+                                              bin_name=data['bin_name'],
                                               bin_size='Floor',
                                               bin_property='Normal',
                                               creater=str(staff_name),
                                               bar_code=bin_bar_code
                                               )
-                        scanner.objects.create(openid=self.request.auth.openid, mode="BINSET", code='W99-01-9-L',
+                        scanner.objects.create(openid=self.request.auth.openid, mode="BINSET", code=data['bin_name'],
                                                bar_code=bin_bar_code)
                     qtychangerecorder.objects.create(openid=self.request.auth.openid,
                                                      mode_code=asn_detail.asn_code,
-                                                     bin_name="W99-01-9-L",
+                                                     bin_name=data['bin_name'],
                                                      goods_code=str(data['goodsData'][j].get('goods_code')),
                                                      goods_qty=int(data['goodsData'][j].get('goods_actual_qty')),
                                                      creater=str(staff_name)
                                                      )
                     cur_date = timezone.now().date()
                     line_data = cyclecount.objects.filter(openid=self.request.auth.openid,
-                                                          bin_name="W99-01-9-L",
+                                                          bin_name=data['bin_name'],
                                                           goods_code=str(data['goodsData'][j].get('goods_code')),
                                                           create_time__gte=cur_date)
                     bin_check = stockbin.objects.filter(openid=self.request.auth.openid,
-                                                        bin_name="W99-01-9-L",
+                                                        bin_name=data['bin_name'],
                                                         goods_code=str(data['goodsData'][j].get('goods_code')),
                                                         )
                     if bin_check.exists():
@@ -932,16 +932,16 @@ class AsnSortedViewSet(viewsets.ModelViewSet):
                         line_data.update(goods_qty=line_data.goods_qty)
                     else:
                         cyclecount.objects.create(openid=self.request.auth.openid,
-                                                  bin_name="W99-01-9-L",
+                                                  bin_name=data['bin_name'],
                                                   goods_code=str(data['goodsData'][j].get('goods_code')),
                                                   goods_qty=int(data['goodsData'][j].get('goods_actual_qty')),
                                                   creater=str(staff_name),
                                                   t_code=Md5.md5(str(data['goodsData'][j].get('goods_actual_qty')))
                                                   )
                     bin_detail = binset.objects.filter(openid=self.request.auth.openid,
-                                                      bin_name="W99-01-9-L").first()
+                                                      bin_name=data['bin_name']).first()
                     stockbin.objects.create(openid=self.request.auth.openid,
-                                            bin_name="W99-01-9-L",
+                                            bin_name=data['bin_name'],
                                             goods_code=str(data['goodsData'][j].get('goods_code')),
                                             goods_desc=goods_qty_change.goods_desc,
                                             goods_qty=int(data['goodsData'][j].get('goods_actual_qty')),

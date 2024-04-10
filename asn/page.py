@@ -7,6 +7,7 @@ from rest_framework.utils.urls import replace_query_param, remove_query_param
 
 from supplier.models import ListModel as supplier
 from warehouse.models import ListModel as warehouse
+from binset.models import ListModel as binset
 
 class MyPageNumberPaginationASNList(PageNumberPagination):
     page_size = 30
@@ -69,9 +70,23 @@ class MyPageNumberPaginationASNList(PageNumberPagination):
                     "category": warehouse_list_data[i].pk
                 }
                 warehouse_list.append(warehouse_dict)
+        bin_list_data = binset.objects.filter(bin_level=1)
+        bin_list = []
+        for i in range(len(bin_list_data)):
+            bin_dict = {
+                "id": bin_list_data[i].pk,
+                "bin_name": bin_list_data[i].bin_name,
+                "openid": bin_list_data[i].openid,
+                "label": bin_list_data[i].bin_name,
+                "value": bin_list_data[i].bin_name,
+                "description": bin_list_data[i].openid,
+                "category": warehouse_list_data[i].pk
+            }
+            bin_list.append(bin_dict)
         return Response(OrderedDict([
             ('supplier_list', supplier_list),
             ('warehouse_list', warehouse_list),
+            ('bin_list', bin_list),
             ('count', self.page.paginator.count),
             ('next', self.get_next_link()),
             ('previous', self.get_previous_link()),
