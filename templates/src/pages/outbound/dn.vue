@@ -50,6 +50,15 @@
               </q-tooltip
               >
             </q-btn>
+            <q-btn label="获取面单" icon="exchange" @click="get_mian_dan()">
+              <q-tooltip
+                content-class="bg-amber text-black shadow-4"
+                :offset="[10, 10]"
+                content-style="font-size: 12px"
+              >获取面单
+              </q-tooltip
+              >
+            </q-btn>
 <!--            <q-btn-->
 <!--              v-show="-->
 <!--                  $q.localStorage.getItem('staff_type') !== 'Supplier' &&-->
@@ -1691,6 +1700,24 @@ export default {
     }
   },
   methods: {
+    get_mian_dan () {
+      var _this = this
+      getauth(_this.pathname + 'getmiandan/', {})
+        .then((res) => {
+          this.$q.notify({
+            message: '获取面单结束',
+            color: 'green',
+            icon: 'check'
+          })
+        })
+        .catch((err) => {
+          _this.$q.notify({
+            message: err.detail,
+            icon: 'close',
+            color: 'negative'
+          })
+        })
+    },
     handleRecordDownload (record) {
       if (!record.id) {
         this.$q.notify({
@@ -2776,7 +2803,7 @@ export default {
     },
     openPdf (e) {
       // this.viewForm = true
-      this.src = baseurl + 'media/miandan/'+ e + '.pdf'
+      this.src = baseurl + 'media/miandan/' + e + '.pdf'
       openURL(this.src)
     },
     getLocation (source) {

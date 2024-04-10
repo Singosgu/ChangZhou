@@ -2336,3 +2336,29 @@ class PickListDownloadView(viewsets.ModelViewSet):
         )
         response['Content-Disposition'] = "attachment; filename='picklist_{}.csv'".format(str(dt.strftime('%Y%m%d%H%M%S%f')))
         return response
+
+
+import requests, base64
+from django.conf import settings
+def get_mian_dan(request):
+    dn_list = DnListModel.objects.filter(mian_dan='')
+    headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
+        'APItoken': 'e7d82-0913c-5fe10-603c2-be99e-a42e9-a837'
+    }
+    for i in dn_list:
+        try:
+            res = requests.get('https://api.teapplix.com/api2/Shipment?ReturnLabel=1&TxnId=' + i.TxnId,
+                               headers=headers).json().get('Items', '')[0].get('LabelData', '').replace(" ", "")
+            i.mian_dan = res
+            i.save()
+            decoded_data = base64.b64decode(res)
+            with open(str(settings.BASE_DIR) + '/media/miandan/' + str(i.get('TxnId', '')) + '.pdf', 'wb') as file:
+                file.write(decoded_data)
+        except:
+            pass
+        finally:
+            pass
+    return Response({"Detail": "success"}, status=200)
