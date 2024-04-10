@@ -2362,3 +2362,85 @@ def get_mian_dan(request):
         finally:
             pass
     return Response({"Detail": "success"}, status=200)
+
+class confirmOrdersViewSet(viewsets.ModelViewSet):
+    """
+        retrieve:
+            Response a data list（get）
+    """
+    pagination_class = MyPageNumberPagination
+    filter_backends = [DjangoFilterBackend, OrderingFilter, ]
+    ordering_fields = ['id', "create_time", "update_time", ]
+    filter_class = DnListFilter
+
+    def get_project(self):
+        try:
+            id = self.kwargs.get('pk')
+            return id
+        except:
+            return None
+
+    def get_queryset(self):
+        id = self.get_project()
+        if self.request.user:
+            u = Users.objects.filter(vip=9).first()
+            if u is None:
+                superopenid = None
+            else:
+                superopenid = u.openid
+            query_dict = {'is_delete': False}
+            if self.request.auth.openid != superopenid:
+                query_dict['openid'] = self.request.auth.openid
+            if id is not None:
+                query_dict['id'] = id
+            return DnListModel.objects.filter(**query_dict)
+        else:
+            return DnListModel.objects.none()
+
+    def get_serializer_class(self):
+        if self.action in ['list']:
+            return serializers.DNListGetSerializer
+        else:
+            return self.http_method_not_allowed(request=self.request)
+
+    def list(self, request, *args, **kwargs):
+        qs_list = self.get_queryset()
+        for i in range(len(qs_list)):
+            qs = qs_list[i]
+            if qs.openid != self.request.auth.openid:
+                raise APIException({"detail": "Cannot delete data which not yours"})
+            else:
+                if qs.dn_status == 1:
+                    if DnDetailModel.objects.filter(openid=self.request.auth.openid, dn_code=qs.dn_code,
+                                                                    dn_status=1, is_delete=False).exists():
+                        qs.dn_status = 2
+                        dn_detail_list = DnDetailModel.objects.filter(openid=self.request.auth.openid, dn_code=qs.dn_code,
+                                                                        dn_status=1, is_delete=False)
+                        for i in range(len(dn_detail_list)):
+                            if stocklist.objects.filter(openid=self.request.auth.openid,
+                                                                        goods_code=str(dn_detail_list[i].goods_code)).exists():
+                                pass
+                            else:
+                                goods_detail = goods.objects.filter(goods_code=str(dn_detail_list[i].goods_code)).first()
+                                stocklist.objects.create(openid=self.request.auth.openid,
+                                                         goods_code=str(dn_detail_list[i].goods_code),
+                                                         goods_desc=goods_detail.goods_desc,
+                                                         supplier=goods_detail.goods_supplier)
+                            goods_qty_change = stocklist.objects.filter(openid=self.request.auth.openid,
+                                                                        goods_code=str(
+                                                                            dn_detail_list[i].goods_code)).first()
+                            goods_qty_change.can_order_stock = goods_qty_change.can_order_stock - dn_detail_list[i].goods_qty
+                            goods_qty_change.ordered_stock = goods_qty_change.ordered_stock + dn_detail_list[i].goods_qty
+                            goods_qty_change.dn_stock = goods_qty_change.dn_stock - dn_detail_list[i].goods_qty
+                            if goods_qty_change.can_order_stock < 0:
+                                goods_qty_change.can_order_stock = 0
+                            goods_qty_change.save()
+                        dn_detail_list.update(dn_status=2)
+                        qs.save()
+                        serializer = self.get_serializer(qs, many=False)
+                        headers = self.get_success_headers(serializer.data)
+                        return Response(serializer.data, status=200, headers=headers)
+                    else:
+                        raise APIException({"detail": "Please Enter The DN Detail"})
+                else:
+                    raise APIException({"detail": "This DN Status Is Not Pre Order"})

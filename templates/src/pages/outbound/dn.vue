@@ -50,12 +50,21 @@
               </q-tooltip
               >
             </q-btn>
-            <q-btn label="获取面单" icon="exchange" @click="get_mian_dan()">
+            <q-btn label="获取面单" icon="trending_up" @click="get_mian_dan()">
               <q-tooltip
                 content-class="bg-amber text-black shadow-4"
                 :offset="[10, 10]"
                 content-style="font-size: 12px"
               >获取面单
+              </q-tooltip
+              >
+            </q-btn>
+            <q-btn label="批量确认订单" icon="recommend" @click="confirmOrders()">
+              <q-tooltip
+                content-class="bg-amber text-black shadow-4"
+                :offset="[10, 10]"
+                content-style="font-size: 12px"
+              >批量确认订单
               </q-tooltip
               >
             </q-btn>
@@ -1700,6 +1709,24 @@ export default {
     }
   },
   methods: {
+    confirmOrders () {
+      var _this = this
+      getauth(_this.pathname + 'confirmorders/', {})
+        .then((res) => {
+          this.$q.notify({
+            message: '确认订单完成',
+            color: 'green',
+            icon: 'check'
+          })
+        })
+        .catch((err) => {
+          _this.$q.notify({
+            message: err.detail,
+            icon: 'close',
+            color: 'negative'
+          })
+        })
+    },
     get_mian_dan () {
       var _this = this
       getauth(_this.pathname + 'getmiandan/', {})
