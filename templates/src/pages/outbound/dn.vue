@@ -425,6 +425,7 @@
     </transition>
     <template>
       <div class="q-pa-lg flex flex-center">
+        <q-select outlined v-model="max_page_data" :options="max_page" label="每页数量" style="width: 200px" />
         <q-btn
           v-show="page_count===0"
           flat
@@ -1706,7 +1707,9 @@ export default {
       neworderidList: [],
       neworderListForm: false,
       show: true,
-      src: 'media/miandan/'
+      src: 'media/miandan/',
+      max_page_data: 30,
+      max_page: [30, 100, 500, 1000]
     }
   },
   computed: {
@@ -1890,7 +1893,7 @@ export default {
     getList () {
       var _this = this
       if (LocalStorage.has('auth')) {
-        getauth(_this.pathname + 'list/' + '?max_page=1000&page=' + this.current, {})
+        getauth(_this.pathname + 'list/' + '?max_page=' + _this.max_page_data + '&page=' + this.current, {})
           .then((res) => {
             _this.page_count = res.count
             _this.table_list = []
@@ -1936,7 +1939,7 @@ export default {
     getSearchList () {
       var _this = this
       if (LocalStorage.has('auth')) {
-        getauth(_this.pathname + 'list/?max_page=1000&dn_code__icontains=' + _this.filter + '&page=' + this.current, {})
+        getauth(_this.pathname + 'list/?max_page=' + _this.max_page_data + '&dn_code__icontains=' + _this.filter + '&page=' + this.current, {})
           .then((res) => {
             _this.table_list = []
             _this.page_count = res.count
@@ -2884,6 +2887,12 @@ export default {
       _this.height = String(_this.$q.screen.height - 290) + 'px'
     } else {
       _this.height = _this.$q.screen.height - 290 + '' + 'px'
+    }
+  },
+  watch: {
+    max_page_data (max_page_data) {
+      var _this = this
+      _this.getList()
     }
   },
   updated () {
