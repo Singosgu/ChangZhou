@@ -724,13 +724,11 @@ export default {
       var _this = this
       postauth(_this.pathname + 'getorder/', e)
         .then((res) => {
-          if (!res.detail) {
-            _this.$q.notify({
-              message: 'Success Get Order',
-              icon: 'check',
-              color: 'green'
-            })
-          }
+          _this.$q.notify({
+            message: 'Success Get Order',
+            icon: 'check',
+            color: 'green'
+          })
         })
         .catch((err) => {
           _this.$q.notify({
