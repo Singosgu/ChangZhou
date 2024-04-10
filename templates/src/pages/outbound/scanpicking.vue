@@ -35,8 +35,8 @@
          </template>
          <template v-slot:body="props">
            <q-tr :props="props">
-               <q-td key="dn_code" :props="props">
-                 {{ props.row.dn_code }}
+               <q-td key="txnid" :props="props">
+                 {{ props.row.txnid }}
                </q-td>
                <q-td key="bin_name" :props="props">
                  {{ props.row.bin_name }}
@@ -143,7 +143,7 @@ export default {
       bin_property_list: [],
       warehouse_list: [],
       columns: [
-        { name: 'dn_code', required: true, label: this.$t('outbound.view_dn.dn_code'), align: 'left', field: 'dn_code' },
+        { name: 'txnid', required: true, label: 'TxnId', align: 'left', field: 'txnid' },
         { name: 'bin_name', label: this.$t('warehouse.view_binset.bin_name'), field: 'bin_name', align: 'center' },
         { name: 'goods_code', label: this.$t('goods.view_goodslist.goods_code'), field: 'goods_code', align: 'center' },
         { name: 'pick_qty', label: this.$t('stock.view_stocklist.pick_stock'), field: 'pick_qty', align: 'center' },
