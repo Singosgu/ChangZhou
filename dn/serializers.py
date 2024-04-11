@@ -33,6 +33,8 @@ class DNListGetSerializer(serializers.ModelSerializer):
     txnid = serializers.CharField(read_only=True, required=False)
     order_line = serializers.IntegerField(read_only=True, required=False)
     order_type = serializers.CharField(read_only=True, required=False)
+    carrier = serializers.CharField(read_only=True, required=False)
+    have_mian_dan = serializers.BooleanField(read_only=True, required=False)
     dn_code = serializers.CharField(read_only=True, required=False)
     dn_status = serializers.IntegerField(read_only=True, required=False)
     customer = serializers.CharField(read_only=True, required=False)

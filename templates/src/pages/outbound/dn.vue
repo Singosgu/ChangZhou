@@ -1569,6 +1569,18 @@ export default {
           align: 'center'
         },
         {
+          name: 'carrier',
+          label: '承运人',
+          field: 'carrier',
+          align: 'center'
+        },
+        {
+          name: 'have_mian_dan',
+          label: '面单',
+          field: 'have_mian_dan',
+          align: 'center'
+        },
+        {
           name: 'dn_status',
           label: this.$t('outbound.view_dn.dn_status'),
           field: 'dn_status',
