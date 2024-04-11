@@ -75,6 +75,7 @@ class PickingListModel(models.Model):
     txnid = models.CharField(default='', max_length=255, verbose_name="tp Code")
     dn_code = models.CharField(max_length=255, verbose_name="DN Code")
     bin_name = models.CharField(max_length=255, verbose_name="Bin Name")
+    picker = models.CharField(default='', max_length=255, verbose_name="Picker")
     goods_code = models.CharField(max_length=255, verbose_name="Goods Code")
     picking_status = models.SmallIntegerField(default=0, verbose_name="Picking Status")
     pick_qty = models.BigIntegerField(default=0, verbose_name="Goods Pre Pick QTY")
