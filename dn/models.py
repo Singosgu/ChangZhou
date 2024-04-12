@@ -23,6 +23,7 @@ class DnListModel(models.Model):
     warehouse_id = models.BigIntegerField(default=1, verbose_name='Warehouse ID')
     comments = models.CharField(default='', max_length=255, verbose_name='备注')
     is_delete = models.BooleanField(default=False, verbose_name='Delete Label')
+    priority = models.IntegerField(default=1, verbose_name="优先级")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="Create Time")
     update_time = models.DateTimeField(auto_now=True, blank=True, null=True, verbose_name="Update Time")
 
@@ -59,6 +60,7 @@ class DnDetailModel(models.Model):
     openid = models.CharField(max_length=255, verbose_name="Openid")
     warehouse_id = models.BigIntegerField(default=1, verbose_name='Warehouse ID')
     is_delete = models.BooleanField(default=False, verbose_name='Delete Label')
+    priority = models.IntegerField(default=1, verbose_name="优先级")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="Create Time")
     update_time = models.DateTimeField(auto_now=True, blank=True, null=True, verbose_name="Update Time")
 
@@ -90,6 +92,30 @@ class PickingListModel(models.Model):
         db_table = 'pickinglist'
         verbose_name = 'Picking List'
         verbose_name_plural = "Picking List"
+        ordering = ['-id']
+
+    def __int__(self):
+        return self.pk
+
+class OrderTypeList(models.Model):
+    order_type = models.CharField(max_length=255, verbose_name='Order Type')
+
+    class Meta:
+        db_table = 'ordertypelist'
+        verbose_name = 'Order Type List'
+        verbose_name_plural = "Order Type List"
+        ordering = ['-id']
+
+    def __int__(self):
+        return self.pk
+
+class CarrierList(models.Model):
+    carrier = models.CharField(max_length=255, verbose_name='Order Type')
+
+    class Meta:
+        db_table = 'carrierlist'
+        verbose_name = 'Carrier List'
+        verbose_name_plural = "Carrier List"
         ordering = ['-id']
 
     def __int__(self):

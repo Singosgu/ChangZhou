@@ -133,7 +133,7 @@
 <!--            </q-btn>-->
 
             <q-btn
-              :label="$t('download')"
+              label='下载拣货单'
               icon="file_download"
               @click="handleDownLoadAllData"
             >
@@ -142,26 +142,42 @@
                 :offset="[10, 10]"
                 content-style="font-size: 12px"
               >
-                {{ $t("twoKai.downloadjianhuodantip") }}
+                下载所有拣货单
               </q-tooltip>
             </q-btn>
           </q-btn-group>
-          <q-space/>
           <q-input
-            outlined
-            rounded
-            dense
-            debounce="300"
-            color="primary"
-            v-model="filter"
-            :placeholder="$t('search')"
-            @blur="getSearchList()"
-            @keyup.enter="getSearchList()"
-          >
-            <template v-slot:append>
-              <q-icon name="search" @click="getSearchList()"/>
-            </template>
-          </q-input>
+            v-model="filterData.txnid"
+            filled
+            autogrow
+            label="TxnId"
+          />
+          <q-select v-model="filterData.order_type" outlined :options="order_type_list" label="发货方式" style="width: 150px"/>
+          <q-select v-model="filterData.carrier" outlined :options="carrier_list" label="承运人" style="width: 150px"/>
+<!--          <q-input-->
+<!--            v-model="filterData.sku"-->
+<!--            filled-->
+<!--            autogrow-->
+<!--            label="SKU"-->
+<!--            style="width: 150px"-->
+<!--          />-->
+          <q-btn label="筛选" @click="sortData()"></q-btn>
+          <q-btn label="清空" @click="filterDataClear()"></q-btn>
+<!--          <q-input-->
+<!--            outlined-->
+<!--            rounded-->
+<!--            dense-->
+<!--            debounce="300"-->
+<!--            color="primary"-->
+<!--            v-model="filter"-->
+<!--            :placeholder="$t('search')"-->
+<!--            @blur="getSearchList()"-->
+<!--            @keyup.enter="getSearchList()"-->
+<!--          >-->
+<!--            <template v-slot:append>-->
+<!--              <q-icon name="search" @click="getSearchList()"/>-->
+<!--            </template>-->
+<!--          </q-input>-->
         </template>
         <template v-slot:body-cell-action="props">
           <q-td key="action" :props="props" style="width: 100px">
@@ -170,7 +186,7 @@
               round
               flat
               push
-              color="info"
+              color="red"
               icon="visibility"
               @click="openPdf(props.row.txnid)"
             >
@@ -178,7 +194,23 @@
                 content-class="bg-amber text-black shadow-4"
                 :offset="[10, 10]"
                 content-style="font-size: 12px"
-              >{{ $t("printthisdn") }}
+              >已经获得面单
+              </q-tooltip
+              >
+            </q-btn>
+            <q-btn
+              v-show="props.row.mian_dan === ''"
+              round
+              flat
+              push
+              color="grey"
+              icon="visibility"
+            >
+              <q-tooltip
+                content-class="bg-amber text-black shadow-4"
+                :offset="[10, 10]"
+                content-style="font-size: 12px"
+              >还没有拿到面单
               </q-tooltip
               >
             </q-btn>
@@ -1575,12 +1607,6 @@ export default {
           align: 'center'
         },
         {
-          name: 'have_mian_dan',
-          label: '面单',
-          field: 'have_mian_dan',
-          align: 'center'
-        },
-        {
           name: 'dn_status',
           label: this.$t('outbound.view_dn.dn_status'),
           field: 'dn_status',
@@ -1721,7 +1747,20 @@ export default {
       show: true,
       src: 'media/miandan/',
       max_page_data: 30,
-      max_page: [30, 100, 500, 1000]
+      max_page: [30, 100, 500, 1000],
+      filterDataForm: false,
+      filterData: {
+        txnid: [],
+        order_type: '',
+        carrier: '',
+        sku: []
+      },
+      order_type_list: [],
+      carrier_list: [],
+      txnid_list_data: [],
+      order_type_data: '',
+      carrier_data: '',
+      sku_data: []
     }
   },
   computed: {
@@ -1735,6 +1774,46 @@ export default {
   methods: {
     pickingOrders () {
       console.log(111)
+    },
+    sortData () {
+      if (this.filterData.txnid !== '') {
+        if (this.filterData.txnid.includes(',')) {
+          var split_txnid = ''
+          split_txnid = this.filterData.txnid.split(',')
+          split_txnid.forEach(item => {
+            if (item !== '') {
+              _this.txnid_list_data.push(item)
+            }
+          })
+        } else {
+          _this.txnid_list_data.push(this.filterData.txnid)
+        }
+      } else {
+        _this.txnid_list_data = ''
+      }
+      if (this.filterData.sku !== '') {
+        if (this.filterData.sku.includes(',')) {
+          var split_sku = ''
+          split_sku = this.filterData.sku.split(',')
+          split_sku.forEach(item => {
+            if (item !== '') {
+              _this.sku_list_data.push(item)
+            }
+          })
+        } else {
+          _this.sku_list_data.push(this.filterData.sku)
+        }
+      } else {
+        _this.sku_list_data = ''
+      }
+    },
+    filterDataClear () {
+      this.filterData = {
+        txnid: [],
+        order_type: '',
+        carrier: '',
+        sku: []
+      }
     },
     confirmOrders () {
       var _this = this
@@ -1826,6 +1905,12 @@ export default {
               message: 'Browser denied file download...',
               color: 'negative',
               icon: 'warning'
+            })
+          } else {
+            this.$q.notify({
+              message: '下载完成',
+              color: 'green',
+              icon: 'check'
             })
           }
         })
@@ -1937,6 +2022,8 @@ export default {
             _this.pathname_previous = res.previous
             _this.pathname_next = res.next
             _this.warehouse_list = res.warehouse_list
+            _this.order_type_list = res.order_type_list
+            _this.carrier_list = res.carrier_list
           })
           .catch((err) => {
             _this.$q.notify({
@@ -1951,7 +2038,8 @@ export default {
     getSearchList () {
       var _this = this
       if (LocalStorage.has('auth')) {
-        getauth(_this.pathname + 'list/?max_page=' + _this.max_page_data + '&dn_code__icontains=' + _this.filter + '&page=' + this.current, {})
+        var xxx = ['ZD-11386','ZD-10147']
+        getauth(_this.pathname + 'list/?max_page=' + _this.max_page_data + '&txnid__in=' + xxx + '&page=' + this.current, {})
           .then((res) => {
             _this.table_list = []
             _this.page_count = res.count

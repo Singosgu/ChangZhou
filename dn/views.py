@@ -2351,8 +2351,9 @@ def get_mian_dan(request):
     for i in dn_list:
         try:
             res = requests.get('https://api.teapplix.com/api2/Shipment?ReturnLabel=1&TxnId=' + i.TxnId,
-                               headers=headers).json().get('Items', '')[0].get('LabelData', '').replace(" ", "")
-            i.mian_dan = res
+                               headers=headers).json().get('Items', '')
+            print(res)
+            i.mian_dan = res[0].get('LabelData', '').replace(" ", "")
             i.save()
             decoded_data = base64.b64decode(res)
             with open(str(settings.BASE_DIR) + '/media/miandan/' + str(i.get('TxnId', '')) + '.pdf', 'wb') as file:

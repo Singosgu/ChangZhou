@@ -6,6 +6,9 @@ class DnListFilter(FilterSet):
         model = DnListModel
         fields = {
             "id": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'isnull', 'in', 'range'],
+            "txnid": ['exact', 'iexact', 'contains', 'icontains', 'in'],
+            "order_type": ['exact', 'iexact', 'contains', 'icontains', 'in'],
+            "carrier": ['exact', 'iexact', 'contains', 'icontains', 'in'],
             "dn_code": ['exact', 'iexact', 'contains', 'icontains'],
             "dn_status": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'isnull', 'in', 'range'],
             "total_weight": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'isnull', 'in', 'range'],
@@ -23,6 +26,7 @@ class DnDetailFilter(FilterSet):
         model = DnDetailModel
         fields = {
             "id": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'isnull', 'in', 'range'],
+            "txnid": ['exact', 'iexact', 'contains', 'icontains', 'in'],
             "dn_code": ['exact', 'iexact', 'contains', 'icontains'],
             "dn_status": ['exact', 'iexact'],
             "customer": ['exact', 'iexact', 'contains', 'icontains'],

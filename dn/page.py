@@ -6,6 +6,8 @@ from rest_framework.utils.urls import remove_query_param, replace_query_param
 
 from customer.models import ListModel as customer
 from warehouse.models import ListModel as warehouse
+from .models import OrderTypeList as ordertype
+from .models import CarrierList as carrierlist
 
 class MyPageNumberPaginationDNList(PageNumberPagination):
     page_size = 30
@@ -54,7 +56,7 @@ class MyPageNumberPaginationDNList(PageNumberPagination):
         customer_list = []
         for i in range(len(customer_list_data)):
             customer_list.append(customer_list_data[i].customer_name)
-        warehouse_list_data = warehouse.objects.filter(openid=self.request.auth.openid, is_delete=False)
+        warehouse_list_data = warehouse.objects.filter(is_delete=False)
         warehouse_list = []
         for i in range(len(warehouse_list_data)):
             warehouse_dict = {
@@ -63,7 +65,17 @@ class MyPageNumberPaginationDNList(PageNumberPagination):
                 "warehouse_id": warehouse_list_data[i].warehouse_id
             }
             warehouse_list.append(warehouse_dict)
+        order_type_list_data = ordertype.objects.all()
+        order_type_list = []
+        for i in range(len(order_type_list_data)):
+            order_type_list.append(order_type_list_data[i].order_type)
+        carrier_list_data = carrierlist.objects.all()
+        carrier_list = []
+        for i in range(len(carrier_list_data)):
+            carrier_list.append(carrier_list_data[i].carrier)
         return Response(OrderedDict([
+            ('carrier_list', carrier_list),
+            ('order_type_list', order_type_list),
             ('customer_list', customer_list),
             ('warehouse_list', warehouse_list),
             ('count', self.page.paginator.count),

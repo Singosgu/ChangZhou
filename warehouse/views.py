@@ -20,6 +20,8 @@ from customer.models import ListModel as customer
 from goods.models import ListModel as goods
 from utils.datasolve import sumOfList
 from stock.models import StockListModel as stocklist
+from dn.models import OrderTypeList as ordertype
+from dn.models import CarrierList as carrierlist
 
 class APIViewSet(viewsets.ModelViewSet):
     """
@@ -281,6 +283,9 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                     total_weight_list = []
                     total_volume_list = []
                     total_cost_list = []
+                    priority = 1
+                    if j.get('ShippingDetails', '')[0].get('Package', '').get('Method', '') != 'SpecialShip':
+                        priority = 2
                     for p in j.get('OrderItems', ''):
                         goods_detail = goods.objects.filter(goods_code=p.get('Name', '')).first()
                         total_weight_list.append(round(goods_detail.goods_weight * int(p.get('Quantity', '')) / 1000, 4))
@@ -299,6 +304,7 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                         creater=self.request.auth.name,
                         bar_code=bar_code,
                         openid=data.get('openid', ''),
+                        priority=priority,
                         warehouse_id=int(data.get('warehouse_id', ''))
                     ),
                     if customer.objects.filter(openid=data.get('openid', ''), customer_name=j.get('To', '').get('Name', ''), is_delete=False).exists() is False:
@@ -317,17 +323,27 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                             openid=data.get('openid', ''),
                             txnid=j.get('TxnId', ''),
                             order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', ''),
+                            carrier=j.get('ShippingDetails', '')[0].get('Package', '').get('TrackingInfo', '').get('CarrierName', ''),
                             dn_code=dn_code,
                             customer=j.get('To', '').get('Name', ''),
                             goods_code=goods_detail.goods_code,
                             goods_desc=goods_detail.goods_desc,
                             goods_qty=k.get('Quantity'),
-                            goods_weight=round(goods_detail.goods_weight * k.get('Quantity') / 1000 , 4),
+                            goods_weight=round(goods_detail.goods_weight * k.get('Quantity') / 1000, 4),
                             goods_volume=round(goods_detail.unit_volume * k.get('Quantity') / 1000 / 1000 / 1000, 4),
                             goods_cost=round(goods_detail.goods_price * k.get('Quantity'), 2),
                             creater=self.request.auth.name,
+                            priority=priority,
                             warehouse_id=int(data.get('warehouse_id', ''))
                         )
+                        if carrierlist.objects.filter().exists() is False:
+                            carrierlist.objects.create(
+                                carrier=j.get('ShippingDetails', '')[0].get('Package', '').get('TrackingInfo', '').get('CarrierName', '')
+                            )
+                        if ordertype.objects.filter().exists() is False:
+                            ordertype.objects.create(
+                                order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', '')
+                            )
                         if stocklist.objects.filter(
                                 openid=data.get('openid', ''),
                                 goods_code=goods_detail.goods_code,
