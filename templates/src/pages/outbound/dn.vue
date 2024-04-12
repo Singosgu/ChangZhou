@@ -68,7 +68,7 @@
               </q-tooltip
               >
             </q-btn>
-            <q-btn label="全部生成拣货单" icon="confirmation_number" @click="pickingOrders()">
+            <q-btn label="全部生成拣货单" icon="confirmation_number" @click="orderreleaseAllData()">
               <q-tooltip
                 content-class="bg-amber text-black shadow-4"
                 :offset="[10, 10]"
@@ -1776,6 +1776,7 @@ export default {
       console.log(111)
     },
     sortData () {
+      var _this = this
       if (this.filterData.txnid !== '') {
         if (this.filterData.txnid.includes(',')) {
           var split_txnid = ''
@@ -1789,7 +1790,7 @@ export default {
           _this.txnid_list_data.push(this.filterData.txnid)
         }
       } else {
-        _this.txnid_list_data = ''
+        _this.txnid_list_data = []
       }
       if (this.filterData.sku !== '') {
         if (this.filterData.sku.includes(',')) {
@@ -1804,8 +1805,9 @@ export default {
           _this.sku_list_data.push(this.filterData.sku)
         }
       } else {
-        _this.sku_list_data = ''
+        _this.sku_list_data = []
       }
+      _this.getList()
     },
     filterDataClear () {
       this.filterData = {
@@ -1989,8 +1991,12 @@ export default {
     },
     getList () {
       var _this = this
+      var txnid_search = this.txnid_list_data
+      var order_type_search = this.order_type_data
+      var carrier_search = this.carrier_data
+      var sku_search = this.sku_data
       if (LocalStorage.has('auth')) {
-        getauth(_this.pathname + 'list/' + '?max_page=' + _this.max_page_data + '&page=' + this.current, {})
+        getauth(_this.pathname + 'list/' + '?max_page=' + _this.max_page_data + '&page=' + this.current + '&txnid__in=' + txnid_search +'&order_type=' + order_type_search + '&carrier=' + carrier_search, {})
           .then((res) => {
             _this.page_count = res.count
             _this.table_list = []
