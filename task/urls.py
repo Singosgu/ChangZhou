@@ -25,7 +25,7 @@ def task_job():
     }
     for i in dn_list:
         try:
-            res = requests.get('https://api.teapplix.com/api2/Shipment?ReturnLabel=1&TxnId=' + i.TxnId, headers=headers).json().get('Items', '')[0].get('LabelData', '').replace(" ", "")
+            res = requests.get('https://api.teapplix.com/api2/Shipment?ReturnLabel=1&TxnId=' + i.txnid, headers=headers).json().get('Items', '')[0].get('LabelData', '').replace(" ", "")
             i.mian_dan = res
             i.save()
             decoded_data = base64.b64decode(res)

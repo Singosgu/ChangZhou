@@ -27,7 +27,7 @@ from django.db.models import Sum
 from utils.md5 import Md5
 import re
 from .serializers import FileListRenderSerializer, FileDetailRenderSerializer
-from django.http import StreamingHttpResponse
+from django.http import StreamingHttpResponse, JsonResponse
 from django.utils import timezone
 from .files import FileListRenderCN, FileListRenderEN, FileDetailRenderCN, FileDetailRenderEN, PickListRenderCN, PickListRenderEN
 from rest_framework.settings import api_settings
@@ -2350,9 +2350,8 @@ def get_mian_dan(request):
     }
     for i in dn_list:
         try:
-            res = requests.get('https://api.teapplix.com/api2/Shipment?ReturnLabel=1&TxnId=' + i.TxnId,
-                               headers=headers).json().get('Items', '')
-            print(res)
+            res = requests.get('https://api.teapplix.com/api2/Shipment?ReturnLabel=1&TxnId=' + i.txnid,
+                               headers=headers).json()
             i.mian_dan = res[0].get('LabelData', '').replace(" ", "")
             i.save()
             decoded_data = base64.b64decode(res)
@@ -2362,7 +2361,7 @@ def get_mian_dan(request):
             pass
         finally:
             pass
-    return Response({"Detail": "success"}, status=200)
+    return JsonResponse({"detail": "success"}, status=200)
 
 class confirmOrdersViewSet(viewsets.ModelViewSet):
     """

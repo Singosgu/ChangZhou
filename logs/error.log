@@ -54822,3 +54822,51 @@ Traceback (most recent call last):
   File "E:\Github_desktop\ChangZhou\.\dn\page.py", line 71, in get_paginated_response
     print(i.order_type)
 AttributeError: 'int' object has no attribute 'order_type'
+[2024-04-15 20:29:52,626][django.request.log_response():224] [ERROR] Internal Server Error: /dn/getmiandan/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 204, in _get_response
+    response = response.render()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\template\response.py", line 105, in render
+    self.content = self.rendered_content
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\response.py", line 55, in rendered_content
+    assert renderer, ".accepted_renderer not set on Response"
+AssertionError: .accepted_renderer not set on Response
+[2024-04-15 20:29:52,725][django.server.log_message():157] [ERROR] "GET /dn/getmiandan/ HTTP/1.1" 500 81365
+[2024-04-15 20:30:59,731][django.request.log_response():224] [ERROR] Internal Server Error: /dn/getmiandan/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 204, in _get_response
+    response = response.render()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\template\response.py", line 105, in render
+    self.content = self.rendered_content
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\response.py", line 55, in rendered_content
+    assert renderer, ".accepted_renderer not set on Response"
+AssertionError: .accepted_renderer not set on Response
+[2024-04-15 20:30:59,843][django.server.log_message():157] [ERROR] "GET /dn/getmiandan/ HTTP/1.1" 500 81365
+[2024-04-15 20:31:40,859][django.request.log_response():224] [ERROR] Internal Server Error: /dn/getmiandan/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 204, in _get_response
+    response = response.render()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\template\response.py", line 105, in render
+    self.content = self.rendered_content
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\response.py", line 55, in rendered_content
+    assert renderer, ".accepted_renderer not set on Response"
+AssertionError: .accepted_renderer not set on Response
+[2024-04-15 20:31:40,953][django.server.log_message():157] [ERROR] "GET /dn/getmiandan/ HTTP/1.1" 500 81365
+[2024-04-15 20:32:25,279][django.request.log_response():224] [ERROR] Internal Server Error: /dn/getmiandan/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 204, in _get_response
+    response = response.render()
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\template\response.py", line 105, in render
+    self.content = self.rendered_content
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\response.py", line 55, in rendered_content
+    assert renderer, ".accepted_renderer not set on Response"
+AssertionError: .accepted_renderer not set on Response
+[2024-04-15 20:32:25,378][django.server.log_message():157] [ERROR] "GET /dn/getmiandan/ HTTP/1.1" 500 81365
