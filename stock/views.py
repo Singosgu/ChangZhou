@@ -16,6 +16,7 @@ from .files import FileListRenderCN, FileListRenderEN, FileBinListRenderCN, File
 from rest_framework.settings import api_settings
 from userprofile.models import Users
 from django.db.models import Q
+from binset.models import ListModel as binset
 
 class StockListViewSet(viewsets.ModelViewSet):
     """
@@ -122,10 +123,7 @@ class StockBinViewSet(viewsets.ModelViewSet):
                     raise APIException({"detail": "Move QTY Must > 0"})
                 else:
                     bin_move_qty_res = qs.goods_qty - qs.pick_qty - int(data['move_qty'])
-                    try:
-                        bin_level = int(move_to_bin_detail.bin_name.split('-')[2]) + 1
-                    except:
-                        bin_level = 1
+                    bin_level = binset.objects.filter(openid=self.request.auth.openid, bin_name=move_to_bin_detail.bin_name).first().bin_level
                     if bin_move_qty_res > 0:
                         qs.goods_qty = qs.pick_qty + bin_move_qty_res
                         if current_bin_detail.bin_property == 'Damage':
@@ -303,10 +301,7 @@ class StockBinViewSet(viewsets.ModelViewSet):
             else:
                 bin_move_qty_res = qs_project.goods_qty - qs_project.pick_qty - int(
                     data[j]['move_qty'])
-                try:
-                    bin_level = int(move_to_bin_detail.bin_name.split('-')[2]) + 1
-                except:
-                    bin_level = 1
+                bin_level = binset.objects.filter(openid=self.request.auth.openid, bin_name=move_to_bin_detail.bin_name).first().bin_level
                 if bin_move_qty_res > 0:
                     qs_project.goods_qty = qs_project.pick_qty + bin_move_qty_res
                     if current_bin_detail.bin_property == 'Damage':

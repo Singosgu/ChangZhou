@@ -153,6 +153,7 @@
             label="TxnId"
           />
           <q-select v-model="filterData.order_type" outlined :options="order_type_list" label="发货方式" style="width: 150px"/>
+          <q-select v-model="filterData.order_line" outlined :options="order_line_list" label="订单行" style="width: 150px"/>
           <q-select v-model="filterData.carrier" outlined :options="carrier_list" label="承运人" style="width: 150px"/>
           <q-input
             v-model="filterData.sku"
@@ -1750,17 +1751,20 @@ export default {
       max_page: [30, 100, 500, 1000],
       filterDataForm: false,
       filterData: {
-        txnid: [],
+        txnid: '',
         order_type: '',
+        order_line: '',
         carrier: '',
-        sku: []
+        sku: ''
       },
       order_type_list: [],
+      order_line_list: ['单件', '多件'],
       carrier_list: [],
       txnid_list_data: [],
       order_type_data: '',
+      order_line: '',
       carrier_data: '',
-      sku_data: []
+      sku_list_data: []
     }
   },
   computed: {
@@ -1781,12 +1785,14 @@ export default {
         if (this.filterData.txnid.includes(',')) {
           var split_txnid = ''
           split_txnid = this.filterData.txnid.split(',')
+          _this.txnid_list_data = []
           split_txnid.forEach(item => {
             if (item !== '') {
               _this.txnid_list_data.push(item)
             }
           })
         } else {
+          _this.txnid_list_data = []
           _this.txnid_list_data.push(this.filterData.txnid)
         }
       } else {
@@ -1796,12 +1802,14 @@ export default {
         if (this.filterData.sku.includes(',')) {
           var split_sku = ''
           split_sku = this.filterData.sku.split(',')
+          _this.sku_list_data = []
           split_sku.forEach(item => {
             if (item !== '') {
               _this.sku_list_data.push(item)
             }
           })
         } else {
+          _this.sku_list_data = []
           _this.sku_list_data.push(this.filterData.sku)
         }
       } else {
@@ -1813,6 +1821,7 @@ export default {
       this.filterData = {
         txnid: [],
         order_type: '',
+        order_line: '',
         carrier: '',
         sku: []
       }
@@ -1893,9 +1902,15 @@ export default {
       }
     },
     handleDownLoadAllData () {
+      var _this = this
+      var txnid_search = this.txnid_list_data
+      var order_type_search = this.order_type_data
+      var order_line_search = this.order_line
+      var carrier_search = this.carrier_data
+      var sku_search = this.sku_list_data
       if (LocalStorage.has('auth')) {
         getfile(
-          `dn/picklistdownload/?lang=${LocalStorage.getItem('lang')}`
+          `dn/picklistdownload/?lang=${LocalStorage.getItem('lang') + '&txnid__in=' + txnid_search + '&order_type=' + order_type_search + '&carrier=' + carrier_search + '&sku_search__in=' + sku_search + '&order_line=' + order_line_search}`
         ).then((res) => {
           var timeStamp = Date.now()
           var formattedString = date.formatDate(timeStamp, 'YYYYMMDDHHmmssSSS')
@@ -1995,10 +2010,11 @@ export default {
       var _this = this
       var txnid_search = this.txnid_list_data
       var order_type_search = this.order_type_data
+      var order_line_search = this.order_line
       var carrier_search = this.carrier_data
-      var sku_search = this.sku_data
+      var sku_search = this.sku_list_data
       if (LocalStorage.has('auth')) {
-        getauth(_this.pathname + 'list/' + '?max_page=' + _this.max_page_data + '&page=' + this.current + '&txnid__in=' + txnid_search +'&order_type=' + order_type_search + '&carrier=' + carrier_search, {})
+        getauth(_this.pathname + 'list/' + '?max_page=' + _this.max_page_data + '&page=' + this.current + '&txnid__in=' + txnid_search + '&order_type=' + order_type_search + '&carrier=' + carrier_search + '&sku_search__in=' + sku_search + '&order_line=' + order_line_search, {})
           .then((res) => {
             _this.page_count = res.count
             _this.table_list = []
