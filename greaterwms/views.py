@@ -118,6 +118,7 @@ def initW99(request):
     from asn.models import AsnListModel, AsnDetailModel
     from dn.models import DnListModel, DnDetailModel, PickingListModel
     from stock.models import StockBinModel, StockListModel
+    from binset.models import ListModel as binset
     AsnListModel.objects.all().delete()
     AsnDetailModel.objects.all().delete()
     DnListModel.objects.all().delete()
@@ -125,4 +126,5 @@ def initW99(request):
     PickingListModel.objects.all().delete()
     StockListModel.objects.all().delete()
     StockBinModel.objects.all().delete()
+    binset.objects.all().delete()
     return JsonResponse({"detail": 'success'})
