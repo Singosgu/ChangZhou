@@ -115,6 +115,14 @@ def changedn(request, oldvalue, newvalue):
     return JsonResponse({"detail": 'success'})
 
 def initW99(request):
-    from stock.models import StockBinModel
-    StockBinModel.objects.filter(bin_name='W99-01-9-L', bin_level__lt=10).update(bin_level=10)
+    from asn.models import AsnListModel, AsnDetailModel
+    from dn.models import DnListModel, DnDetailModel, PickingListModel
+    from stock.models import StockBinModel, StockListModel
+    AsnListModel.objects.all().delete()
+    AsnDetailModel.objects.all().delete()
+    DnListModel.objects.all().delete()
+    DnDetailModel.objects.all().delete()
+    PickingListModel.objects.all().delete()
+    StockListModel.objects.all().delete()
+    StockBinModel.objects.all().delete()
     return JsonResponse({"detail": 'success'})
