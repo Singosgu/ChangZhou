@@ -1495,7 +1495,6 @@ class BinViewSet(views.APIView):
                         continue
                     else:
                         bar_code = Md5.md5(str(df.iloc[i][0]).strip())
-                        binset.objects.filter(openid=self.request.auth.openid).delete()
                         if binset.objects.filter(openid=self.request.auth.openid,
                                                  bin_name=str(df.iloc[i][0].strip()),
                                                  ).exists() is False:
@@ -1507,6 +1506,16 @@ class BinViewSet(views.APIView):
                                                   creater=staff_name,
                                                   bar_code=bar_code
                                                   )
+                        else:
+                            binset.objects.filter(openid=self.request.auth.openid,
+                                                  bin_name=str(df.iloc[i][0].strip()),
+                                                  ).update(
+                                                    bin_name=str(df.iloc[i][0].strip()),
+                                                    bin_size=str(df.iloc[i][1].strip()),
+                                                    bin_property=str(df.iloc[i][2].strip()),
+                                                    bin_level=int(str(df.iloc[i][3])),
+                                                    creater=staff_name
+                            )
             else:
                 raise APIException({"detail": "Can Not Support This File Type"})
         else:
