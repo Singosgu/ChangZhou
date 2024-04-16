@@ -2369,7 +2369,7 @@ class PickListDownloadView(viewsets.ModelViewSet):
             if sku_search:
                 query_dict_detail = {'goods_code__in': sku_search.split(',')}
             list_qs = DnListModel.objects.filter(Q(**query_dict) & ~Q(customer=''))
-            detail_qs = DnDetailModel.objects.filter(Q(**query_dict) & ~Q(customer='') & Q(**query_dict_detail))
+            detail_qs = DnDetailModel.objects.filter(Q(**query_dict) & ~Q(customer='')).filter(Q(**query_dict_detail) & ~Q(customer=''))
             check_txnid = []
             for x in detail_qs:
                 if list_qs.filter(txnid=x.txnid).exists() is False:
