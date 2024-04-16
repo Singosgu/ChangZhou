@@ -5,6 +5,7 @@ class DnListModel(models.Model):
     txnid = models.CharField(default='', max_length=255, verbose_name="tp Code")
     order_line = models.SmallIntegerField(default=1, verbose_name="Order Line")
     order_type = models.CharField(default='', max_length=255, verbose_name="Order Type")
+    trackingnumber = models.CharField(default='', max_length=255, verbose_name='Tracking Number')
     carrier = models.CharField(default='', max_length=255, verbose_name='Carrier')
     mian_dan = models.TextField(default='', verbose_name='Mian Dan')
     have_mian_dan = models.BooleanField(default=False, verbose_name='Have Mian Dan')
@@ -38,7 +39,12 @@ class DnListModel(models.Model):
 
 class DnDetailModel(models.Model):
     txnid = models.CharField(default='', max_length=255, verbose_name="tp Code")
+    order_line = models.SmallIntegerField(default=1, verbose_name="Order Line")
     order_type = models.CharField(default='', max_length=255, verbose_name="Order Type")
+    trackingnumber = models.CharField(default='', max_length=255, verbose_name='Tracking Number')
+    carrier = models.CharField(default='', max_length=255, verbose_name='Carrier')
+    mian_dan = models.TextField(default='', verbose_name='Mian Dan')
+    have_mian_dan = models.BooleanField(default=False, verbose_name='Have Mian Dan')
     dn_code = models.CharField(max_length=255, verbose_name="DN Code")
     dn_status = models.BigIntegerField(default=1, verbose_name="DN Status")
     customer = models.CharField(max_length=255, verbose_name="DN Customer")
@@ -84,6 +90,7 @@ class PickingListModel(models.Model):
     picked_qty = models.BigIntegerField(default=0, verbose_name="Picked QTY")
     creater = models.CharField(max_length=255, verbose_name="Who Created")
     t_code = models.CharField(max_length=255, verbose_name="Transaction Code")
+    bar_code = models.CharField(default='', max_length=255, verbose_name="Bar Code")
     openid = models.CharField(max_length=255, verbose_name="Openid")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="Create Time")
     update_time = models.DateTimeField(auto_now=True, blank=True, null=True, verbose_name="Update Time")

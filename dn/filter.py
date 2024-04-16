@@ -8,6 +8,8 @@ class DnListFilter(FilterSet):
             "id": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'isnull', 'in', 'range'],
             "txnid": ['exact', 'iexact', 'contains', 'icontains', 'in'],
             "order_type": ['exact', 'iexact', 'contains', 'icontains', 'in'],
+            "order_line": ['exact', 'iexact', 'contains', 'icontains', 'in'],
+            "trackingnumber": ['exact', 'iexact', 'contains', 'icontains'],
             "carrier": ['exact', 'iexact', 'contains', 'icontains', 'in'],
             "dn_code": ['exact', 'iexact', 'contains', 'icontains'],
             "dn_status": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'isnull', 'in', 'range'],
@@ -27,10 +29,14 @@ class DnDetailFilter(FilterSet):
         fields = {
             "id": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'isnull', 'in', 'range'],
             "txnid": ['exact', 'iexact', 'contains', 'icontains', 'in'],
+            "order_type": ['exact', 'iexact', 'contains', 'icontains', 'in'],
+            "order_line": ['exact', 'iexact', 'contains', 'icontains', 'in'],
+            "trackingnumber": ['exact', 'iexact', 'contains', 'icontains'],
+            "carrier": ['exact', 'iexact', 'contains', 'icontains', 'in'],
             "dn_code": ['exact', 'iexact', 'contains', 'icontains'],
             "dn_status": ['exact', 'iexact'],
             "customer": ['exact', 'iexact', 'contains', 'icontains'],
-            "goods_code": ['exact', 'iexact', 'contains', 'icontains'],
+            "goods_code": ['exact', 'iexact', 'contains', 'icontains', 'in'],
             "goods_desc": ['exact', 'iexact', 'contains', 'icontains'],
             "goods_qty": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'isnull', 'in', 'range'],
             "pick_qty": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'isnull', 'in', 'range'],
@@ -54,6 +60,7 @@ class DnPickingListFilter(FilterSet):
         model = PickingListModel
         fields = {
             "id": ['exact', 'gt', 'gte', 'lt', 'lte', 'isnull', 'in', 'range'],
+            "txnid": ['exact', 'iexact', 'contains', 'icontains', 'in'],
             "dn_code": ['exact', 'iexact', 'contains', 'icontains'],
             "bin_name": ['exact', 'iexact', 'contains', 'icontains'],
             "goods_code": ['exact', 'iexact', 'contains', 'icontains'],

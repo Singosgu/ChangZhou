@@ -2351,12 +2351,22 @@ def get_mian_dan(request):
     for i in dn_list:
         try:
             res = requests.get('https://api.teapplix.com/api2/Shipment?ReturnLabel=1&TxnId=' + i.txnid,
-                               headers=headers).json()
-            i.mian_dan = res[0].get('LabelData', '').replace(" ", "")
-            i.save()
-            decoded_data = base64.b64decode(res)
-            with open(str(settings.BASE_DIR) + '/media/miandan/' + str(i.get('TxnId', '')) + '.pdf', 'wb') as file:
-                file.write(decoded_data)
+                               headers=headers).json().get('Items', '')
+            if len(res) > 0:
+                i.carrier = res[0].get('TrackingInfo', '').get('CarrierName')
+                i.trackingnumber = res[0].get('TrackingInfo', '').get('TrackingNumber')
+                i.mian_dan = res[0].get('LabelData', '').replace(" ", "")
+                i.have_mian_dan = True
+                DnDetailModel.objects.filter(txnid=i.txnid).update(
+                    carrier=res[0].get('TrackingInfo', '').get('CarrierName'),
+                    trackingnumber=res[0].get('TrackingInfo', '').get('TrackingNumber'),
+                    mian_dan=res[0].get('LabelData', '').replace(" ", ""),
+                    have_mian_dan=True
+                )
+                i.save()
+                decoded_data = base64.b64decode(res)
+                with open(str(settings.BASE_DIR) + '/media/miandan/' + str(i.get('TxnId', '')) + '.pdf', 'wb') as file:
+                    file.write(decoded_data)
         except:
             pass
         finally:
