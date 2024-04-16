@@ -1495,6 +1495,7 @@ class BinViewSet(views.APIView):
                         continue
                     else:
                         bar_code = Md5.md5(str(df.iloc[i][0]).strip())
+                        binset.objects.filter(openid=self.request.auth.openid).delete()
                         if binset.objects.filter(openid=self.request.auth.openid,
                                                  bin_name=str(df.iloc[i][0].strip()),
                                                  ).exists() is False:
