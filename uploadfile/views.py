@@ -1392,9 +1392,10 @@ class StockInitViewSet(views.APIView):
                     if str(df.iloc[i][0]) == 'nan':
                         continue
                     else:
-                        try:
-                            bin_level = int(str(df.iloc[i][0]).strip().split('-')[2]) + 1
-                        except:
+                        bin_data = binset.objects.filter(openid=self.request.auth.openid, bin_name=str(df.iloc[i][0]).strip())
+                        if bin_data.exists():
+                            bin_level = bin_data.first().bin_level
+                        else:
                             bin_level = 1
                         stockbin.objects.create(openid=self.request.auth.openid,
                                                 bin_name=str(df.iloc[i][0]).strip(),
