@@ -8,22 +8,18 @@ const baseurl = window.g.BaseUrl
 
 const axiosInstance = axios.create({
   baseURL: baseurl,
-  timeout: 60000
 })
 
 const axiosInstanceVersion = axios.create({
   baseURL: baseurl,
-  timeout: 60000
 })
 
 const axiosInstanceAuth = axios.create({
   baseURL: baseurl,
-  timeout: 60000
 })
 
 const axiosInstanceAuthScan = axios.create({
   baseURL: baseurl,
-  timeout: 60000
 })
 
 var lang = LocalStorage.getItem('lang')

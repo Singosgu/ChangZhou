@@ -291,9 +291,14 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                         total_weight_list.append(round(goods_detail.goods_weight * int(p.get('Quantity', '')) / 1000, 4))
                         total_volume_list.append(round(goods_detail.unit_volume * int(p.get('Quantity', '')) / 1000 / 1000 / 1000, 4))
                         total_cost_list.append(round(goods_detail.goods_price * int(p.get('Quantity', '')), 2))
+                    order_line = 1
+                    if len(j.get('OrderItems', '')) == 1 and j.get('OrderItems', '')[0].get('Quantity', '') == 1:
+                        order_line = 1
+                    else:
+                        order_line = 2
                     DnListModel.objects.create(
                         txnid=j.get('TxnId', ''),
-                        order_line=len(j.get('OrderItems', '')),
+                        order_line=order_line,
                         order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', ''),
                         tp_detail=j,
                         dn_code=dn_code,
@@ -322,13 +327,13 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                         DnDetailModel.objects.create(
                             openid=data.get('openid', ''),
                             txnid=j.get('TxnId', ''),
+                            order_line=order_line,
                             order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', ''),
-                            carrier=j.get('ShippingDetails', '')[0].get('Package', '').get('TrackingInfo', '').get('CarrierName', ''),
                             dn_code=dn_code,
                             customer=j.get('To', '').get('Name', ''),
                             goods_code=goods_detail.goods_code,
                             goods_desc=goods_detail.goods_desc,
-                            goods_qty=k.get('Quantity'),
+                            goods_qty=k.get('Quantity', ''),
                             goods_weight=round(goods_detail.goods_weight * k.get('Quantity') / 1000, 4),
                             goods_volume=round(goods_detail.unit_volume * k.get('Quantity') / 1000 / 1000 / 1000, 4),
                             goods_cost=round(goods_detail.goods_price * k.get('Quantity'), 2),

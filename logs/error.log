@@ -54870,3 +54870,13 @@ Traceback (most recent call last):
     assert renderer, ".accepted_renderer not set on Response"
 AssertionError: .accepted_renderer not set on Response
 [2024-04-15 20:32:25,378][django.server.log_message():157] [ERROR] "GET /dn/getmiandan/ HTTP/1.1" 500 81365
+[2024-04-16 11:51:58,707][django.request.log_response():224] [ERROR] Internal Server Error: /dn/getmiandan/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\Github_desktop\ChangZhou\dn\views.py", line 2352, in get_mian_dan
+    for i in len(range(dn_list)):
+TypeError: 'QuerySet' object cannot be interpreted as an integer
+[2024-04-16 11:51:58,803][django.server.log_message():157] [ERROR] "POST /dn/getmiandan/ HTTP/1.1" 500 79238

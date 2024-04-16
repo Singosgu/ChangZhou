@@ -1,6 +1,6 @@
 from dateutil.relativedelta import relativedelta
 from rest_framework import viewsets
-from .models import DnListModel, DnDetailModel, PickingListModel
+from .models import DnListModel, DnDetailModel, PickingListModel, CarrierList
 from . import serializers
 from .page import MyPageNumberPaginationDNList
 from utils.page import MyPageNumberPagination
@@ -2341,37 +2341,42 @@ class PickListDownloadView(viewsets.ModelViewSet):
 import requests, base64
 from django.conf import settings
 def get_mian_dan(request):
-    dn_list = DnListModel.objects.filter(mian_dan='')
-    headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
-        'APItoken': 'e7d82-0913c-5fe10-603c2-be99e-a42e9-a837'
-    }
-    for i in dn_list:
-        try:
-            res = requests.get('https://api.teapplix.com/api2/Shipment?ReturnLabel=1&TxnId=' + i.txnid,
-                               headers=headers).json().get('Items', '')
-            if len(res) > 0:
-                i.carrier = res[0].get('TrackingInfo', '').get('CarrierName')
-                i.trackingnumber = res[0].get('TrackingInfo', '').get('TrackingNumber')
-                i.mian_dan = res[0].get('LabelData', '').replace(" ", "")
-                i.have_mian_dan = True
-                DnDetailModel.objects.filter(txnid=i.txnid).update(
-                    carrier=res[0].get('TrackingInfo', '').get('CarrierName'),
-                    trackingnumber=res[0].get('TrackingInfo', '').get('TrackingNumber'),
-                    mian_dan=res[0].get('LabelData', '').replace(" ", ""),
-                    have_mian_dan=True
-                )
-                i.save()
-                decoded_data = base64.b64decode(res)
-                with open(str(settings.BASE_DIR) + '/media/miandan/' + str(i.get('TxnId', '')) + '.pdf', 'wb') as file:
-                    file.write(decoded_data)
-        except:
-            pass
-        finally:
-            pass
-    return JsonResponse({"detail": "success"}, status=200)
+    if request.method.lower() == 'post':
+        dn_list = DnListModel.objects.filter(openid=request.META.get('HTTP_TOKEN'), mian_dan='')
+        headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
+            'APItoken': 'e7d82-0913c-5fe10-603c2-be99e-a42e9-a837'
+        }
+        for i in range(len((dn_list))):
+            try:
+                res = requests.get('https://api.teapplix.com/api2/Shipment?ReturnLabel=1&TxnId=' + dn_list[i].txnid,
+                                   headers=headers).json().get('Items', '')
+                if len(res) > 0:
+                    dn_list[i].carrier = res[0].get('TrackingInfo', '').get('CarrierName')
+                    dn_list[i].trackingnumber = res[0].get('TrackingInfo', '').get('TrackingNumber')
+                    dn_list[i].mian_dan = res[0].get('LabelData', '').replace(" ", "")
+                    dn_list[i].have_mian_dan = True
+                    if CarrierList.objects.filter().exists() is False:
+                        CarrierList.objects.create(
+                            carrier=res[0].get('TrackingInfo', '').get('CarrierName')
+                        )
+                    DnDetailModel.objects.filter(txnid=dn_list[i].txnid).update(
+                        carrier=res[0].get('TrackingInfo', '').get('CarrierName'),
+                        trackingnumber=res[0].get('TrackingInfo', '').get('TrackingNumber'),
+                        mian_dan=res[0].get('LabelData', '').replace(" ", ""),
+                        have_mian_dan=True
+                    )
+                    dn_list[i].save()
+                    decoded_data = base64.b64decode(res)
+                    with open(str(settings.BASE_DIR) + '/media/miandan/' + str(i.get('TxnId', '')) + '.pdf', 'wb') as file:
+                        file.write(decoded_data)
+            except:
+                pass
+            finally:
+                pass
+        return JsonResponse({"detail": "success"}, status=200)
 
 class confirmOrdersViewSet(viewsets.ModelViewSet):
     """

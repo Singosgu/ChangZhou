@@ -154,13 +154,13 @@
           />
           <q-select v-model="filterData.order_type" outlined :options="order_type_list" label="发货方式" style="width: 150px"/>
           <q-select v-model="filterData.carrier" outlined :options="carrier_list" label="承运人" style="width: 150px"/>
-<!--          <q-input-->
-<!--            v-model="filterData.sku"-->
-<!--            filled-->
-<!--            autogrow-->
-<!--            label="SKU"-->
-<!--            style="width: 150px"-->
-<!--          />-->
+          <q-input
+            v-model="filterData.sku"
+            filled
+            autogrow
+            label="SKU"
+            style="width: 150px"
+          />
           <q-btn label="筛选" @click="sortData()"></q-btn>
           <q-btn label="清空" @click="filterDataClear()"></q-btn>
 <!--          <q-input-->
@@ -1587,13 +1587,13 @@ export default {
           align: 'left',
           field: 'order_type'
         },
-        // {
-        //   name: 'dn_code',
-        //   required: true,
-        //   label: this.$t('outbound.view_dn.dn_code'),
-        //   align: 'left',
-        //   field: 'dn_code'
-        // },
+        {
+          name: 'trackingnumber',
+          required: true,
+          label: '面单号',
+          align: 'left',
+          field: 'trackingnumber'
+        },
         {
           name: 'comments',
           label: '备注',
@@ -1837,8 +1837,10 @@ export default {
     },
     get_mian_dan () {
       var _this = this
-      getauth(_this.pathname + 'getmiandan/', {})
+      postauth(_this.pathname + 'getmiandan/', _this.filterData)
         .then((res) => {
+          console.log(res)
+          _this.$q.loading.hide()
           this.$q.notify({
             message: '获取面单结束',
             color: 'green',
