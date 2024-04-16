@@ -1502,6 +1502,7 @@ class BinViewSet(views.APIView):
                                                   bin_name=str(df.iloc[i][0].strip()),
                                                   bin_size=str(df.iloc[i][1].strip()),
                                                   bin_property=str(df.iloc[i][2].strip()),
+                                                  bin_level=int(str(df.iloc[i][3].strip())),
                                                   creater=staff_name,
                                                   bar_code=bar_code
                                                   )
