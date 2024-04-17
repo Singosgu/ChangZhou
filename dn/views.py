@@ -89,10 +89,7 @@ class DnListViewSet(viewsets.ModelViewSet):
                 query_dict['order_type'] = order_type_search
             order_line_search = self.request.GET.get('order_line', '')
             if order_line_search:
-                if order_line_search == '单件':
-                    query_dict['order_line'] = 1
-                else:
-                    query_dict['order_line'] = 2
+                query_dict['order_line'] = int(order_line_search)
             carrier_search = self.request.GET.get('carrier', '')
             if carrier_search:
                 query_dict['carrier'] = carrier_search
@@ -648,10 +645,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                 query_dict['order_type'] = order_type_search
             order_line_search = self.request.GET.get('order_line', '')
             if order_line_search:
-                if order_line_search == '单件':
-                    query_dict['order_line'] = 1
-                else:
-                    query_dict['order_line'] = 2
+                query_dict['order_line'] = int(order_line_search)
             carrier_search = self.request.GET.get('carrier', '')
             if carrier_search:
                 query_dict['carrier'] = carrier_search
@@ -2367,10 +2361,7 @@ class PickListDownloadView(viewsets.ModelViewSet):
                 query_dict['order_type'] = order_type_search
             order_line_search = self.request.GET.get('order_line', '')
             if order_line_search:
-                if order_line_search == '单件':
-                    query_dict['order_line'] = 1
-                else:
-                    query_dict['order_line'] = 2
+                query_dict['order_line'] = int(order_line_search)
             carrier_search = self.request.GET.get('carrier', '')
             if carrier_search:
                 query_dict['carrier'] = carrier_search

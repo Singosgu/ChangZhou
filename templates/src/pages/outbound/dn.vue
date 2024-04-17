@@ -1908,7 +1908,12 @@ export default {
       var _this = this
       var txnid_search = this.txnid_list_data
       var order_type_search = this.order_type_data
-      var order_line_search = this.order_line
+      var order_line_search = 1
+      if (this.order_line === '单件') {
+        order_line_search = 1
+      } else {
+        order_line_search = 2
+      }
       var carrier_search = this.carrier_data
       var sku_search = this.sku_list_data
       if (LocalStorage.has('auth')) {
@@ -2013,7 +2018,12 @@ export default {
       var _this = this
       var txnid_search = this.txnid_list_data
       var order_type_search = this.order_type_data
-      var order_line_search = this.order_line
+      var order_line_search = 1
+      if (this.order_line === '单件') {
+        order_line_search = 1
+      } else {
+        order_line_search = 2
+      }
       var carrier_search = this.carrier_data
       var sku_search = this.sku_list_data
       if (LocalStorage.has('auth')) {
