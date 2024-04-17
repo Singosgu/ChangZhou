@@ -247,10 +247,10 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                 headers=headers).json().get('Orders')
             for v in get_order:
                 for x in v.get('OrderItems', ''):
-                    if goods.objects.filter(goods_code=x.get('Name', ''), is_delete=False).exists() is False:
-                        goods_bar_code = Md5.md5(x.get('Name', ''))
+                    if goods.objects.filter(goods_code=x.get('ItemSKU', ''), is_delete=False).exists() is False:
+                        goods_bar_code = Md5.md5(x.get('ItemSKU', ''))
                         goods.objects.create(
-                            goods_code=x.get('Name', ''),
+                            goods_code=x.get('ItemSKU', ''),
                             goods_desc='N/A',
                             goods_supplier='N/A',
                             goods_unit='N/A',
@@ -264,7 +264,7 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                             bar_code=goods_bar_code,
                             openid=data.get('openid')
                         )
-                        scanner.objects.create(openid=data.get('openid', ''), mode="GOODS", code=x.get('Name', ''),
+                        scanner.objects.create(openid=data.get('openid', ''), mode="GOODS", code=x.get('ItemSKU', ''),
                                                bar_code=goods_bar_code)
             for j in get_order:
                 qs_set = DnListModel.objects.filter(is_delete=False)
@@ -287,7 +287,7 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                     if j.get('ShippingDetails', '')[0].get('Package', '').get('Method', '') != 'SpecialShip':
                         priority = 2
                     for p in j.get('OrderItems', ''):
-                        goods_detail = goods.objects.filter(goods_code=p.get('Name', '')).first()
+                        goods_detail = goods.objects.filter(goods_code=p.get('ItemSKU', '')).first()
                         total_weight_list.append(round(goods_detail.goods_weight * int(p.get('Quantity', '')) / 1000, 4))
                         total_volume_list.append(round(goods_detail.unit_volume * int(p.get('Quantity', '')) / 1000 / 1000 / 1000, 4))
                         total_cost_list.append(round(goods_detail.goods_price * int(p.get('Quantity', '')), 2))
@@ -323,7 +323,7 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                             creater=self.request.auth.name
                         )
                     for k in j.get('OrderItems', ''):
-                        goods_detail = goods.objects.filter(goods_code=k.get('Name', '')).first()
+                        goods_detail = goods.objects.filter(goods_code=k.get('ItemSKU', '')).first()
                         DnDetailModel.objects.create(
                             openid=data.get('openid', ''),
                             txnid=j.get('TxnId', ''),
