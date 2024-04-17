@@ -1392,73 +1392,77 @@ class StockInitViewSet(views.APIView):
                     if str(df.iloc[i][0]) == 'nan':
                         continue
                     else:
-                        bin_data = binset.objects.filter(openid=self.request.auth.openid, bin_name=str(df.iloc[i][0]).strip())
-                        if bin_data.exists():
-                            bin_level = bin_data.first().bin_level
-                        else:
-                            bin_level = 1
-                        stockbin.objects.create(openid=self.request.auth.openid,
-                                                bin_name=str(df.iloc[i][0]).strip(),
-                                                goods_code=str(df.iloc[i][1]).strip(),
-                                                goods_desc=str(df.iloc[i][2]).strip(),
-                                                goods_qty=int(str(df.iloc[i][3]).strip()),
-                                                pick_qty=int(str(df.iloc[i][4]).strip()),
-                                                picked_qty=int(str(df.iloc[i][5]).strip()),
-                                                bin_size=str(df.iloc[i][6]).strip(),
-                                                bin_property=str(df.iloc[i][7]).strip(),
-                                                bin_level=bin_level,
-                                                t_code=Md5.md5(str(df.iloc[i][0]).strip() + str(df.iloc[i][1]).strip() + randomMd5()),
-                                                create_time=timezone.now()
-                                                )
-                        stock_list = stocklist.objects.filter(openid=self.request.auth.openid, goods_code=str(df.iloc[i][1]).strip())
-                        if stock_list.exists():
-                            stock_list_detail = stock_list.first()
-                            stock_list_detail.goods_qty = stock_list_detail.goods_qty + int(
-                                str(df.iloc[i][3]).strip())
-                            stock_list_detail.onhand_stock = stock_list_detail.onhand_stock + int(
-                                str(df.iloc[i][3]).strip())
-                            if str(df.iloc[i][7]).strip() == 'Damage':
-                                stock_list_detail.damage_stock = stock_list_detail.damage_stock + int(str(df.iloc[i][3]).strip())
-                            elif str(df.iloc[i][7]).strip() == 'Inspection':
-                                stock_list_detail.inspect_stock = stock_list_detail.inspect_stock + int(str(df.iloc[i][3]).strip())
-                            elif str(df.iloc[i][7]).strip() == 'Holding':
-                                stock_list_detail.hold_stock = stock_list_detail.hold_stock + int(str(df.iloc[i][3]).strip())
-                            elif str(df.iloc[i][7]).strip() == 'Normal':
-                                stock_list_detail.can_order_stock = stock_list_detail.can_order_stock + int(str(df.iloc[i][3]).strip())
-                            stock_list_detail.save()
-                        else:
-                            if str(df.iloc[i][7]).strip() == 'Damage':
-                                stocklist.objects.create(openid=self.request.auth.openid,
-                                                         goods_code=str(df.iloc[i][1]).strip(),
-                                                         goods_desc=str(df.iloc[i][2]).strip(),
-                                                         goods_qty=int(str(df.iloc[i][3]).strip()),
-                                                         onhand_stock=int(str(df.iloc[i][3]).strip()),
-                                                         damage_stock=int(str(df.iloc[i][3]).strip()),
-                                                         )
-                            elif str(df.iloc[i][7]).strip() == 'Inspection':
-                                stocklist.objects.create(openid=self.request.auth.openid,
-                                                         goods_code=str(df.iloc[i][1]).strip(),
-                                                         goods_desc=str(df.iloc[i][2]).strip(),
-                                                         goods_qty=int(str(df.iloc[i][3]).strip()),
-                                                         onhand_stock=int(str(df.iloc[i][3]).strip()),
-                                                         inspect_stock=int(str(df.iloc[i][3]).strip()),
-                                                         )
-                            elif str(df.iloc[i][7]).strip() == 'Holding':
-                                stocklist.objects.create(openid=self.request.auth.openid,
-                                                         goods_code=str(df.iloc[i][1]).strip(),
-                                                         goods_desc=str(df.iloc[i][2]).strip(),
-                                                         goods_qty=int(str(df.iloc[i][3]).strip()),
-                                                         onhand_stock=int(str(df.iloc[i][3]).strip()),
-                                                         hold_stock=int(str(df.iloc[i][3]).strip())
-                                                         )
-                            elif str(df.iloc[i][7]).strip() == 'Normal':
-                                stocklist.objects.create(openid=self.request.auth.openid,
-                                                         goods_code=str(df.iloc[i][1]).strip(),
-                                                         goods_desc=str(df.iloc[i][2]).strip(),
-                                                         goods_qty=int(str(df.iloc[i][3]).strip()),
-                                                         onhand_stock=int(str(df.iloc[i][3]).strip()),
-                                                         can_order_stock=int(str(df.iloc[i][3]).strip())
-                                                         )
+                        bin_level = 1
+                        init_stock = []
+                        stock_init = stockbin(openid=self.request.auth.openid,
+                                              bin_name=str(df.iloc[i][0]).strip(),
+                                              goods_code=str(df.iloc[i][1]).strip(),
+                                              goods_desc=str(df.iloc[i][2]).strip(),
+                                              goods_qty=int(str(df.iloc[i][3]).strip()),
+                                              pick_qty=int(str(df.iloc[i][4]).strip()),
+                                              picked_qty=int(str(df.iloc[i][5]).strip()),
+                                              bin_size=str(df.iloc[i][6]).strip(),
+                                              bin_property=str(df.iloc[i][7]).strip(),
+                                              bin_level=bin_level,
+                                              t_code=Md5.md5(str(df.iloc[i][0]).strip() + str(df.iloc[i][1]).strip() + randomMd5()),
+                                              create_time=timezone.now()
+                                              )
+                        init_stock.append(stock_init)
+                        stockbin.objects.bulk_create(init_stock, batch_size=100)
+                stockbin_list = stockbin.objects.filter(openid=self.request.auth.openid)
+                for k in stockbin_list:
+                    stock_list = stocklist.objects.filter(openid=self.request.auth.openid, goods_code=k.goods_code)
+                    if stock_list.exists():
+                        stock_list_detail = stock_list.first()
+                        stock_list_detail.goods_qty = stock_list_detail.goods_qty + k.goods_qty
+                        stock_list_detail.onhand_stock = stock_list_detail.onhand_stock + k.goods_qty
+                        if k.bin_property == 'Damage':
+                            stock_list_detail.damage_stock = stock_list_detail.damage_stock + k.goods_qty
+                        elif k.bin_property == 'Inspection':
+                            stock_list_detail.inspect_stock = stock_list_detail.inspect_stock + k.goods_qty
+                        elif k.bin_property == 'Holding':
+                            stock_list_detail.hold_stock = stock_list_detail.hold_stock + k.goods_qty
+                        elif k.bin_property == 'Normal':
+                            stock_list_detail.can_order_stock = stock_list_detail.can_order_stock + k.goods_qty
+                        stock_list_detail.save()
+                    else:
+                        if k.bin_property == 'Damage':
+                            stocklist.objects.create(openid=self.request.auth.openid,
+                                                     goods_code=k.goods_code,
+                                                     goods_desc=k.goods_desc,
+                                                     goods_qty=k.goods_qty,
+                                                     onhand_stock=k.goods_qty,
+                                                     damage_stock=k.goods_qty,
+                                                     )
+                        elif k.bin_property == 'Inspection':
+                            stocklist.objects.create(openid=self.request.auth.openid,
+                                                     goods_code=k.goods_code,
+                                                     goods_desc=k.goods_desc,
+                                                     goods_qty=k.goods_qty,
+                                                     onhand_stock=k.goods_qty,
+                                                     inspect_stock=k.goods_qty
+                                                     )
+                        elif k.bin_property == 'Holding':
+                            stocklist.objects.create(openid=self.request.auth.openid,
+                                                     goods_code=k.goods_code,
+                                                     goods_desc=k.goods_desc,
+                                                     goods_qty=k.goods_qty,
+                                                     onhand_stock=k.goods_qty,
+                                                     hold_stock=k.goods_qty
+                                                     )
+                        elif k.bin_property == 'Normal':
+                            stocklist.objects.create(openid=self.request.auth.openid,
+                                                     goods_code=k.goods_code,
+                                                     goods_desc=k.goods_desc,
+                                                     goods_qty=k.goods_qty,
+                                                     onhand_stock=k.goods_qty,
+                                                     can_order_stock=k.goods_qty
+                                                     )
+                bin_data = binset.objects.filter(openid=self.request.auth.openid, is_delete=False)
+                for x in bin_data:
+                    stock_bin_update_data = stockbin.objects.filter(openid=self.request.auth.openid, bin_name=x.bin_name)
+                if stock_bin_update_data.exists():
+                    stock_bin_update_data.update(bin_level=x.bin_level)
             else:
                 raise APIException({"detail": "Can Not Support This File Type"})
         else:

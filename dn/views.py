@@ -738,15 +738,13 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                 bin_can_pick_qty = goods_bin_stock_list[j].goods_qty - \
                                                    goods_bin_stock_list[j].pick_qty
                                 if bin_can_pick_qty > 0:
-                                    goods_bin_stock_list[j].pick_qty = goods_bin_stock_list[
-                                                                           j].pick_qty + bin_can_pick_qty
+                                    goods_bin_stock_list[j].pick_qty = goods_bin_stock_list[j].pick_qty + bin_can_pick_qty
                                     goods_qty_change.ordered_stock = goods_qty_change.ordered_stock - bin_can_pick_qty
                                     goods_qty_change.pick_stock = goods_qty_change.pick_stock + bin_can_pick_qty
                                     picking_list.append(PickingListModel(openid=self.request.auth.openid,
                                                                          dn_code=dn_detail_list[i].dn_code,
                                                                          bin_name=goods_bin_stock_list[j].bin_name,
-                                                                         goods_code=goods_bin_stock_list[
-                                                                             j].goods_code,
+                                                                         goods_code=goods_bin_stock_list[j].goods_code,
                                                                          pick_qty=bin_can_pick_qty,
                                                                          creater=str(staff_name),
                                                                          t_code=goods_bin_stock_list[j].t_code))
