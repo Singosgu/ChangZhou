@@ -1828,13 +1828,14 @@ export default {
     },
     confirmOrders () {
       var _this = this
-      getauth(_this.pathname + 'confirmorders/', {})
+      postauth(_this.pathname + 'confirmorders/', {})
         .then((res) => {
           this.$q.notify({
             message: '确认订单完成',
             color: 'green',
             icon: 'check'
           })
+          this.getList()
         })
         .catch((err) => {
           _this.$q.notify({
@@ -1853,6 +1854,7 @@ export default {
             color: 'green',
             icon: 'check'
           })
+          _this.getList()
         })
         .catch((err) => {
           _this.$q.notify({
@@ -2581,7 +2583,6 @@ export default {
       // this.$q.loading.show({ message: '确认中' })
       postauth(_this.pathname + 'orderrelease/', {})
         .then((res) => {
-          console.log(res)
           _this.table_list = []
           _this.getList()
           _this.$q.notify({

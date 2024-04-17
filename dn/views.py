@@ -689,7 +689,6 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
         qs = self.get_queryset()
         staff_name = staff.objects.filter(openid=self.request.auth.openid,
                                           id=self.request.META.get('HTTP_OPERATOR')).first().staff_name
-        print(1)
         for v in range(len(qs)):
             dn_detail_list = DnDetailModel.objects.filter(openid=self.request.auth.openid, dn_code=qs[v].dn_code,
                                                           dn_status=2, is_delete=False)
@@ -707,7 +706,6 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
             total_weight = qs[v].total_weight
             total_volume = qs[v].total_volume
             total_cost = qs[v].total_cost
-            print(2)
             for i in range(len(dn_detail_list)):
                 goods_detail = goods.objects.filter(
                                                     goods_code=str(dn_detail_list[i].goods_code),
@@ -729,7 +727,6 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                goods_qty_change.hold_stock - \
                                goods_qty_change.damage_stock - \
                                goods_qty_change.pick_stock
-                print(3)
                 if can_pick_qty > 0:
                     if dn_detail_list[i].goods_qty > can_pick_qty:
                         if qs[v].back_order_label is False:
@@ -2514,7 +2511,6 @@ class confirmOrdersViewSet(viewsets.ModelViewSet):
                 query_dict['openid'] = self.request.auth.openid
             if id is not None:
                 query_dict['id'] = id
-            print(query_dict)
             return DnListModel.objects.filter(**query_dict)
         else:
             return DnListModel.objects.none()
