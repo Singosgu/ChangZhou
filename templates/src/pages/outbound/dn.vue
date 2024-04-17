@@ -1815,6 +1815,9 @@ export default {
       } else {
         _this.sku_list_data = []
       }
+      this.order_type_data = this.filterData.order_type
+      this.order_line = this.filterData.order_line
+      this.carrier_data = this.filterData.carrier
       _this.getList()
     },
     filterDataClear () {

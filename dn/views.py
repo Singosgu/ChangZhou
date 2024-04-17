@@ -2525,7 +2525,6 @@ class confirmOrdersViewSet(viewsets.ModelViewSet):
         qs_list = self.get_queryset()
         for i in range(len(qs_list)):
             qs = qs_list[i]
-            print(qs.txnid)
             if qs.openid != self.request.auth.openid:
                 raise APIException({"detail": "Cannot delete data which not yours"})
             else:
@@ -2534,10 +2533,10 @@ class confirmOrdersViewSet(viewsets.ModelViewSet):
                                                                     dn_status=1, is_delete=False).exists():
                         qs.dn_status = 2
                         dn_detail_list = DnDetailModel.objects.filter(openid=self.request.auth.openid, dn_code=qs.dn_code,
-                                                                        dn_status=1, is_delete=False)
+                                                                      dn_status=1, is_delete=False)
                         for i in range(len(dn_detail_list)):
                             if stocklist.objects.filter(openid=self.request.auth.openid,
-                                                                        goods_code=str(dn_detail_list[i].goods_code)).exists():
+                                                        goods_code=str(dn_detail_list[i].goods_code)).exists():
                                 pass
                             else:
                                 goods_detail = goods.objects.filter(goods_code=str(dn_detail_list[i].goods_code)).first()
