@@ -93,23 +93,29 @@ class DnListViewSet(viewsets.ModelViewSet):
                     query_dict['order_line'] = 1
                 else:
                     query_dict['order_line'] = 2
-            carrier_search = self.request.GET.get('carrier_search', '')
+            carrier_search = self.request.GET.get('carrier', '')
             if carrier_search:
                 query_dict['carrier'] = carrier_search
+            list_qs = DnListModel.objects.filter(Q(**query_dict) & ~Q(customer=''))
             sku_search = self.request.GET.get('sku_search__in', '')
             if sku_search:
-                query_dict_detail = {'goods_code__in': sku_search.split(',')}
-            list_qs = DnListModel.objects.filter(Q(**query_dict) & ~Q(customer=''))
-            detail_qs = DnDetailModel.objects.filter(Q(**query_dict) & ~Q(customer='') & Q(**query_dict_detail))
-            check_txnid = []
-            for x in detail_qs:
-                if list_qs.filter(txnid=x.txnid).exists() is False:
-                    if x.txnid in check_txnid:
-                        pass
-                    else:
-                        check_txnid.append(x.txnid)
-            new_list_qs = DnListModel.objects.filter(txnid__in=check_txnid)
-            result = list_qs | new_list_qs
+                query_dict['goods_code__in'] = sku_search.split(',')
+                detail_qs = DnDetailModel.objects.filter(Q(**query_dict) & ~Q(customer=''))
+                check_txnid = []
+                for x in detail_qs:
+                    if x.txnid != '':
+                        if x.txnid in check_txnid:
+                            pass
+                        else:
+                            if list_qs.filter(txnid=x.txnid).exists() is False:
+                                check_txnid.append(x.txnid)
+                if len(check_txnid) > 0:
+                    new_list_qs = DnListModel.objects.filter(txnid__in=check_txnid)
+                    result = list_qs | new_list_qs
+                else:
+                    result = list_qs
+            else:
+                result = list_qs
             return result.order_by('-update_time')
         else:
             return DnListModel.objects.none()
@@ -628,7 +634,6 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                 superopenid = u.openid
             query_dict = {'dn_status': 2, 'is_delete': False}
             vip_level = self.request.auth.vip
-            query_dict = {'is_delete': False}
             if vip_level == 9:
                 pass
             else:
@@ -647,23 +652,29 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                     query_dict['order_line'] = 1
                 else:
                     query_dict['order_line'] = 2
-            carrier_search = self.request.GET.get('carrier_search', '')
+            carrier_search = self.request.GET.get('carrier', '')
             if carrier_search:
                 query_dict['carrier'] = carrier_search
+            list_qs = DnListModel.objects.filter(Q(**query_dict) & ~Q(customer=''))
             sku_search = self.request.GET.get('sku_search__in', '')
             if sku_search:
-                query_dict_detail = {'goods_code__in': sku_search.split(',')}
-            list_qs = DnListModel.objects.filter(Q(**query_dict) & ~Q(customer=''))
-            detail_qs = DnDetailModel.objects.filter(Q(**query_dict) & ~Q(customer='') & Q(**query_dict_detail))
-            check_txnid = []
-            for x in detail_qs:
-                if list_qs.filter(txnid=x.txnid).exists() is False:
-                    if x.txnid in check_txnid:
-                        pass
-                    else:
-                        check_txnid.append(x.txnid)
-            new_list_qs = DnListModel.objects.filter(txnid__in=check_txnid)
-            result = list_qs | new_list_qs
+                query_dict['goods_code__in'] = sku_search.split(',')
+                detail_qs = DnDetailModel.objects.filter(Q(**query_dict) & ~Q(customer=''))
+                check_txnid = []
+                for x in detail_qs:
+                    if x.txnid != '':
+                        if x.txnid in check_txnid:
+                            pass
+                        else:
+                            if list_qs.filter(txnid=x.txnid).exists() is False:
+                                check_txnid.append(x.txnid)
+                if len(check_txnid) > 0:
+                    new_list_qs = DnListModel.objects.filter(txnid__in=check_txnid)
+                    result = list_qs | new_list_qs
+                else:
+                    result = list_qs
+            else:
+                result = list_qs
             return result.order_by('-update_time')
         else:
             return DnListModel.objects.none()
@@ -678,6 +689,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
         qs = self.get_queryset()
         staff_name = staff.objects.filter(openid=self.request.auth.openid,
                                           id=self.request.META.get('HTTP_OPERATOR')).first().staff_name
+        print(1)
         for v in range(len(qs)):
             dn_detail_list = DnDetailModel.objects.filter(openid=self.request.auth.openid, dn_code=qs[v].dn_code,
                                                           dn_status=2, is_delete=False)
@@ -695,6 +707,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
             total_weight = qs[v].total_weight
             total_volume = qs[v].total_volume
             total_cost = qs[v].total_cost
+            print(2)
             for i in range(len(dn_detail_list)):
                 goods_detail = goods.objects.filter(
                                                     goods_code=str(dn_detail_list[i].goods_code),
@@ -716,6 +729,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                goods_qty_change.hold_stock - \
                                goods_qty_change.damage_stock - \
                                goods_qty_change.pick_stock
+                print(3)
                 if can_pick_qty > 0:
                     if dn_detail_list[i].goods_qty > can_pick_qty:
                         if qs[v].back_order_label is False:
@@ -2362,23 +2376,29 @@ class PickListDownloadView(viewsets.ModelViewSet):
                     query_dict['order_line'] = 1
                 else:
                     query_dict['order_line'] = 2
-            carrier_search = self.request.GET.get('carrier_search', '')
+            carrier_search = self.request.GET.get('carrier', '')
             if carrier_search:
                 query_dict['carrier'] = carrier_search
+            list_qs = DnListModel.objects.filter(Q(**query_dict) & ~Q(customer=''))
             sku_search = self.request.GET.get('sku_search__in', '')
             if sku_search:
-                query_dict_detail = {'goods_code__in': sku_search.split(',')}
-            list_qs = DnListModel.objects.filter(Q(**query_dict) & ~Q(customer=''))
-            detail_qs = DnDetailModel.objects.filter(Q(**query_dict) & ~Q(customer='')).filter(Q(**query_dict_detail) & ~Q(customer=''))
-            check_txnid = []
-            for x in detail_qs:
-                if list_qs.filter(txnid=x.txnid).exists() is False:
-                    if x.txnid in check_txnid:
-                        pass
-                    else:
-                        check_txnid.append(x.txnid)
-            new_list_qs = DnListModel.objects.filter(txnid__in=check_txnid)
-            result = list_qs | new_list_qs
+                query_dict['goods_code__in'] = sku_search.split(',')
+                detail_qs = DnDetailModel.objects.filter(Q(**query_dict) & ~Q(customer=''))
+                check_txnid = []
+                for x in detail_qs:
+                    if x.txnid != '':
+                        if x.txnid in check_txnid:
+                            pass
+                        else:
+                            if list_qs.filter(txnid=x.txnid).exists() is False:
+                                check_txnid.append(x.txnid)
+                if len(check_txnid) > 0:
+                    new_list_qs = DnListModel.objects.filter(txnid__in=check_txnid)
+                    result = list_qs | new_list_qs
+                else:
+                    result = list_qs
+            else:
+                result = list_qs
             return result.order_by('-update_time')
         else:
             return DnListModel.objects.none()

@@ -1848,9 +1848,7 @@ export default {
       var _this = this
       postauth(_this.pathname + 'getmiandan/', _this.filterData)
         .then((res) => {
-          console.log(res)
-          _this.$q.loading.hide()
-          this.$q.notify({
+          _this.$q.notify({
             message: '获取面单结束',
             color: 'green',
             icon: 'check'
@@ -1910,7 +1908,7 @@ export default {
       var sku_search = this.sku_list_data
       if (LocalStorage.has('auth')) {
         getfile(
-          `dn/picklistdownload/?lang=${LocalStorage.getItem('lang') + '&txnid__in=' + txnid_search + '&order_type=' + order_type_search + '&carrier=' + carrier_search + '&sku_search__in=' + sku_search + '&order_line=' + order_line_search}`
+          `dn/picklistdownload/?lang=${LocalStorage.getItem('lang') + '&txnid__in=' + txnid_search + '&order_type=' + order_type_search + '&carrier=' + carrier_search + '&sku_search__in=' + sku_search + '&order_line=' + order_line_search, {}}`
         ).then((res) => {
           var timeStamp = Date.now()
           var formattedString = date.formatDate(timeStamp, 'YYYYMMDDHHmmssSSS')
@@ -2581,19 +2579,16 @@ export default {
     orderreleaseAllData () {
       var _this = this
       // this.$q.loading.show({ message: '确认中' })
-      this.$q.loading.show({ message: this.$t('twoKai.confirming') })
       postauth(_this.pathname + 'orderrelease/', {})
         .then((res) => {
+          console.log(res)
           _this.table_list = []
-          _this.getList
-          this.$q.loading.hide()
-          if (!res.detail) {
-            _this.$q.notify({
-              message: 'Success Release All Order',
-              icon: 'check',
-              color: 'green'
-            })
-          }
+          _this.getList()
+          _this.$q.notify({
+            message: '全部生成拣货单成功',
+            icon: 'check',
+            color: 'green'
+          })
         })
         .catch((err) => {
           _this.$q.notify({

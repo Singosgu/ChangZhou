@@ -55002,3 +55002,75 @@ Traceback (most recent call last):
     detail_qs = DnDetailModel.objects.filter(Q(**query_dict) & ~Q(customer='') & Q(**query_dict_detail))
 UnboundLocalError: local variable 'query_dict_detail' referenced before assignment
 [2024-04-16 15:05:02,087][django.server.log_message():157] [ERROR] "GET /dn/list/?max_page=30&page=1&txnid__in=&order_type=&carrier=&sku_search__in=&order_line= HTTP/1.1" 500 113727
+[2024-04-17 07:41:02,305][django.request.log_response():224] [ERROR] Internal Server Error: /dn/list/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\mixins.py", line 38, in list
+    queryset = self.filter_queryset(self.get_queryset())
+  File "E:\Github_desktop\ChangZhou\dn\views.py", line 103, in get_queryset
+    detail_qs = DnDetailModel.objects.filter(Q(**query_dict) & ~Q(customer='') & Q(**query_dict_detail))
+UnboundLocalError: local variable 'query_dict_detail' referenced before assignment
+[2024-04-17 07:41:02,452][django.server.log_message():157] [ERROR] "GET /dn/list/?max_page=30&page=1&txnid__in=&order_type=&carrier=&sku_search__in=&order_line= HTTP/1.1" 500 113727
+[2024-04-17 07:43:11,845][django.request.log_response():224] [ERROR] Internal Server Error: /dn/list/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\mixins.py", line 38, in list
+    queryset = self.filter_queryset(self.get_queryset())
+  File "E:\Github_desktop\ChangZhou\dn\views.py", line 103, in get_queryset
+    detail_qs = DnDetailModel.objects.filter(Q(**query_dict) & ~Q(customer='') & Q(**query_dict_detail))
+UnboundLocalError: local variable 'query_dict_detail' referenced before assignment
+[2024-04-17 07:43:12,005][django.server.log_message():157] [ERROR] "GET /dn/list/?max_page=30&page=1&txnid__in=&order_type=&carrier=&sku_search__in=&order_line= HTTP/1.1" 500 113728
+[2024-04-17 08:08:38,734][django.request.log_response():224] [ERROR] Internal Server Error: /dn/list/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\mixins.py", line 38, in list
+    queryset = self.filter_queryset(self.get_queryset())
+  File "E:\Github_desktop\ChangZhou\dn\views.py", line 118, in get_queryset
+    result = list_qs | new_list_qs
+UnboundLocalError: local variable 'new_list_qs' referenced before assignment
+[2024-04-17 08:08:38,976][django.server.log_message():157] [ERROR] "GET /dn/list/?max_page=30&page=1&txnid__in=&order_type=&carrier=&sku_search__in=&order_line= HTTP/1.1" 500 114973

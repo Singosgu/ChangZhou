@@ -116,9 +116,7 @@ def picklist_file_headers():
         'goods_code',
         # 'picking_status',
         'pick_qty',
-        'picked_qty',
-        'create_time',
-        'update_time'
+        'picked_qty'
     ]
 
 def picklist_cn_data_header():
@@ -126,12 +124,10 @@ def picklist_cn_data_header():
         (['txnid', u'TxnId']),
         (['bin_name', u'库位名']),
         (['goods_code', u'SKU']),
-        (['picker', u'拣货员']),
         # (['picking_status', u'拣货单状态']),
         (['pick_qty', u'待拣货数量']),
         (['picked_qty', u'已拣货数量']),
-        (['create_time', u'创建时间']),
-        (['update_time', u'更新时间']),
+        (['picker', u'拣货员'])
     ])
 
 def picklist_en_data_header():
@@ -139,12 +135,10 @@ def picklist_en_data_header():
         (['txnid', u'TxnId']),
         (['bin_name', u'bin_name']),
         (['goods_code', u'SKU']),
-        (['picker', u'picker']),
         # (['picking_status', u'picking_status']),
         (['pick_qty', u'pick_qty']),
         (['picked_qty', u'picked_qty']),
-        (['create_time', u'create_time']),
-        (['update_time', u'update_time']),
+        (['picker', u'picker'])
     ])
 
 def dnlist_file_headers():
