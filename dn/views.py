@@ -2509,11 +2509,12 @@ class confirmOrdersViewSet(viewsets.ModelViewSet):
                 superopenid = None
             else:
                 superopenid = u.openid
-            query_dict = {'is_delete': False}
+            query_dict = {'dn_status': 1, 'is_delete': False}
             if self.request.auth.openid != superopenid:
                 query_dict['openid'] = self.request.auth.openid
             if id is not None:
                 query_dict['id'] = id
+            print(query_dict)
             return DnListModel.objects.filter(**query_dict)
         else:
             return DnListModel.objects.none()
@@ -2528,6 +2529,7 @@ class confirmOrdersViewSet(viewsets.ModelViewSet):
         qs_list = self.get_queryset()
         for i in range(len(qs_list)):
             qs = qs_list[i]
+            print(qs.txnid)
             if qs.openid != self.request.auth.openid:
                 raise APIException({"detail": "Cannot delete data which not yours"})
             else:
@@ -2560,8 +2562,8 @@ class confirmOrdersViewSet(viewsets.ModelViewSet):
                         qs.save()
                         serializer = self.get_serializer(qs, many=False)
                         headers = self.get_success_headers(serializer.data)
-                        return Response(serializer.data, status=200, headers=headers)
                     else:
                         raise APIException({"detail": "Please Enter The DN Detail"})
                 else:
                     raise APIException({"detail": "This DN Status Is Not Pre Order"})
+        return Response(serializer.data, status=200, headers=headers)
