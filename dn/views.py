@@ -1161,8 +1161,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                         scanner.objects.create(openid=self.request.auth.openid, mode="PSUM",
                                                                code=dn_detail_list[i].txnid,
                                                                bar_code=Md5.md5(
-                                                                   str(dn_detail_list[i].txnid) + random.randint(1,
-                                                                                                                 9999)))
+                                                                   str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
                                     picking_list.append(PickingListModel(openid=self.request.auth.openid,
                                                                          txnid=dn_detail_list[i].txnid,
                                                                          order_line=dn_detail_list[i].order_line,
