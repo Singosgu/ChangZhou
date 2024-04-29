@@ -11,68 +11,61 @@
     <router-view />
 
 <script>
-import { date, exportFile, LocalStorage } from 'quasar'
-import { getauth, postauth, putauth, deleteauth, getfile } from 'boot/axios_request'
+import { getauth, putauth } from 'boot/axios_request'
 
 export default {
-  name: 'Pageprinter',
+  name: 'Pagednprepick',
   data () {
     return {
+      current: 1,
+      page_count: 0,
       openid: '',
       login_name: '',
       authin: '0',
-      pathname: 'binsize/',
+      pathname: 'dn/pickinglistfilter/',
       pathname_previous: '',
       pathname_next: '',
       separator: 'cell',
       loading: false,
       height: '',
       table_list: [],
+      bin_size_list: [],
+      bin_property_list: [],
+      warehouse_list: [],
       columns: [
-        { name: 'bin_size', required: true, label: this.$t('warehouse.view_binsize.bin_size'), align: 'left', field: 'bin_size' },
-        { name: 'bin_size_w', label: this.$t('warehouse.view_binsize.bin_size_w'), field: 'bin_size_w', align: 'center' },
-        { name: 'bin_size_d', label: this.$t('warehouse.view_binsize.bin_size_d'), field: 'bin_size_d', align: 'center' },
-        { name: 'bin_size_h', label: this.$t('warehouse.view_binsize.bin_size_h'), field: 'bin_size_h', align: 'center' },
+        { name: 'txnid', required: true, label: 'TxnId', align: 'left', field: 'txnid' },
+        { name: 'bin_name', label: this.$t('warehouse.view_binset.bin_name'), field: 'bin_name', align: 'center' },
+        { name: 'goods_code', label: this.$t('goods.view_goodslist.goods_code'), field: 'goods_code', align: 'center' },
+        { name: 'pick_qty', label: this.$t('stock.view_stocklist.pick_stock'), field: 'pick_qty', align: 'center' },
+        { name: 'picked_qty', label: this.$t('stock.view_stocklist.picked_stock'), field: 'picked_qty', align: 'center' },
         { name: 'creater', label: this.$t('creater'), field: 'creater', align: 'center' },
         { name: 'create_time', label: this.$t('createtime'), field: 'create_time', align: 'center' },
-        { name: 'update_time', label: this.$t('updatetime'), field: 'update_time', align: 'center' },
-        { name: 'action', label: this.$t('action'), align: 'right' }
+        { name: 'update_time', label: this.$t('updatetime'), field: 'update_time', align: 'center' }
       ],
       filter: '',
       pagination: {
         page: 1,
-        rowsPerPage: '30'
+        rowsPerPage: '5000'
       },
-      newForm: false,
-      newFormData: {
-        bin_size: '',
-        bin_size_w: '',
-        bin_size_d: '',
-        bin_size_h: '',
-        creater: ''
-      },
-      editid: 0,
-      editFormData: {},
-      editMode: false,
-      deleteForm: false,
-      deleteid: 0,
-      error1: this.$t('warehouse.view_binsize.error1'),
-      error2: this.$t('warehouse.view_binsize.error2'),
-      error3: this.$t('warehouse.view_binsize.error3'),
-      error4: this.$t('warehouse.view_binsize.error4'),
-      printer: '',
-      printer_options: [],
+      scanData: [],
+      resData: '',
+      resMode: '',
+      submitForm: false,
+      scan_detail: [],
       miandan: '',
       scan_miandan: ''
     }
   },
   methods: {
-    getList () {
+    getList (e) {
       var _this = this
-      if (LocalStorage.has('auth')) {
-        getauth('http://127.0.0.1:8008/getprinter/', {
+      if (_this.$q.localStorage.has('auth')) {
+        getauth(_this.pathname + '?order_line=1&page=' + this.current + '&dn_code=' + '' + e + '&max_page=5000&picking_status=0', {
         }).then(res => {
-          _this.printer_options = res.results
+          _this.page_count = res.count
+          _this.table_list = res.results
+          _this.pathname_previous = res.previous
+          _this.pathname_next = res.next
         }).catch(err => {
           _this.$q.notify({
             message: err.detail,
@@ -83,17 +76,12 @@ export default {
       } else {
       }
     },
-    setPrinter () {
-      var _this = this
-      if (LocalStorage.has('auth')) {
-        _this.$q.localStorage.set('printer', _this.printer)
-      }
-    },
     getSearchList () {
       var _this = this
-      if (LocalStorage.has('auth')) {
-        getauth(_this.pathname + '?bin_size__icontains=' + _this.filter, {
+      if (_this.$q.localStorage.has('auth')) {
+        getauth(_this.pathname + '?dn_code__icontains=' + _this.filter + '&page=' + this.current, {
         }).then(res => {
+          _this.page_count = res.count
           _this.table_list = res.results
           _this.pathname_previous = res.previous
           _this.pathname_next = res.next
@@ -109,7 +97,7 @@ export default {
     },
     getListPrevious () {
       var _this = this
-      if (LocalStorage.has('auth')) {
+      if (_this.$q.localStorage.has('auth')) {
         getauth(_this.pathname_previous, {
         }).then(res => {
           _this.table_list = res.results
@@ -127,9 +115,8 @@ export default {
     },
     getListNext () {
       var _this = this
-      if (LocalStorage.has('auth')) {
-        getauth(_this.pathname_next, {
-        }).then(res => {
+      if (_this.$q.localStorage.has('auth')) {
+        getauth(_this.pathname_next, {}).then(res => {
           _this.table_list = res.results
           _this.pathname_previous = res.previous
           _this.pathname_next = res.next
@@ -140,194 +127,186 @@ export default {
             color: 'negative'
           })
         })
-      } else {
       }
+    },
+    confirmData () {
+      this.submitForm = true
+    },
+    getScanData (e) {
+      var _this = this
+      _this.miandan = e
+      getauth('scanner/list/' + e + '/', {}).then(res => {
+        if (!res.detail) {
+          this.resData = res.code
+          this.resMode = res.mode
+          if (this.resMode === 'MD') {
+            this.MDConfirm()
+          } else {
+            this.$q.notify({
+              message: e + '编码不存在',
+              icon: 'close',
+              color: 'negative'
+            })
+          }
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    MDConfirm () {
+      getauth('dn/list/?trackingnumber=' + this.miandan).then((res) => {
+        if (res.results.length > 0) {
+          if (res.results[0].dn_status === 4) {
+            postauth( 'dn/dispatch/' + res.results[0].id + '/', res.results[0]).then((res) => {
+              this.$q.notify({
+                message: '发货成功',
+                icon: 'check',
+                color: 'green'
+              })
+            })
+          } else {
+            this.$q.notify({
+              message: '订单已完成，或者还未到发货环节',
+              icon: 'close',
+              color: 'negative'
+            })
+          }
+        } else {
+          this.$q.notify({
+              message: '面单不存在',
+              icon: 'close',
+              color: 'negative'
+            })
+        }
+      })
+    },
+    PickChange () {
+      try {
+        this.table_list.forEach((item, index) => {
+          if (item.goods_code === this.resData) {
+            if (item.pick_qty > 0) {
+              item.picked_qty += 1
+              item.pick_qty -= 1
+              this.scan_detail.splice(index + 1, 1)
+              this.table_list.unshift(item)
+              this.table_list.splice(index + 1, 1)
+              this.submitRes(item)
+              throw new Error('success')
+            } else {
+              if (index + 1 === this.table_list.length) {
+                this.$q.notify({
+                  type: 'negative',
+                  icon: 'close',
+                  message: 'Can Not Pick More'
+                })
+              }
+            }
+          }
+        })
+      } catch (e) {
+        console.log(e)
+      } finally {
+        console.log('error')
+      }
+    },
+    submitData () {
+      var dn_code = this.table_list[0].dn_code
+      getauth('dn/list/?dn_code=' + dn_code, {}).then((res) => {
+        if (!res.detail) {
+          this.submitRes(res.results[0])
+        } else {
+          this.$q.notify({
+            type: 'negative',
+            icon: 'close',
+            message: this.$t('notice.mobile_scan.notice1')
+          })
+        }
+      })
+        .catch((err) => {
+          this.$q.notify({
+            type: 'negative',
+            icon: 'close',
+            message: this.$t('notice.mobile_scan.notice3')
+          })
+        })
+    },
+    submitRes (e) {
+      const resData = {
+        creater: this.login_name,
+        customer: e.customer,
+        dn_code: e.dn_code,
+        goodsData: this.scan_detail
+      }
+      putauth('dn/picked/' + e.id + '/', resData, {
+      })
+        .then((res) => {
+          if (!res.detail) {
+            this.scan_detail = []
+            getauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', {}).then((res) => {
+              this.$q.notify({
+                message: '面单打印成功'
+              })
+            })
+            this.$q.notify({
+              message: this.$t('拣货成功')
+            })
+          }
+          this.InitData('')
+        })
+        .catch((err) => {
+          this.$q.notify({
+            message: this.$t('notice.network_error')
+          })
+        })
     },
     reFresh () {
       var _this = this
-      _this.getList()
+      _this.getList('')
     },
-    newDataSubmit () {
-      var _this = this
-      var binsizes = []
-      _this.table_list.forEach(i => {
-        binsizes.push(i.bin_size)
-      })
-      if (binsizes.indexOf(_this.newFormData.bin_size) === -1 && _this.newFormData.bin_size.length !== 0) {
-        _this.newFormData.creater = _this.login_name
-        postauth(_this.pathname, _this.newFormData).then(res => {
-          _this.getList()
-          _this.newDataCancel()
-          _this.$q.notify({
-            message: 'Success Create',
-            icon: 'check',
-            color: 'green'
-          })
-        }).catch(err => {
-          _this.$q.notify({
-            message: err.detail,
-            icon: 'close',
-            color: 'negative'
-          })
-        })
-      } else if (binsizes.indexOf(_this.newFormData.bin_size) !== -1) {
-        _this.$q.notify({
-          message: _this.$t('notice.warehouseerror.binsizeerror'),
-          icon: 'close',
-          color: 'negative'
-        })
-      } else if (_this.newFormData.bin_size.length === 0) {
-        _this.$q.notify({
-          message: _this.$t('warehouse.view_binsize.error1'),
-          icon: 'close',
-          color: 'negative'
-        })
-      }
-      binsizes = []
-    },
-    newDataCancel () {
-      var _this = this
-      _this.newForm = false
-      _this.newFormData = {
-        bin_size: '',
-        bin_size_w: 0,
-        bin_size_d: 0,
-        bin_size_h: 0,
-        creater: ''
-      }
-    },
-    editData (e) {
-      var _this = this
-      _this.editMode = true
-      _this.editid = e.id
-      _this.editFormData = {
-        bin_size: e.bin_size,
-        bin_size_w: e.bin_size_w,
-        bin_size_d: e.bin_size_d,
-        bin_size_h: e.bin_size_h,
-        creater: _this.login_name
-      }
-    },
-    editDataSubmit () {
-      var _this = this
-      putauth(_this.pathname + _this.editid + '/', _this.editFormData).then(res => {
-        _this.editDataCancel()
-        _this.getList()
-        _this.$q.notify({
-          message: 'Success Edit Data',
-          icon: 'check',
-          color: 'green'
-        })
-      }).catch(err => {
-        _this.$q.notify({
-          message: err.detail,
-          icon: 'close',
-          color: 'negative'
-        })
-      })
-    },
-    editDataCancel () {
-      var _this = this
-      _this.editMode = false
-      _this.editid = 0
-      _this.editFormData = {
-        bin_size: '',
-        bin_size_w: 0,
-        bin_size_d: 0,
-        bin_size_h: 0,
-        creater: ''
-      }
-    },
-    deleteData (e) {
-      var _this = this
-      _this.deleteForm = true
-      _this.deleteid = e
-    },
-    deleteDataSubmit () {
-      var _this = this
-      deleteauth(_this.pathname + _this.deleteid + '/').then(res => {
-        _this.deleteDataCancel()
-        _this.getList()
-        _this.$q.notify({
-          message: 'Success Edit Data',
-          icon: 'check',
-          color: 'green'
-        })
-      }).catch(err => {
-        _this.$q.notify({
-          message: err.detail,
-          icon: 'close',
-          color: 'negative'
-        })
-      })
-    },
-    deleteDataCancel () {
-      var _this = this
-      _this.deleteForm = false
-      _this.deleteid = 0
-    },
-    downloadData () {
-      var _this = this
-      if (LocalStorage.has('auth')) {
-        getfile(_this.pathname + 'file/?lang=' + LocalStorage.getItem('lang')).then(res => {
-          var timeStamp = Date.now()
-          var formattedString = date.formatDate(timeStamp, 'YYYYMMDDHHmmssSSS')
-          const status = exportFile(
-            _this.pathname + formattedString + '.csv',
-            '\uFEFF' + res.data,
-            'text/csv'
-          )
-          if (status !== true) {
-            _this.$q.notify({
-              message: 'Browser denied file download...',
-              color: 'negative',
-              icon: 'warning'
-            })
-          }
-        })
+    KeyDown (e) {
+      console.log(e.key, e.keyCode)
+      if (e.key === 'Enter' || e.keyCode === 13) {
+        this.getScanData(this.scanData.join(''))
+        this.scanData = []
+      } else if (e.key === 'Shift' || e.keyCode === 16) {
+      } else if (e.key === 'Tab' || e.keyCode === 9) {
       } else {
-        _this.$q.notify({
-          message: _this.$t('notice.loginerror'),
-          color: 'negative',
-          icon: 'warning'
-        })
+        this.scanData.push(e.key)
       }
+    },
+    InitData () {
+      this.submitForm = false
     }
   },
   created () {
     var _this = this
-    if (LocalStorage.has('openid')) {
-      _this.openid = LocalStorage.getItem('openid')
+    if (_this.$q.localStorage.has('openid')) {
+      _this.openid = _this.$q.localStorage.getItem('openid')
     } else {
       _this.openid = ''
-      LocalStorage.set('openid', '')
+      _this.$q.localStorage.set('openid', '')
     }
-    if (LocalStorage.has('login_name')) {
-      _this.login_name = LocalStorage.getItem('login_name')
+    if (_this.$q.localStorage.has('login_name')) {
+      _this.login_name = _this.$q.localStorage.getItem('login_name')
     } else {
       _this.login_name = ''
-      LocalStorage.set('login_name', '')
+      _this.$q.localStorage.set('login_name', '')
     }
-    if (LocalStorage.has('auth')) {
+    if (_this.$q.localStorage.has('auth')) {
       _this.authin = '1'
-      // _this.getList()
+      _this.getList('')
     } else {
       _this.authin = '0'
     }
   },
   mounted () {
     var _this = this
-    if (_this.$q.localStorage.has('printer')) {
-      _this.printer = _this.$q.localStorage.getItem('printer')
-    } else {
-      _this.printer = ''
-      _this.$q.localStorage.set('printer', '')
-    }
     if (_this.$q.platform.is.electron) {
       _this.height = String(_this.$q.screen.height - 290) + 'px'
     } else {
       _this.height = _this.$q.screen.height - 290 + '' + 'px'
     }
+    window.addEventListener('keydown', this.KeyDown, true)
   },
   updated () {
   },
