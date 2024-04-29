@@ -2720,8 +2720,10 @@ def get_mian_dan(request):
                     path = str(settings.BASE_DIR) + '/media/miandan/' + str(dn_list[i].txnid) + '.pdf'
                     with open(path, 'wb') as file:
                         file.write(decoded_data)
+                else:
+                    continue
             except:
-                pass
+                continue
             finally:
                 pass
         return JsonResponse({"detail": "success"}, status=200)
