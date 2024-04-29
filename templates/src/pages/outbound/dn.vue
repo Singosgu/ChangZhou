@@ -153,7 +153,7 @@
             label="TxnId"
           />
           <q-select v-model="filterData.order_type" outlined :options="order_type_list" label="发货方式" style="width: 150px"/>
-          <q-select v-model="filterData.order_line" outlined :options="order_line_list" label="订单行" style="width: 150px"/>
+<!--          <q-select v-model="filterData.order_line" outlined :options="order_line_list" label="订单行" style="width: 150px"/>-->
           <q-select v-model="filterData.carrier" outlined :options="carrier_list" label="承运人" style="width: 150px"/>
           <q-input
             v-model="filterData.sku"
@@ -1918,7 +1918,7 @@ export default {
       var sku_search = this.sku_list_data
       if (LocalStorage.has('auth')) {
         getfile(
-          `dn/picklistdownload/?lang=${LocalStorage.getItem('lang') + '&txnid__in=' + txnid_search + '&order_type=' + order_type_search + '&carrier=' + carrier_search + '&sku_search__in=' + sku_search + '&order_line=' + order_line_search, {}}`
+          `dn/picklistdownload/?lang=${LocalStorage.getItem('lang') + '&txnid__in=' + txnid_search + '&order_type=' + order_type_search + '&carrier=' + carrier_search + '&sku_search__in=' + sku_search, {}}`
         ).then((res) => {
           var timeStamp = Date.now()
           var formattedString = date.formatDate(timeStamp, 'YYYYMMDDHHmmssSSS')
@@ -2027,7 +2027,7 @@ export default {
       var carrier_search = this.carrier_data
       var sku_search = this.sku_list_data
       if (LocalStorage.has('auth')) {
-        getauth(_this.pathname + 'list/' + '?max_page=' + _this.max_page_data + '&page=' + this.current + '&txnid__in=' + txnid_search + '&order_type=' + order_type_search + '&carrier=' + carrier_search + '&sku_search__in=' + sku_search + '&order_line=' + order_line_search, {})
+        getauth(_this.pathname + 'list/' + '?max_page=' + _this.max_page_data + '&page=' + this.current + '&txnid__in=' + txnid_search + '&order_type=' + order_type_search + '&carrier=' + carrier_search + '&sku_search__in=' + sku_search, {})
           .then((res) => {
             _this.page_count = res.count
             _this.table_list = []
