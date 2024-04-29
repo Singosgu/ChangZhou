@@ -160,7 +160,7 @@ class APIViewSet(viewsets.ModelViewSet):
                                             serializer = self.get_serializer(data=data)
                                             serializer.is_valid(raise_exception=True)
                                             serializer.save()
-                                            scanner.objects.create(openid=self.request.auth.openid, mode="GOODS", code=data['goods_code'], bar_code=data['bar_code'])
+                                            scanner.objects.create(mode="GOODS", code=data['goods_code'], bar_code=data['bar_code'])
                                             headers = self.get_success_headers(serializer.data)
                                             return Response(serializer.data, status=200, headers=headers)
                                         else:

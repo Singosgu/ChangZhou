@@ -163,7 +163,7 @@ class GoodlistfileViewSet(views.APIView):
                                                  bar_code=bar_code,
                                                  creater=str(staff_name)
                                                  )
-                        scanner.objects.create(openid=self.request.auth.openid, mode="GOODS",
+                        scanner.objects.create(mode="GOODS",
                                                code=str(data_list[i][0]).strip(),
                                                bar_code=str(data_list[i][0]).strip())
                 goods_supplier_list = df.drop_duplicates(subset=[data_header.get('goods_supplier')], keep='first').loc[
@@ -555,7 +555,31 @@ class GoodlistfileAddViewSet(views.APIView):
                         if not is_number(str(data_list[i][13])):
                             data_list[i][13] = 0
                         if goodslist.objects.filter(goods_code=str(data_list[i][0]).strip()).exists():
-                            pass
+                            goodslist.objects.filter(goods_code=str(data_list[i][0]).strip()).delete()
+                            bar_code = str(data_list[i][0]).strip()
+                            goodslist.objects.create(goods_code=str(data_list[i][0]).strip(),
+                                                     goods_desc=str(data_list[i][1]).strip(),
+                                                     goods_supplier=str(data_list[i][2]).strip(),
+                                                     goods_weight=data_list[i][4],
+                                                     goods_w=data_list[i][5],
+                                                     goods_d=data_list[i][6],
+                                                     goods_h=data_list[i][7],
+                                                     unit_volume=data_list[i][9],
+                                                     goods_unit=str(data_list[i][10]).strip(),
+                                                     goods_class=str(data_list[i][3]).strip(),
+                                                     goods_brand='N/A',
+                                                     goods_color='N/A',
+                                                     goods_shape=str(data_list[i][8]).strip(),
+                                                     goods_specs=str(data_list[i][11]).strip(),
+                                                     goods_origin='N/A',
+                                                     goods_cost=data_list[i][12],
+                                                     goods_price=data_list[i][13],
+                                                     bar_code=bar_code,
+                                                     creater=str(staff_name)
+                                                     )
+                            scanner.objects.create(mode="GOODS",
+                                                   code=str(data_list[i][0]).strip(),
+                                                   bar_code=str(data_list[i][0]).strip())
                         else:
                             bar_code = str(data_list[i][0]).strip()
                             goodslist.objects.create(goods_code=str(data_list[i][0]).strip(),
@@ -578,7 +602,7 @@ class GoodlistfileAddViewSet(views.APIView):
                                                     bar_code=bar_code,
                                                     creater=str(staff_name)
                                                     )
-                            scanner.objects.create(openid=self.request.auth.openid, mode="GOODS",
+                            scanner.objects.create(mode="GOODS",
                                                    code=str(data_list[i][0]).strip(),
                                                    bar_code=str(data_list[i][0]).strip())
                 goods_supplier_list = df.drop_duplicates(subset=[data_header.get('goods_supplier')], keep='first').loc[:,
