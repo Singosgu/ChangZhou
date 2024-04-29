@@ -2130,6 +2130,10 @@ class DnPickedViewSet(viewsets.ModelViewSet):
                                                                   picking_status=0,
                                                                   t_code=str(
                                                                       data['goodsData'][j].get('t_code'))).first()
+                pick_sum_change = PickingListModel.objects.filter(openid=self.request.auth.openid,
+                                                                  dn_code=str(data['dn_code']),
+                                                                  picking_status=0,
+                                                                  ).first()
                 qtychangerecorder.objects.create(openid=self.request.auth.openid,
                                                  mode_code=dn_detail.dn_code,
                                                  bin_name=bin_qty_change.bin_name,
@@ -2160,6 +2164,8 @@ class DnPickedViewSet(viewsets.ModelViewSet):
                     bin_qty_change.goods_qty = bin_qty_change.goods_qty - int(data['goodsData'][j].get('pick_qty'))
                     bin_qty_change.pick_qty = bin_qty_change.pick_qty - int(data['goodsData'][j].get('picked_qty'))
                     bin_qty_change.picked_qty = bin_qty_change.picked_qty + int(data['goodsData'][j].get('picked_qty'))
+                    pick_sum_change.picking_status = 1
+                    pick_sum_change.save()
                     goods_qty_change.save()
                     pick_qty_change.save()
                     bin_qty_change.save()
@@ -2177,6 +2183,8 @@ class DnPickedViewSet(viewsets.ModelViewSet):
                     bin_qty_change.goods_qty = bin_qty_change.goods_qty - int(data['goodsData'][j].get('pick_qty'))
                     bin_qty_change.pick_qty = bin_qty_change.pick_qty - pick_qty_change.pick_qty
                     bin_qty_change.picked_qty = bin_qty_change.picked_qty + int(data['goodsData'][j].get('picked_qty'))
+                    pick_sum_change.picking_status = 1
+                    pick_sum_change.save()
                     goods_qty_change.save()
                     pick_qty_change.save()
                     bin_qty_change.save()

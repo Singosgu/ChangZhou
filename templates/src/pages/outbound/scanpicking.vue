@@ -24,7 +24,7 @@
                  {{ $t('refreshtip') }}
                </q-tooltip>
              </q-btn>
-             <q-btn color="secondary" glossy :label="$t('outbound.confirm')" @click="confirmData()" />
+<!--             <q-btn color="secondary" glossy :label="$t('outbound.confirm')" @click="confirmData()" />-->
            </q-btn-group>
            <q-space />
 <!--           <q-input outlined rounded dense debounce="50000" color="primary" v-model="filter" :placeholder="$t('search')" @blur="getSearchList()" @keyup.enter="getSearchList()">-->
@@ -160,14 +160,15 @@ export default {
       scanData: [],
       resData: '',
       resMode: '',
-      submitForm: false
+      submitForm: false,
+      scan_detail: []
     }
   },
   methods: {
     getList (e) {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
-        getauth(_this.pathname + '?page=' + this.current + '&dn_code=' + '' + e + '&max_page=5000&picking_status=0', {
+        getauth(_this.pathname + '?order_line=1&page=' + this.current + '&dn_code=' + '' + e + '&max_page=5000&picking_status=0', {
         }).then(res => {
           _this.page_count = res.count
           _this.table_list = res.results
@@ -248,6 +249,12 @@ export default {
             this.getList(this.resData)
           } else if (this.resMode === 'GOODS') {
             this.PickChange()
+          } else {
+            this.$q.notify({
+              message: e + '编码不存在',
+              icon: 'close',
+              color: 'negative'
+            })
           }
         }
       }).catch(err => {
@@ -261,8 +268,10 @@ export default {
             if (item.pick_qty > 0) {
               item.picked_qty += 1
               item.pick_qty -= 1
+              this.scan_detail.splice(index + 1, 1)
               this.table_list.unshift(item)
               this.table_list.splice(index + 1, 1)
+              this.submitRes(item)
               throw new Error('success')
             } else {
               if (index + 1 === this.table_list.length) {
@@ -307,12 +316,18 @@ export default {
         creater: this.login_name,
         customer: e.customer,
         dn_code: e.dn_code,
-        goodsData: this.table_list
+        goodsData: this.scan_detail
       }
       putauth('dn/picked/' + e.id + '/', resData, {
       })
         .then((res) => {
           if (!res.detail) {
+            this.scan_detail = []
+            getauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', {}).then((res) => {
+              this.$q.notify({
+                message: '面单打印成功'
+              })
+            })
             this.$q.notify({
               message: this.$t('拣货成功')
             })
@@ -330,7 +345,7 @@ export default {
       _this.getList('')
     },
     KeyDown (e) {
-      // console.log(e.key, e.keyCode)
+      console.log(e.key, e.keyCode)
       if (e.key === 'Enter' || e.keyCode === 13) {
         this.getScanData(this.scanData.join(''))
         this.scanData = []
