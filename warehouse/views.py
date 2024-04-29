@@ -341,11 +341,11 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                             priority=priority,
                             warehouse_id=int(data.get('warehouse_id', ''))
                         )
-                        if carrierlist.objects.filter().exists() is False:
+                        if carrierlist.objects.filter(carrier=j.get('ShippingDetails', '')[0].get('Package', '').get('TrackingInfo', '').get('CarrierName', '')).exists() is False:
                             carrierlist.objects.create(
                                 carrier=j.get('ShippingDetails', '')[0].get('Package', '').get('TrackingInfo', '').get('CarrierName', '')
                             )
-                        if ordertype.objects.filter().exists() is False:
+                        if ordertype.objects.filter(order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', '')).exists() is False:
                             ordertype.objects.create(
                                 order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', '')
                             )

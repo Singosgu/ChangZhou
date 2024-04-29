@@ -18,6 +18,9 @@
         <transition appear enter-active-class="animated zoomIn">
           <q-route-tab name="property" :label="$t('warehouse.property')" icon="img:statics/warehouse/property.png" :to="{ name: 'property' }" exact/>
         </transition>
+        <transition appear enter-active-class="animated zoomIn">
+          <q-route-tab name="printer" label="打印机" icon="print" :to="{ name: 'printer' }" exact/>
+        </transition>
       </q-tabs>
     </div>
   </div>

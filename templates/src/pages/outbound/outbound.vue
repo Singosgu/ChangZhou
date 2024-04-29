@@ -30,12 +30,12 @@
         <transition appear enter-active-class="animated zoomIn">
           <q-route-tab name="scanpicking" :label="$t('outbound.scanpicking')" icon="qr_code_scanner" :to="{ name: 'scanpicking' }" exact/>
         </transition>
-        <!-- <transition appear enter-active-class="animated zoomIn">
-          <q-route-tab name="shippedstock" :label="$t('outbound.shippedstock')" icon="img:statics/outbound/outbound.png" :to="{ name: 'shippedstock' }" exact/>
-        </transition>
         <transition appear enter-active-class="animated zoomIn">
-          <q-route-tab name="pod" :label="$t('outbound.pod')" icon="img:statics/outbound/receiving.png" :to="{ name: 'pod' }" exact/>
-        </transition> -->
+          <q-route-tab name="shippedstock" label="扫描出库" icon="img:statics/outbound/outbound.png" :to="{ name: 'shippedstock' }" exact/>
+        </transition>
+<!--        <transition appear enter-active-class="animated zoomIn">-->
+<!--          <q-route-tab name="pod" :label="$t('outbound.pod')" icon="img:statics/outbound/receiving.png" :to="{ name: 'pod' }" exact/>-->
+<!--        </transition>-->
       </q-tabs>
     </div>
   </div>

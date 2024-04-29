@@ -2,7 +2,7 @@ from django.http import StreamingHttpResponse, JsonResponse
 from django.conf import settings
 from wsgiref.util import FileWrapper
 from rest_framework.exceptions import APIException
-import mimetypes, os
+import mimetypes, os, socket
 
 def robots(request):
     path = settings.BASE_DIR + request.path_info
@@ -128,3 +128,23 @@ def initW99(request):
     StockBinModel.objects.all().delete()
     binset.objects.all().delete()
     return JsonResponse({"detail": 'success'})
+
+def changepwd(request, user, pwd):
+    from django.contrib.auth.models import User
+    user = User.objects.get(username=user)
+    user.set_password(pwd)
+    user.save()
+    return JsonResponse({"detail": 'success'})
+
+def get_inner_ip(request):
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(('8.8.8.8', 80))
+    ip = s.getsockname()[0]
+    s.close()
+    baseurl = "http://" + ip + ":8008"
+    return JsonResponse({
+        "count": 0,
+        "next": "null",
+        "previous": "null",
+        "results": baseurl
+    })

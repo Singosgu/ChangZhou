@@ -1,29 +1,58 @@
-import usb.core
-import usb.util
+import win32print, win32api
 
-# 替换以下VID和PID为你的打印机的实际值
-VID = '0xXXXX'
-PID = '0xXXXX'
+printers = win32print.EnumPrinters(win32print.PRINTER_ENUM_LOCAL | win32print.PRINTER_ENUM_CONNECTIONS)
 
-# 找到打印机设备
-dev = usb.core.find(idVendor=VID, idProduct=PID)
+printer_data = []
+for printer in range(len(printers)):
+    print(printers[printer][2])
+    if printers[printer][2].startswith('TSC'):
+        hPrinter = win32print.OpenPrinter(printers[printer][2])
+        # win32print.SetDefaultPrinter(hPrinter)
+        # printer_info = win32print.GetPrinter(hPrinter, 2)
+        # printer_name = printer_info['pPrinterName']
+        # driver_name = printer_info['pDriverName']
+        # location = printer_info['pLocation']
+        # attributes = printer_info['Attributes']
+        filename = "1.pdf"
+        try:
+            hJob = win32print.StartDocPrinter(hPrinter, 1, ('PrintJobName', None, 'RAW'))
+            try:
+                handle = hPrinter.handle
+                tasks = win32print.EnumJobs(handle, 0, -1, 1)
+                for task in tasks:
+                    taskName = task["pDocument"]
+                    print(taskName)
+                win32print.SetDefaultPrinter(printers[printer][2])
+                win32api.ShellExecute(0, "print", filename, None, ".", 1)
+                # win32print.StartPagePrinter(hPrinter)
+                # win32print.WritePrinter(hPrinter, "RAW")  # Instead of raw text is there a way to print PDF File ?
+                # win32print.EndPagePrinter(hPrinter)
+            finally:
+                win32print.EndDocPrinter(hPrinter)
+        finally:
+            win32print.ClosePrinter(hPrinter)
 
-# 确保设备已经找到
-if dev is None:
-    raise ValueError('打印机未发现')
+        # printer_data.append({
+        #     'Printer Name': printer_name,
+        #     'Driver Name': driver_name,
+        #     'Location': location,
+        #     'Attributes': attributes
+        # })
 
-# 打开设备
-dev.set_configuration()
 
-# 需要发送到打印机的数据
-data = b'Hello, USB Printer!'
+# 获取默认打印机
+# default_printer = win32print.GetPrinter()
+# print(default_printer)
 
-# 发送数据到打印机（这里的接口号和端点需要根据你的打印机进行调整）
-interface = dev[0]
-endpoint = interface[0]
-res = endpoint.write(data)
+# 连接到打印机
+# printer = win32print.OpenPrinter(default_printer)
 
-if res != len(data):
-    raise ValueError('数据发送失败')
+# 打印文档
+# win32print.StartDocPrinter(printer, 1, ('My Document', None, 'TEXT'))
+# win32print.StartPagePrinter(printer)
+# win32print.WritePrinter(printer, 'Hello, World!')
+# win32print.EndPagePrinter(printer)
+# win32print.EndDocPrinter(printer)
 
-print('数据已发送到打印机')
+# 关闭打印机连接
+# win32print.ClosePrinter(printer)

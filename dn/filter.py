@@ -1,5 +1,5 @@
 from django_filters import FilterSet
-from .models import DnListModel, DnDetailModel, PickingListModel
+from .models import DnListModel, DnDetailModel, PickingListModel, PickingSumModel
 
 class DnListFilter(FilterSet):
     class Meta:
@@ -61,12 +61,33 @@ class DnPickingListFilter(FilterSet):
         fields = {
             "id": ['exact', 'gt', 'gte', 'lt', 'lte', 'isnull', 'in', 'range'],
             "txnid": ['exact', 'iexact', 'contains', 'icontains', 'in'],
+            "order_type": ['exact', 'iexact', 'contains', 'icontains', 'in'],
+            "order_line": ['exact', 'iexact', 'contains', 'icontains', 'in'],
+            "trackingnumber": ['exact', 'iexact', 'contains', 'icontains'],
+            "carrier": ['exact', 'iexact', 'contains', 'icontains', 'in'],
             "dn_code": ['exact', 'iexact', 'contains', 'icontains'],
             "bin_name": ['exact', 'iexact', 'contains', 'icontains'],
             "goods_code": ['exact', 'iexact', 'contains', 'icontains'],
             "picking_status": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'range'],
             "pick_qty": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'range'],
             "picked_qty": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'range'],
+            "creater": ['exact', 'iexact', 'contains', 'icontains'],
+            "create_time": ['year', 'month', 'day', 'week_day', 'gt', 'gte', 'lt', 'lte', 'range'],
+            "update_time": ['year', 'month', 'day', 'week_day', 'gt', 'gte', 'lt', 'lte', 'range']
+        }
+
+class DnPickingSumFilter(FilterSet):
+    class Meta:
+        model = PickingSumModel
+        fields = {
+            "id": ['exact', 'gt', 'gte', 'lt', 'lte', 'isnull', 'in', 'range'],
+            "txnid": ['exact', 'iexact', 'contains', 'icontains', 'in'],
+            "order_type": ['exact', 'iexact', 'contains', 'icontains', 'in'],
+            "order_line": ['exact', 'iexact', 'contains', 'icontains', 'in'],
+            "trackingnumber": ['exact', 'iexact', 'contains', 'icontains'],
+            "carrier": ['exact', 'iexact', 'contains', 'icontains', 'in'],
+            "dn_code": ['exact', 'iexact', 'contains', 'icontains'],
+            "picking_status": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'range'],
             "creater": ['exact', 'iexact', 'contains', 'icontains'],
             "create_time": ['year', 'month', 'day', 'week_day', 'gt', 'gte', 'lt', 'lte', 'range'],
             "update_time": ['year', 'month', 'day', 'week_day', 'gt', 'gte', 'lt', 'lte', 'range']

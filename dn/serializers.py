@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import DnListModel, DnDetailModel, PickingListModel
+from .models import DnListModel, DnDetailModel, PickingListModel, PickingSumModel
 from utils import datasolve
 class SannerDnDetailGetSerializer(serializers.ModelSerializer):
     txnid = serializers.CharField(read_only=True, required=False)
@@ -152,8 +152,29 @@ class DNDetailPartialUpdateSerializer(serializers.ModelSerializer):
         exclude = ['openid', 'is_delete', ]
         read_only_fields = ['id', 'create_time', 'update_time', ]
 
+class DNPickingSumGetSerializer(serializers.ModelSerializer):
+    txnid = serializers.CharField(read_only=True, required=False)
+    order_line = serializers.IntegerField(read_only=True, required=False)
+    order_type = serializers.CharField(read_only=True, required=False)
+    trackingnumber = serializers.CharField(read_only=True, required=False)
+    carrier = serializers.CharField(read_only=True, required=False)
+    have_mian_dan = serializers.BooleanField(read_only=True, required=False)
+    dn_code = serializers.CharField(read_only=True, required=False)
+    picking_status = serializers.IntegerField(read_only=True, required=False)
+    create_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M:%S')
+    update_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M:%S')
+    class Meta:
+        model = PickingSumModel
+        exclude = ['openid', ]
+        read_only_fields = ['id', ]
+
 class DNPickingListGetSerializer(serializers.ModelSerializer):
     txnid = serializers.CharField(read_only=True, required=False)
+    order_line = serializers.IntegerField(read_only=True, required=False)
+    order_type = serializers.CharField(read_only=True, required=False)
+    trackingnumber = serializers.CharField(read_only=True, required=False)
+    carrier = serializers.CharField(read_only=True, required=False)
+    have_mian_dan = serializers.BooleanField(read_only=True, required=False)
     dn_code = serializers.CharField(read_only=True, required=False)
     bin_name = serializers.CharField(read_only=True, required=False)
     goods_code = serializers.CharField(read_only=True, required=False)

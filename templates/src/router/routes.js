@@ -295,6 +295,11 @@ const routes = [
                 name: "property",
                 component: () => import("pages/warehouse/property.vue"),
               },
+              {
+                path: "printer",
+                name: "printer",
+                component: () => import("pages/warehouse/printer.vue"),
+              },
             ],
           },
           {

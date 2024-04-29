@@ -1,83 +1,9 @@
 <template>
     <div>
-      <transition appear enter-active-class="animated fadeIn">
-      <q-table
-        class="my-sticky-header-table shadow-24"
-        :data="table_list"
-        row-key="id"
-        :separator="separator"
-        :loading="loading"
-        :filter="filter"
-        :columns="columns"
-        hide-bottom
-        :pagination.sync="pagination"
-        no-data-label="No data"
-        no-results-label="No data you want"
-        :table-style="{ height: height }"
-        flat
-        bordered
-      >
-         <template v-slot:top>
-           <q-btn-group push>
-             <q-btn :label="$t('refresh')" icon="refresh" @click="reFresh()">
-               <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">
-                 {{ $t('refreshtip') }}
-               </q-tooltip>
-             </q-btn>
-           </q-btn-group>
-           <q-space />
-           <q-input outlined rounded dense debounce="300" color="primary" v-model="filter" :placeholder="$t('search')" @blur="getSearchList()" @keyup.enter="getSearchList()">
-             <template v-slot:append>
-               <q-icon name="search" @click="getSearchList()"/>
-             </template>
-           </q-input>
-         </template>
-         <template v-slot:body="props">
-           <q-tr :props="props">
-               <q-td key="txnid" :props="props">
-                 {{ props.row.txnid }}
-               </q-td>
-               <q-td key="goods_code" :props="props">
-                 {{ props.row.goods_code }}
-               </q-td>
-               <q-td key="goods_desc" :props="props">
-                 {{ props.row.goods_desc }}
-               </q-td>
-               <q-td key="goods_qty" :props="props">
-                 {{ props.row.goods_qty }}
-               </q-td>
-               <q-td key="intransit_qty" :props="props">
-                 {{ props.row.intransit_qty }}
-               </q-td>
-             <q-td key="customer" :props="props">
-               {{ props.row.customer }}
-             </q-td>
-             <q-td key="creater" :props="props">
-               {{ props.row.creater }}
-             </q-td>
-             <q-td key="create_time" :props="props">
-               {{ props.row.create_time }}
-             </q-td>
-             <q-td key="update_time" :props="props">
-               {{ props.row.update_time }}
-             </q-td>
-           </q-tr>
-         </template>
-      </q-table>
-        </transition>
       <template>
         <div class="q-pa-lg flex flex-center">
-          <q-btn v-show="pathname_previous" flat push color="purple" :label="$t('previous')" icon="navigate_before" @click="getListPrevious()">
-            <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">
-              {{ $t('previous') }}
-            </q-tooltip>
-          </q-btn>
-          <q-btn v-show="pathname_next" flat push color="purple" :label="$t('next')" icon-right="navigate_next" @click="getListNext()">
-            <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">
-              {{ $t('next') }}
-            </q-tooltip>
-          </q-btn>
-          <q-btn v-show="!pathname_previous && !pathname_next" flat push color="dark" :label="$t('no_data')"></q-btn>
+          <q-input filled v-model="miandan" disable readonly label="面单号" style="width: 400px"/>
+          <input v-model="scan_miandan" type="hidden" />
         </div>
       </template>
     </div>
@@ -85,52 +11,68 @@
     <router-view />
 
 <script>
-import { getauth } from 'boot/axios_request'
+import { date, exportFile, LocalStorage } from 'quasar'
+import { getauth, postauth, putauth, deleteauth, getfile } from 'boot/axios_request'
 
 export default {
-  name: 'Pagednprepick',
+  name: 'Pageprinter',
   data () {
     return {
       openid: '',
       login_name: '',
       authin: '0',
-      pathname: 'dn/detail/?dn_status=5&intransit_qty__gte=0',
+      pathname: 'binsize/',
       pathname_previous: '',
       pathname_next: '',
       separator: 'cell',
       loading: false,
       height: '',
       table_list: [],
-      bin_size_list: [],
-      bin_property_list: [],
-      warehouse_list: [],
       columns: [
-        { name: 'txnid', required: true, label: 'TxnId', align: 'left', field: 'txnid' },
-        { name: 'goods_code', label: this.$t('goods.view_goodslist.goods_code'), field: 'goods_code', align: 'center' },
-        { name: 'goods_desc', label: this.$t('goods.view_goodslist.goods_desc'), field: 'goods_desc', align: 'center' },
-        { name: 'goods_qty', label: this.$t('outbound.view_dn.goods_qty'), field: 'goods_qty', align: 'center' },
-        { name: 'intransit_qty', label: this.$t('outbound.view_dn.intransit_qty'), field: 'intransit_qty', align: 'center' },
-        { name: 'customer', label: this.$t('baseinfo.view_customer.customer_name'), field: 'customer', align: 'center' },
+        { name: 'bin_size', required: true, label: this.$t('warehouse.view_binsize.bin_size'), align: 'left', field: 'bin_size' },
+        { name: 'bin_size_w', label: this.$t('warehouse.view_binsize.bin_size_w'), field: 'bin_size_w', align: 'center' },
+        { name: 'bin_size_d', label: this.$t('warehouse.view_binsize.bin_size_d'), field: 'bin_size_d', align: 'center' },
+        { name: 'bin_size_h', label: this.$t('warehouse.view_binsize.bin_size_h'), field: 'bin_size_h', align: 'center' },
         { name: 'creater', label: this.$t('creater'), field: 'creater', align: 'center' },
         { name: 'create_time', label: this.$t('createtime'), field: 'create_time', align: 'center' },
-        { name: 'update_time', label: this.$t('updatetime'), field: 'update_time', align: 'center' }
+        { name: 'update_time', label: this.$t('updatetime'), field: 'update_time', align: 'center' },
+        { name: 'action', label: this.$t('action'), align: 'right' }
       ],
       filter: '',
       pagination: {
         page: 1,
         rowsPerPage: '30'
-      }
+      },
+      newForm: false,
+      newFormData: {
+        bin_size: '',
+        bin_size_w: '',
+        bin_size_d: '',
+        bin_size_h: '',
+        creater: ''
+      },
+      editid: 0,
+      editFormData: {},
+      editMode: false,
+      deleteForm: false,
+      deleteid: 0,
+      error1: this.$t('warehouse.view_binsize.error1'),
+      error2: this.$t('warehouse.view_binsize.error2'),
+      error3: this.$t('warehouse.view_binsize.error3'),
+      error4: this.$t('warehouse.view_binsize.error4'),
+      printer: '',
+      printer_options: [],
+      miandan: '',
+      scan_miandan: ''
     }
   },
   methods: {
     getList () {
       var _this = this
-      if (_this.$q.localStorage.has('auth')) {
-        getauth(_this.pathname, {
+      if (LocalStorage.has('auth')) {
+        getauth('http://127.0.0.1:8008/getprinter/', {
         }).then(res => {
-          _this.table_list = res.results
-          _this.pathname_previous = res.previous
-          _this.pathname_next = res.next
+          _this.printer_options = res.results
         }).catch(err => {
           _this.$q.notify({
             message: err.detail,
@@ -141,10 +83,16 @@ export default {
       } else {
       }
     },
+    setPrinter () {
+      var _this = this
+      if (LocalStorage.has('auth')) {
+        _this.$q.localStorage.set('printer', _this.printer)
+      }
+    },
     getSearchList () {
       var _this = this
-      if (_this.$q.localStorage.has('auth')) {
-        getauth(_this.pathname + '&dn_code__icontains=' + _this.filter, {
+      if (LocalStorage.has('auth')) {
+        getauth(_this.pathname + '?bin_size__icontains=' + _this.filter, {
         }).then(res => {
           _this.table_list = res.results
           _this.pathname_previous = res.previous
@@ -161,7 +109,7 @@ export default {
     },
     getListPrevious () {
       var _this = this
-      if (_this.$q.localStorage.has('auth')) {
+      if (LocalStorage.has('auth')) {
         getauth(_this.pathname_previous, {
         }).then(res => {
           _this.table_list = res.results
@@ -179,7 +127,7 @@ export default {
     },
     getListNext () {
       var _this = this
-      if (_this.$q.localStorage.has('auth')) {
+      if (LocalStorage.has('auth')) {
         getauth(_this.pathname_next, {
         }).then(res => {
           _this.table_list = res.results
@@ -198,31 +146,183 @@ export default {
     reFresh () {
       var _this = this
       _this.getList()
+    },
+    newDataSubmit () {
+      var _this = this
+      var binsizes = []
+      _this.table_list.forEach(i => {
+        binsizes.push(i.bin_size)
+      })
+      if (binsizes.indexOf(_this.newFormData.bin_size) === -1 && _this.newFormData.bin_size.length !== 0) {
+        _this.newFormData.creater = _this.login_name
+        postauth(_this.pathname, _this.newFormData).then(res => {
+          _this.getList()
+          _this.newDataCancel()
+          _this.$q.notify({
+            message: 'Success Create',
+            icon: 'check',
+            color: 'green'
+          })
+        }).catch(err => {
+          _this.$q.notify({
+            message: err.detail,
+            icon: 'close',
+            color: 'negative'
+          })
+        })
+      } else if (binsizes.indexOf(_this.newFormData.bin_size) !== -1) {
+        _this.$q.notify({
+          message: _this.$t('notice.warehouseerror.binsizeerror'),
+          icon: 'close',
+          color: 'negative'
+        })
+      } else if (_this.newFormData.bin_size.length === 0) {
+        _this.$q.notify({
+          message: _this.$t('warehouse.view_binsize.error1'),
+          icon: 'close',
+          color: 'negative'
+        })
+      }
+      binsizes = []
+    },
+    newDataCancel () {
+      var _this = this
+      _this.newForm = false
+      _this.newFormData = {
+        bin_size: '',
+        bin_size_w: 0,
+        bin_size_d: 0,
+        bin_size_h: 0,
+        creater: ''
+      }
+    },
+    editData (e) {
+      var _this = this
+      _this.editMode = true
+      _this.editid = e.id
+      _this.editFormData = {
+        bin_size: e.bin_size,
+        bin_size_w: e.bin_size_w,
+        bin_size_d: e.bin_size_d,
+        bin_size_h: e.bin_size_h,
+        creater: _this.login_name
+      }
+    },
+    editDataSubmit () {
+      var _this = this
+      putauth(_this.pathname + _this.editid + '/', _this.editFormData).then(res => {
+        _this.editDataCancel()
+        _this.getList()
+        _this.$q.notify({
+          message: 'Success Edit Data',
+          icon: 'check',
+          color: 'green'
+        })
+      }).catch(err => {
+        _this.$q.notify({
+          message: err.detail,
+          icon: 'close',
+          color: 'negative'
+        })
+      })
+    },
+    editDataCancel () {
+      var _this = this
+      _this.editMode = false
+      _this.editid = 0
+      _this.editFormData = {
+        bin_size: '',
+        bin_size_w: 0,
+        bin_size_d: 0,
+        bin_size_h: 0,
+        creater: ''
+      }
+    },
+    deleteData (e) {
+      var _this = this
+      _this.deleteForm = true
+      _this.deleteid = e
+    },
+    deleteDataSubmit () {
+      var _this = this
+      deleteauth(_this.pathname + _this.deleteid + '/').then(res => {
+        _this.deleteDataCancel()
+        _this.getList()
+        _this.$q.notify({
+          message: 'Success Edit Data',
+          icon: 'check',
+          color: 'green'
+        })
+      }).catch(err => {
+        _this.$q.notify({
+          message: err.detail,
+          icon: 'close',
+          color: 'negative'
+        })
+      })
+    },
+    deleteDataCancel () {
+      var _this = this
+      _this.deleteForm = false
+      _this.deleteid = 0
+    },
+    downloadData () {
+      var _this = this
+      if (LocalStorage.has('auth')) {
+        getfile(_this.pathname + 'file/?lang=' + LocalStorage.getItem('lang')).then(res => {
+          var timeStamp = Date.now()
+          var formattedString = date.formatDate(timeStamp, 'YYYYMMDDHHmmssSSS')
+          const status = exportFile(
+            _this.pathname + formattedString + '.csv',
+            '\uFEFF' + res.data,
+            'text/csv'
+          )
+          if (status !== true) {
+            _this.$q.notify({
+              message: 'Browser denied file download...',
+              color: 'negative',
+              icon: 'warning'
+            })
+          }
+        })
+      } else {
+        _this.$q.notify({
+          message: _this.$t('notice.loginerror'),
+          color: 'negative',
+          icon: 'warning'
+        })
+      }
     }
   },
   created () {
     var _this = this
-    if (_this.$q.localStorage.has('openid')) {
-      _this.openid = _this.$q.localStorage.getItem('openid')
+    if (LocalStorage.has('openid')) {
+      _this.openid = LocalStorage.getItem('openid')
     } else {
       _this.openid = ''
-      _this.$q.localStorage.set('openid', '')
+      LocalStorage.set('openid', '')
     }
-    if (_this.$q.localStorage.has('login_name')) {
-      _this.login_name = _this.$q.localStorage.getItem('login_name')
+    if (LocalStorage.has('login_name')) {
+      _this.login_name = LocalStorage.getItem('login_name')
     } else {
       _this.login_name = ''
-      _this.$q.localStorage.set('login_name', '')
+      LocalStorage.set('login_name', '')
     }
-    if (_this.$q.localStorage.has('auth')) {
+    if (LocalStorage.has('auth')) {
       _this.authin = '1'
-      _this.getList()
+      // _this.getList()
     } else {
       _this.authin = '0'
     }
   },
   mounted () {
     var _this = this
+    if (_this.$q.localStorage.has('printer')) {
+      _this.printer = _this.$q.localStorage.getItem('printer')
+    } else {
+      _this.printer = ''
+      _this.$q.localStorage.set('printer', '')
+    }
     if (_this.$q.platform.is.electron) {
       _this.height = String(_this.$q.screen.height - 290) + 'px'
     } else {
