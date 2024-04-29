@@ -130,9 +130,9 @@ class SannerView(viewsets.ModelViewSet):
             query_dict = {}
             if bar_code is not None:
                 query_dict['bar_code'] = bar_code
-            else:
-                if self.request.auth.openid != superopenid:
-                    query_dict['openid'] = self.request.auth.openid
+            # else:
+            #     if self.request.auth.openid != superopenid:
+            #         query_dict['openid'] = self.request.auth.openid
             return ListModel.objects.filter(**query_dict)
         else:
             return ListModel.objects.none()
