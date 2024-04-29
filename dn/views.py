@@ -747,7 +747,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                                                        )
                                         scanner.objects.create(openid=self.request.auth.openid, mode="PSUM",
                                                                code=dn_detail_list[i].txnid,
-                                                               bar_code=Md5.md5(str(dn_detail_list[i].txnid) + random.randint(1, 9999)))
+                                                               bar_code=Md5.md5(str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
                                     picking_list.append(PickingListModel(openid=self.request.auth.openid,
                                                                          txnid=dn_detail_list[i].txnid,
                                                                          order_line=dn_detail_list[i].order_line,
@@ -765,7 +765,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                     scanner.objects.create(openid=self.request.auth.openid, mode="PLIST",
                                                            code=dn_detail_list[i].txnid,
                                                            bar_code=Md5.md5(
-                                                               str(dn_detail_list[i].txnid) + random.randint(1, 9999)))
+                                                               str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
                                     picking_list_label = 1
                                     dn_pick_qty = dn_pick_qty + bin_can_pick_qty
                                     goods_qty_change.save()
@@ -862,7 +862,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                     scanner.objects.create(openid=self.request.auth.openid, mode="PLIST",
                                                            code=dn_detail_list[i].txnid,
                                                            bar_code=Md5.md5(
-                                                               str(dn_detail_list[i].txnid) + random.randint(1, 9999)))
+                                                               str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
                                     picking_list_label = 1
                                     dn_pick_qty = dn_pick_qty + bin_can_pick_qty
                                     goods_qty_change.save()
@@ -956,7 +956,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                                                          t_code=goods_bin_stock_list[j].t_code))
                                     scanner.objects.create(openid=self.request.auth.openid, mode="PLIST",
                                                code=dn_detail_list[i].txnid,
-                                               bar_code=Md5.md5(str(dn_detail_list[i].txnid) + random.randint(1, 9999)))
+                                               bar_code=Md5.md5(str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
                                     picking_list_label = 1
                                     dn_detail_list[i].pick_qty = dn_detail_list[i].pick_qty + bin_can_pick_qty
                                     goods_bin_stock_list[j].save()
@@ -1006,7 +1006,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                     scanner.objects.create(openid=self.request.auth.openid, mode="PLIST",
                                                            code=dn_detail_list[i].txnid,
                                                            bar_code=Md5.md5(
-                                                               str(dn_detail_list[i].txnid) + random.randint(1, 9999)))
+                                                               str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
                                     picking_list_label = 1
                                     dn_detail_list[i].pick_qty = dn_detail_list[i].pick_qty + bin_can_pick_qty
                                     dn_detail_list[i].dn_status = 3
@@ -1074,7 +1074,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                     scanner.objects.create(openid=self.request.auth.openid, mode="PSUM",
                                                            code=dn_detail_list[i].txnid,
                                                            bar_code=Md5.md5(
-                                                               str(dn_detail_list[i].txnid) + random.randint(1, 9999)))
+                                                               str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
                                     picking_list_label = 1
                                     dn_detail_list[i].pick_qty = dn_detail_list[i].pick_qty + \
                                                                  bin_can_pick_qty
@@ -1126,7 +1126,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                     scanner.objects.create(openid=self.request.auth.openid, mode="PLIST",
                                                            code=dn_detail_list[i].txnid,
                                                            bar_code=Md5.md5(
-                                                               str(dn_detail_list[i].txnid) + random.randint(1, 9999)))
+                                                               str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
                                     picking_list_label = 1
                                     dn_detail_list[i].pick_qty = dn_detail_list[i].pick_qty + bin_can_pick_qty
                                     dn_detail_list[i].dn_status = 3
@@ -1181,7 +1181,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                     scanner.objects.create(openid=self.request.auth.openid, mode="PLIST",
                                                            code=dn_detail_list[i].txnid,
                                                            bar_code=Md5.md5(
-                                                               str(dn_detail_list[i].txnid) + random.randint(1, 9999)))
+                                                               str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
                                     picking_list_label = 1
                                     dn_detail_list[i].pick_qty = dn_detail_list[i].pick_qty + dn_need_pick_qty
                                     dn_detail_list[i].dn_status = 3
