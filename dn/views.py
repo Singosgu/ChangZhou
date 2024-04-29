@@ -2712,12 +2712,13 @@ def get_mian_dan(request):
                         mian_dan=res[0].get('LabelData', '').replace(" ", ""),
                         have_mian_dan=True
                     )
-                    scanner.objects.create(openid=request.auth.openid, mode="MD",
+                    scanner.objects.create(openid=request.META.get('HTTP_TOKEN'), mode="MD",
                                            code=res[0].get('TrackingInfo', '').get('TrackingNumber'),
                                            bar_code=Md5.md5(str(res[0].get('TrackingInfo', '').get('TrackingNumber'))))
                     dn_list[i].save()
-                    decoded_data = base64.b64decode(res)
-                    with open(str(settings.BASE_DIR) + '/media/miandan/' + str(i.get('TxnId', '')) + '.pdf', 'wb') as file:
+                    decoded_data = base64.b64decode(res[0].get('LabelData', '').replace(" ", ""))
+                    path = str(settings.BASE_DIR) + '/media/miandan/' + str(dn_list[i].txnid) + '.pdf'
+                    with open(path, 'wb') as file:
                         file.write(decoded_data)
             except:
                 pass

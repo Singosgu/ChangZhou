@@ -129,6 +129,7 @@ def initW99(request):
     binset.objects.all().delete()
     return JsonResponse({"detail": 'success'})
 
+
 def changepwd(request, user, pwd):
     from django.contrib.auth.models import User
     user = User.objects.get(username=user)
