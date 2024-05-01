@@ -254,8 +254,8 @@ export default {
         }).then(res => {
           console.log(res)
         if (!res.data.detail) {
-          this.resData = res.code
-          this.resMode = res.mode
+          this.resData = res.data.code
+          this.resMode = res.data.mode
           if (this.resMode === 'DN') {
             this.getList(this.resData)
           } else if (this.resMode === 'GOODS') {
