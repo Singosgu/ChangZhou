@@ -138,7 +138,7 @@ class SannerView(viewsets.ModelViewSet):
             return ListModel.objects.none()
 
     def get_serializer_class(self):
-        if self.action in ['retrieve']:
+        if self.action in ['list']:
             return serializers.ListGetSerializer
         else:
             return self.http_method_not_allowed(request=self.request)
