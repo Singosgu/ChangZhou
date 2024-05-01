@@ -96,13 +96,13 @@ export default {
       token: LocalStorage.getItem('openid'),
       lang: LocalStorage.getItem('lang'),
       login_id: LocalStorage.getItem('login_id'),
-      capitalfile_pathname: baseurl + '/uploadfile/capitalfileadd/',
-      customerfile_pathname: baseurl + '/uploadfile/customerfileadd/',
-      freightfile_pathname: baseurl + '/uploadfile/freightfileadd/',
-      goodslistfile_pathname: baseurl + '/uploadfile/goodslistfileadd/',
-      supplierfile_pathname: baseurl + '/uploadfile/supplierfileadd/',
-      init_stock_pathname: baseurl + '/uploadfile/stockfile/',
-      bin_pathname: baseurl + '/uploadfile/binfile/'
+      capitalfile_pathname: baseurl + 'uploadfile/capitalfileadd/',
+      customerfile_pathname: baseurl + 'uploadfile/customerfileadd/',
+      freightfile_pathname: baseurl + 'uploadfile/freightfileadd/',
+      goodslistfile_pathname: baseurl + 'uploadfile/goodslistfileadd/',
+      supplierfile_pathname: baseurl + 'uploadfile/supplierfileadd/',
+      init_stock_pathname: baseurl + 'uploadfile/stockfile/',
+      bin_pathname: baseurl + 'uploadfile/binfile/'
     };
   },
   methods: {
