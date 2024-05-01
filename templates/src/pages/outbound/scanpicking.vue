@@ -337,7 +337,7 @@ export default {
         .then((res) => {
           if (!res.detail) {
             this.scan_detail = []
-            postauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', { data: e.miandan }).then((res) => {
+            postauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', { data: e.mian_dan }).then((res) => {
               this.$q.notify({
                 message: '面单打印成功'
               })
