@@ -252,7 +252,6 @@ export default {
             operator: this.$q.localStorage.getItem('login_id')
           }
         }).then(res => {
-          console.log(res)
         if (!res.data.detail) {
           this.resData = res.data.code
           this.resMode = res.data.mode
@@ -326,6 +325,7 @@ export default {
         })
     },
     submitRes (e) {
+      console.log(e)
       const resData = {
         creater: this.login_name,
         customer: e.customer,
