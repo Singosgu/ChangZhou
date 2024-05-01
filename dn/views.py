@@ -2087,7 +2087,7 @@ class DnPickedViewSet(viewsets.ModelViewSet):
         if delete_data.exists():
             for i in delete_data:
                 i.delete()
-        qs_query = DnListModel.objects.filter(openid=self.request.auth.openid, dn_code=data['dn_code'])
+        qs_query = DnListModel.objects.filter(openid=self.request.auth.openid, dn_code=data['dn_code'], is_delete=False)
         if qs_query.exists() is False:
             raise APIException({"detail": self.request.auth.openid + '1111' + data['dn_code'] + "订单号没找到"})
         else:
