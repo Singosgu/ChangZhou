@@ -2089,7 +2089,7 @@ class DnPickedViewSet(viewsets.ModelViewSet):
                 i.delete()
         qs_query = self.get_queryset().filter(dn_code=data['dn_code'])
         if qs_query.exists() is False:
-            raise APIException({"detail": "订单号没找到"})
+            raise APIException({"detail": data['dn_code'] + "订单号没找到"})
         else:
             qs = qs_query.first()
             if qs.dn_status != 3:
