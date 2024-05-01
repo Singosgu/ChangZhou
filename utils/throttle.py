@@ -15,8 +15,8 @@ class VisitThrottle(BaseThrottle):
         else:
             ip = request.META.get('HTTP_X_FORWARDED_FOR') if request.META.get(
                 'HTTP_X_FORWARDED_FOR') else request.META.get('REMOTE_ADDR')
-            openid = request.auth.openid
-            appid = request.auth.appid
+            openid = request.META.get('HTTP_TOKEN')
+            appid = 'APPID'
             if request.method.lower() == "get":
                 ntime = timezone.now()
                 ctime = ntime - timezone.timedelta(seconds=1)
