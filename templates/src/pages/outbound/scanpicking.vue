@@ -252,6 +252,7 @@ export default {
             operator: this.$q.localStorage.getItem('login_id')
           }
         }).then(res => {
+          console.log(res)
         if (!res.data.detail) {
           this.resData = res.code
           this.resMode = res.mode
