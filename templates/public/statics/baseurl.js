@@ -13,7 +13,7 @@
 var w_location = window.location;
 var w_schema = w_location.protocol;
 var w_host = w_location.host
-const baseurl = w_schema + "//" + w_host
+const baseurl = w_schema + "//" + w_host + '/'
 const wsurl = "wss://" + w_host + "/websocket/"
 window.g = {
     BaseUrl: baseurl,
