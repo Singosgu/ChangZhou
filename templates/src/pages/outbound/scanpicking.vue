@@ -122,6 +122,8 @@
 
 <script>
 import { getauth, putauth } from 'boot/axios_request'
+import axios from 'axios'
+import {LocalStorage} from "quasar";
 
 export default {
   name: 'Pagednprepick',
@@ -241,8 +243,16 @@ export default {
       this.submitForm = true
     },
     getScanData (e) {
-      getauth('scanner/list/' + e + '/', {}).then(res => {
-        if (!res.detail) {
+      axios.get('scanner/list/' + e + '/',
+        {
+          headers: {
+            'Content-Type': 'application/json, charset="utf-8"',
+            token: 'SCANGOODS',
+            language: this.$q.localStorage.getItem('lang'),
+            operator: this.$q.localStorage.getItem('login_id')
+          }
+        }).then(res => {
+        if (!res.data.detail) {
           this.resData = res.code
           this.resMode = res.mode
           if (this.resMode === 'DN') {
@@ -258,7 +268,10 @@ export default {
           }
         }
       }).catch(err => {
-        console.log(err)
+        this.$q.notify({
+          type: 'negative',
+          message: err.detail
+        })
       })
     },
     PickChange () {
@@ -323,7 +336,7 @@ export default {
         .then((res) => {
           if (!res.detail) {
             this.scan_detail = []
-            getauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', {}).then((res) => {
+            getauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', { data: e.miandan }).then((res) => {
               this.$q.notify({
                 message: '面单打印成功'
               })
@@ -345,7 +358,6 @@ export default {
       _this.getList('')
     },
     KeyDown (e) {
-      console.log(e.key, e.keyCode)
       if (e.key === 'Enter' || e.keyCode === 13) {
         this.getScanData(this.scanData.join(''))
         this.scanData = []

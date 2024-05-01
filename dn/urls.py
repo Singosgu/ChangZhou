@@ -47,5 +47,5 @@ path(r'filelist/', views.FileListDownloadView.as_view({"get": "list"}), name="dn
 path(r'filedetail/', views.FileDetailDownloadView.as_view({"get": "list"}), name="dnfiledetaildownload"),
 path(r'picklistdownload/', views.PickListDownloadView.as_view({"get": "list"}), name='picklistdownload'),
 path(r'getmiandan/', views.get_mian_dan, name='getmiandan'),
-path(r'confirmorders/', views.confirmOrdersViewSet.as_view({"get": "list"}), name="confirmorders"),
+path(r'confirmorders/', views.confirmOrdersViewSet.as_view({"post": "create"}), name="confirmorders"),
 ]

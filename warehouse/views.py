@@ -248,7 +248,6 @@ class GetOrderViewSet(viewsets.ModelViewSet):
             for v in get_order:
                 for x in v.get('OrderItems', ''):
                     if goods.objects.filter(goods_code=x.get('ItemSKU', ''), is_delete=False).exists() is False:
-                        goods_bar_code = Md5.md5(x.get('ItemSKU', ''))
                         goods.objects.create(
                             goods_code=x.get('ItemSKU', ''),
                             goods_desc='N/A',
@@ -261,11 +260,11 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                             goods_specs='N/A',
                             goods_origin='N/A',
                             creater=self.request.auth.name,
-                            bar_code=goods_bar_code,
+                            bar_code=x.get('ItemSKU', ''),
                             openid=data.get('openid')
                         )
-                        scanner.objects.create(openid=data.get('openid', ''), mode="GOODS", code=x.get('ItemSKU', ''),
-                                               bar_code=goods_bar_code)
+                        scanner.objects.create(openid='SCANGOODS', mode="GOODS", code=x.get('ItemSKU', ''),
+                                               bar_code=x.get('ItemSKU', ''))
             for j in get_order:
                 qs_set = DnListModel.objects.filter(is_delete=False)
                 order_day = str(timezone.now().strftime('%Y%m%d'))

@@ -12,7 +12,11 @@ class Authtication(object):
                     user = Users.objects.filter(openid__exact=str(token)).first()
                     return (True, user)
                 else:
-                    raise APIException({"detail": "User Does Not Exists"})
+                    if token == 'SCANGOODS':
+                        user = Users.objects.filter(id=request.META.get('OPERATOR')).first()
+                        return (True, user)
+                    else:
+                        raise APIException({"detail": "User Does Not Exists"})
             else:
                 raise APIException({"detail": "Please Add Token To Your Request Headers"})
 

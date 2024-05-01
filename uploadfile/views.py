@@ -103,7 +103,7 @@ class GoodlistfileViewSet(views.APIView):
                 goodsshape.objects.all().delete()
                 goodsspecs.objects.all().delete()
                 goodsorigin.objects.all().delete()
-                scanner.objects.filter(openid=self.request.auth.openid, mode='GOODS').delete()
+                scanner.objects.filter(openid='SCANGOODS', mode='GOODS').delete()
                 if excel_type == 'csv':
                     df = pd.read_csv(files)
                 else:
@@ -160,10 +160,10 @@ class GoodlistfileViewSet(views.APIView):
                                                  goods_origin='N/A',
                                                  goods_cost=data_list[i][12],
                                                  goods_price=data_list[i][13],
-                                                 bar_code=bar_code,
+                                                 bar_code=str(data_list[i][0]).strip(),
                                                  creater=str(staff_name)
                                                  )
-                        scanner.objects.create(mode="GOODS",
+                        scanner.objects.create(openid='SCANGOODS', mode="GOODS",
                                                code=str(data_list[i][0]).strip(),
                                                bar_code=str(data_list[i][0]).strip())
                 goods_supplier_list = df.drop_duplicates(subset=[data_header.get('goods_supplier')], keep='first').loc[
@@ -556,7 +556,6 @@ class GoodlistfileAddViewSet(views.APIView):
                             data_list[i][13] = 0
                         if goodslist.objects.filter(goods_code=str(data_list[i][0]).strip()).exists():
                             goodslist.objects.filter(goods_code=str(data_list[i][0]).strip()).delete()
-                            bar_code = str(data_list[i][0]).strip()
                             goodslist.objects.create(goods_code=str(data_list[i][0]).strip(),
                                                      goods_desc=str(data_list[i][1]).strip(),
                                                      goods_supplier=str(data_list[i][2]).strip(),
@@ -574,14 +573,13 @@ class GoodlistfileAddViewSet(views.APIView):
                                                      goods_origin='N/A',
                                                      goods_cost=data_list[i][12],
                                                      goods_price=data_list[i][13],
-                                                     bar_code=bar_code,
+                                                     bar_code=str(data_list[i][0]).strip(),
                                                      creater=str(staff_name)
                                                      )
-                            scanner.objects.create(mode="GOODS",
+                            scanner.objects.create(openid='SCANGOODS', mode="GOODS",
                                                    code=str(data_list[i][0]).strip(),
                                                    bar_code=str(data_list[i][0]).strip())
                         else:
-                            bar_code = str(data_list[i][0]).strip()
                             goodslist.objects.create(goods_code=str(data_list[i][0]).strip(),
                                                     goods_desc=str(data_list[i][1]).strip(),
                                                     goods_supplier=str(data_list[i][2]).strip(),
@@ -599,10 +597,10 @@ class GoodlistfileAddViewSet(views.APIView):
                                                     goods_origin='N/A',
                                                     goods_cost=data_list[i][12],
                                                     goods_price=data_list[i][13],
-                                                    bar_code=bar_code,
+                                                    bar_code=str(data_list[i][0]).strip(),
                                                     creater=str(staff_name)
                                                     )
-                            scanner.objects.create(mode="GOODS",
+                            scanner.objects.create(openid='SCANGOODS', mode="GOODS",
                                                    code=str(data_list[i][0]).strip(),
                                                    bar_code=str(data_list[i][0]).strip())
                 goods_supplier_list = df.drop_duplicates(subset=[data_header.get('goods_supplier')], keep='first').loc[:,
@@ -1065,9 +1063,9 @@ class AsnlistfileAddViewSet(views.APIView):
                                                     goods_origin=n,
                                                     goods_cost=0,
                                                     goods_price=0,
-                                                    bar_code=bar_code,
+                                                    bar_code=str(data_list[i][1]).strip(),
                                                     creater=str(staff_name))
-                            scanner.objects.create(openid=warehouse_openid,
+                            scanner.objects.create(openid='SCANGOODS',
                                                    mode="GOODS",
                                                 code=str(data_list[i][1]).strip(),
                                                 bar_code=str(data_list[i][1]).strip())
@@ -1292,12 +1290,12 @@ class DnlistfileaddViewSet(views.APIView):
                                                     goods_origin=n,
                                                     goods_cost=0,
                                                     goods_price=0,
-                                                    bar_code=bar_code,
+                                                    bar_code=str(data_list[i][0]).strip(),
                                                     creater=str(staff_name))
-                            scanner.objects.create(openid=warehouse_openid,
+                            scanner.objects.create(openid='SCANGOODS',
                                                    mode="GOODS",
                                                    code=str(data_list[i][0]).strip(),
-                                                   bar_code=bar_code)
+                                                   bar_code=str(data_list[i][0]).strip())
                         check_data = {
                             'openid': warehouse_openid,
                             'dn_code': str(data['dn_code']),

@@ -157,7 +157,7 @@ export default {
       getauth('dn/list/?trackingnumber=' + this.miandan).then((res) => {
         if (res.results.length > 0) {
           if (res.results[0].dn_status === 4) {
-            postauth( 'dn/dispatch/' + res.results[0].id + '/', res.results[0]).then((res) => {
+            postauth('dn/dispatch/' + res.results[0].id + '/', res.results[0]).then((res) => {
               this.$q.notify({
                 message: '发货成功',
                 icon: 'check',
@@ -173,10 +173,10 @@ export default {
           }
         } else {
           this.$q.notify({
-              message: '面单不存在',
-              icon: 'close',
-              color: 'negative'
-            })
+            message: '面单不存在',
+            icon: 'close',
+            color: 'negative'
+          })
         }
       })
     },

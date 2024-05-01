@@ -1831,7 +1831,7 @@ export default {
     },
     confirmOrders () {
       var _this = this
-      getauth(_this.pathname + 'confirmorders/', {})
+      postauth(_this.pathname + 'confirmorders/', {})
         .then((res) => {
           this.$q.notify({
             message: '确认订单完成',

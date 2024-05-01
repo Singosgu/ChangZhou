@@ -2710,10 +2710,10 @@ def get_mian_dan(request):
                                            code=res[0].get('TrackingInfo', '').get('TrackingNumber'),
                                            bar_code=Md5.md5(str(res[0].get('TrackingInfo', '').get('TrackingNumber'))))
                     dn_list[i].save()
-                    decoded_data = base64.b64decode(res[0].get('LabelData', '').replace(" ", ""))
-                    path = str(settings.BASE_DIR) + '/media/miandan/' + str(dn_list[i].txnid) + '.pdf'
-                    with open(path, 'wb') as file:
-                        file.write(decoded_data)
+                    # decoded_data = base64.b64decode(res[0].get('LabelData', '').replace(" ", ""))
+                    # path = str(settings.BASE_DIR) + '/media/miandan/' + str(dn_list[i].txnid) + '.pdf'
+                    # with open(path, 'wb') as file:
+                    #     file.write(decoded_data)
                 else:
                     continue
             except:
@@ -2757,12 +2757,12 @@ class confirmOrdersViewSet(viewsets.ModelViewSet):
             return DnListModel.objects.none()
 
     def get_serializer_class(self):
-        if self.action in ['list']:
+        if self.action in ['create']:
             return serializers.DNListGetSerializer
         else:
             return self.http_method_not_allowed(request=self.request)
 
-    def list(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         qs_list = self.get_queryset()
         for i in range(len(qs_list)):
             qs = qs_list[i]
