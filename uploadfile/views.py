@@ -142,6 +142,7 @@ class GoodlistfileViewSet(views.APIView):
                             data_list[i][12] = 0
                         if not is_number(str(data_list[i][13])):
                             data_list[i][13] = 0
+                        bar_code = str(data_list[i][0]).strip()
                         goodslist.objects.create(goods_code=str(data_list[i][0]).strip(),
                                                  goods_desc=str(data_list[i][1]).strip(),
                                                  goods_supplier=str(data_list[i][2]).strip(),
@@ -165,12 +166,7 @@ class GoodlistfileViewSet(views.APIView):
                         qr_code_check = scanner.objects.filter(openid='SCANGOODS', mode="GOODS",
                                                                code=str(data_list[i][0]).strip(),
                                                                bar_code=str(data_list[i][0]).strip())
-                        if qr_code_check.exists():
-                            qr_code_check.delete()
-                            scanner.objects.create(openid='SCANGOODS', mode="GOODS",
-                                                   code=str(data_list[i][0]).strip(),
-                                                   bar_code=str(data_list[i][0]).strip())
-                        else:
+                        if qr_code_check.exists() is False:
                             scanner.objects.create(openid='SCANGOODS', mode="GOODS",
                                                    code=str(data_list[i][0]).strip(),
                                                    bar_code=str(data_list[i][0]).strip())
@@ -587,13 +583,7 @@ class GoodlistfileAddViewSet(views.APIView):
                             qr_code_check = scanner.objects.filter(openid='SCANGOODS', mode="GOODS",
                                                                    code=str(data_list[i][0]).strip(),
                                                                    bar_code=str(data_list[i][0]).strip())
-
-                            if qr_code_check.exists():
-                                qr_code_check.delete()
-                                scanner.objects.create(openid='SCANGOODS', mode="GOODS",
-                                                       code=str(data_list[i][0]).strip(),
-                                                       bar_code=str(data_list[i][0]).strip())
-                            else:
+                            if qr_code_check.exists() is False:
                                 scanner.objects.create(openid='SCANGOODS', mode="GOODS",
                                                        code=str(data_list[i][0]).strip(),
                                                        bar_code=str(data_list[i][0]).strip())
