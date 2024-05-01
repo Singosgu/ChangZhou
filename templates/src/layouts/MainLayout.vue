@@ -766,7 +766,7 @@ export default {
   },
   methods: {
     getWarehouseData () {
-      getauth(baseurl + 'warehouse/getallwarehouse/').then((res) => {
+      getauth(baseurl + '/warehouse/getallwarehouse/').then((res) => {
         res.results.map((item) => {
           if (item.vip === 9) {
             item.warehouse_name = 'all'
