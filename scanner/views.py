@@ -143,7 +143,7 @@ class SannerView(viewsets.ModelViewSet):
         else:
             return self.http_method_not_allowed(request=self.request)
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
+    def list(self, request, *args, **kwargs):
+        instance = self.get_queryset().first()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
