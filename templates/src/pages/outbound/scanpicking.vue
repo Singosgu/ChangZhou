@@ -121,7 +121,7 @@
     <router-view />
 
 <script>
-import { getauth, putauth } from 'boot/axios_request'
+import { getauth, putauth, postauth } from 'boot/axios_request'
 import axios from 'axios'
 import {LocalStorage} from "quasar";
 
@@ -337,7 +337,7 @@ export default {
         .then((res) => {
           if (!res.detail) {
             this.scan_detail = []
-            getauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', { data: e.miandan }).then((res) => {
+            postauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', { data: e.miandan }).then((res) => {
               this.$q.notify({
                 message: '面单打印成功'
               })
