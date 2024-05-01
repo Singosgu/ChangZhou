@@ -263,8 +263,11 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                             bar_code=x.get('ItemSKU', ''),
                             openid=data.get('openid')
                         )
-                        scanner.objects.create(openid='SCANGOODS', mode="GOODS", code=x.get('ItemSKU', ''),
+                        qr_code_check = scanner.objects.filter(openid='SCANGOODS', mode="GOODS", code=x.get('ItemSKU', ''),
                                                bar_code=x.get('ItemSKU', ''))
+                        if qr_code_check.exists() is False:
+                            scanner.objects.create(openid='SCANGOODS', mode="GOODS", code=x.get('ItemSKU', ''),
+                                                   bar_code=x.get('ItemSKU', ''))
             for j in get_order:
                 qs_set = DnListModel.objects.filter(is_delete=False)
                 order_day = str(timezone.now().strftime('%Y%m%d'))

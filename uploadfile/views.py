@@ -163,9 +163,13 @@ class GoodlistfileViewSet(views.APIView):
                                                  bar_code=str(data_list[i][0]).strip(),
                                                  creater=str(staff_name)
                                                  )
-                        scanner.objects.create(openid='SCANGOODS', mode="GOODS",
-                                               code=str(data_list[i][0]).strip(),
-                                               bar_code=str(data_list[i][0]).strip())
+                        qr_code_check = scanner.objects.filter(openid='SCANGOODS', mode="GOODS",
+                                                               code=str(data_list[i][0]).strip(),
+                                                               bar_code=str(data_list[i][0]).strip())
+                        if qr_code_check.exists() is False:
+                            scanner.objects.create(openid='SCANGOODS', mode="GOODS",
+                                                   code=str(data_list[i][0]).strip(),
+                                                   bar_code=str(data_list[i][0]).strip())
                 goods_supplier_list = df.drop_duplicates(subset=[data_header.get('goods_supplier')], keep='first').loc[
                                       :,
                                       data_header.get('goods_supplier')].values
@@ -576,9 +580,13 @@ class GoodlistfileAddViewSet(views.APIView):
                                                      bar_code=str(data_list[i][0]).strip(),
                                                      creater=str(staff_name)
                                                      )
-                            scanner.objects.create(openid='SCANGOODS', mode="GOODS",
-                                                   code=str(data_list[i][0]).strip(),
-                                                   bar_code=str(data_list[i][0]).strip())
+                            qr_code_check = scanner.objects.filter(openid='SCANGOODS', mode="GOODS",
+                                                                   code=str(data_list[i][0]).strip(),
+                                                                   bar_code=str(data_list[i][0]).strip())
+                            if qr_code_check.exists() is False:
+                                scanner.objects.create(openid='SCANGOODS', mode="GOODS",
+                                                       code=str(data_list[i][0]).strip(),
+                                                       bar_code=str(data_list[i][0]).strip())
                         else:
                             goodslist.objects.create(goods_code=str(data_list[i][0]).strip(),
                                                     goods_desc=str(data_list[i][1]).strip(),
@@ -600,9 +608,13 @@ class GoodlistfileAddViewSet(views.APIView):
                                                     bar_code=str(data_list[i][0]).strip(),
                                                     creater=str(staff_name)
                                                     )
-                            scanner.objects.create(openid='SCANGOODS', mode="GOODS",
-                                                   code=str(data_list[i][0]).strip(),
-                                                   bar_code=str(data_list[i][0]).strip())
+                            qr_code_check = scanner.objects.filter(openid='SCANGOODS', mode="GOODS",
+                                                                   code=str(data_list[i][0]).strip(),
+                                                                   bar_code=str(data_list[i][0]).strip())
+                            if qr_code_check.exists() is False:
+                                scanner.objects.create(openid='SCANGOODS', mode="GOODS",
+                                                       code=str(data_list[i][0]).strip(),
+                                                       bar_code=str(data_list[i][0]).strip())
                 goods_supplier_list = df.drop_duplicates(subset=[data_header.get('goods_supplier')], keep='first').loc[:,
                                       data_header.get('goods_supplier')].values
                 for i in goods_supplier_list:
@@ -1292,10 +1304,13 @@ class DnlistfileaddViewSet(views.APIView):
                                                     goods_price=0,
                                                     bar_code=str(data_list[i][0]).strip(),
                                                     creater=str(staff_name))
-                            scanner.objects.create(openid='SCANGOODS',
-                                                   mode="GOODS",
-                                                   code=str(data_list[i][0]).strip(),
-                                                   bar_code=str(data_list[i][0]).strip())
+                            qr_code_check = scanner.objects.filter(openid='SCANGOODS', mode="GOODS",
+                                                                   code=str(data_list[i][0]).strip(),
+                                                                   bar_code=str(data_list[i][0]).strip())
+                            if qr_code_check.exists() is False:
+                                scanner.objects.create(openid='SCANGOODS', mode="GOODS",
+                                                       code=str(data_list[i][0]).strip(),
+                                                       bar_code=str(data_list[i][0]).strip())
                         check_data = {
                             'openid': warehouse_openid,
                             'dn_code': str(data['dn_code']),
