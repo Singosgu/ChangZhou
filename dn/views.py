@@ -2731,10 +2731,10 @@ class confirmOrdersViewSet(viewsets.ModelViewSet):
         retrieve:
             Response a data list（get）
     """
-    pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPaginationDNDetail
     filter_backends = [DjangoFilterBackend, OrderingFilter, ]
     ordering_fields = ['id', "create_time", "update_time", ]
-    filter_class = DnListFilter
+    filter_class = DnDetailFilter
 
     def get_project(self):
         try:
@@ -2756,13 +2756,13 @@ class confirmOrdersViewSet(viewsets.ModelViewSet):
                 query_dict['openid'] = self.request.auth.openid
             if id is not None:
                 query_dict['id'] = id
-            return DnListModel.objects.filter(**query_dict)
+            return DnDetailModel.objects.filter(**query_dict)
         else:
-            return DnListModel.objects.none()
+            return DnDetailModel.objects.none()
 
     def get_serializer_class(self):
         if self.action in ['create']:
-            return serializers.DNListGetSerializer
+            return serializers.DNDetailGetSerializer
         else:
             return self.http_method_not_allowed(request=self.request)
 
@@ -2805,5 +2805,5 @@ class confirmOrdersViewSet(viewsets.ModelViewSet):
                     else:
                         raise APIException({"detail": "Please Enter The DN Detail"})
                 else:
-                    raise APIException({"detail": "This DN Status Is Not Pre Order"})
+                    continue
         return Response(serializer.data, status=200, headers=headers)

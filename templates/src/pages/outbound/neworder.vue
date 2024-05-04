@@ -24,12 +24,12 @@
                  {{ $t('refreshtip') }}
                </q-tooltip>
              </q-btn>
-             <q-btn label="生成拣货单" icon="confirmation_number" @click="orderreleaseAllData()">
+            <q-btn label="批量确认订单" icon="recommend" @click="confirmOrders()">
               <q-tooltip
                 content-class="bg-amber text-black shadow-4"
                 :offset="[10, 10]"
                 content-style="font-size: 12px"
-              >全部生成拣货单
+              >批量确认订单
               </q-tooltip
               >
             </q-btn>
@@ -95,11 +95,11 @@
                {{ props.row.update_time }}
              </q-td>
              <q-td key="action" :props="props" style="width: 50px">
-               <q-btn round flat push color="dark" icon="delete">
-                 <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">
-                   {{ $t('deletebackorder') }}
-                </q-tooltip>
-               </q-btn>
+<!--               <q-btn round flat push color="dark" icon="delete">-->
+<!--                 <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">-->
+<!--                   {{ $t('deletebackorder') }}-->
+<!--                </q-tooltip>-->
+<!--               </q-btn>-->
              </q-td>
            </q-tr>
          </template>
@@ -136,7 +136,7 @@ export default {
       openid: '',
       login_name: '',
       authin: '0',
-      pathname: 'dn/detail/?dn_status=2',
+      pathname: 'dn/detail/?dn_status=1',
       pathname_previous: '',
       pathname_next: '',
       separator: 'cell',
@@ -251,6 +251,34 @@ export default {
         })
       } else {
       }
+    },
+    confirmOrders () {
+      var _this = this
+      if (this.order_line === '单件') {
+        this.order_line = 1
+      } else {
+        if (this.order_line === 1) {
+          this.order_line = 1
+        } else {
+          this.order_line = 2
+        }
+      }
+      postauth('dn/confirmorders/?dn_status=1' + '&page=' + this.current + '&txnid__in=' + this.txnid_list_data + '&order_type=' + this.order_type_data + '&carrier=' + this.carrier_data + '&order_line=' + this.order_line + '&goods_code__in=' + this.sku_list_data, {})
+        .then((res) => {
+          this.$q.notify({
+            message: '确认订单完成',
+            color: 'green',
+            icon: 'check'
+          })
+          this.getList()
+        })
+        .catch((err) => {
+          _this.$q.notify({
+            message: err.detail,
+            icon: 'close',
+            color: 'negative'
+          })
+        })
     },
     getListPrevious () {
       var _this = this
