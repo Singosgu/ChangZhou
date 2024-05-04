@@ -1,13 +1,13 @@
 <template>
-    <div>
-      <transition appear enter-active-class="animated fadeIn">
+  <div>
+    <transition appear enter-active-class="animated fadeIn">
       <q-table
-        class="my-sticky-header-table shadow-24"
+        id="table"
+        class="my-sticky-header-column-table shadow-24"
         :data="table_list"
         row-key="id"
         :separator="separator"
         :loading="loading"
-        :filter="filter"
         :columns="columns"
         hide-bottom
         :pagination.sync="pagination"
@@ -17,111 +17,78 @@
         flat
         bordered
       >
-         <template v-slot:top>
-           <q-btn-group push>
-             <q-btn :label="$t('refresh')" icon="refresh" @click="reFresh()">
-               <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">
-                 {{ $t('refreshtip') }}
-               </q-tooltip>
-             </q-btn>
-           </q-btn-group>
-           <q-space />
-           <q-input outlined rounded dense debounce="300" color="primary" v-model="filter" :placeholder="$t('search')" @blur="getSearchList()" @keyup.enter="getSearchList()">
-             <template v-slot:append>
-               <q-icon name="search" @click="getSearchList()"/>
-             </template>
-           </q-input>
-         </template>
-         <template v-slot:body="props">
-           <q-tr :props="props">
-               <q-td key="txnid" :props="props">
-                 {{ props.row.txnid }}
-               </q-td>
-               <q-td key="goods_code" :props="props">
-                 {{ props.row.goods_code }}
-               </q-td>
-               <q-td key="goods_desc" :props="props">
-                 {{ props.row.goods_desc }}
-               </q-td>
-               <q-td key="goods_qty" :props="props">
-                 {{ props.row.goods_qty }}
-               </q-td>
-               <q-td key="pick_qty" :props="props">
-                 {{ props.row.pick_qty }}
-               </q-td>
-             <q-td key="picked_qty" :props="props">
-               {{ props.row.picked_qty }}
-             </q-td>
-             <q-td key="customer" :props="props">
-               {{ props.row.customer }}
-             </q-td>
-             <q-td key="creater" :props="props">
-               {{ props.row.creater }}
-             </q-td>
-             <q-td key="create_time" :props="props">
-               {{ props.row.create_time }}
-             </q-td>
-             <q-td key="update_time" :props="props">
-               {{ props.row.update_time }}
-             </q-td>
-           </q-tr>
-         </template>
+        <template v-slot:top>
+          <q-btn-group push>
+            <q-btn :label="$t('refresh')" icon="refresh" @click="reFresh()">
+              <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">{{ $t('refreshtip') }}</q-tooltip>
+            </q-btn>
+          </q-btn-group>
+        </template>
+        <template v-slot:body="props">
+          <q-tr :props="props">
+              <q-td key="staff_name" :props="props">{{ props.row.staff_name }}</q-td>
+            <q-td key="create_time" :props="props">{{ props.row.create_time }}</q-td>
+            <q-td key="update_time" :props="props">{{ props.row.update_time }}</q-td>
+            <template>
+              <q-td key="action" :props="props" style="width: 50px">
+                <q-btn
+                  round
+                  flat
+                  push
+                  color="black"
+                  icon="download"
+                  @click="downloadPickingList(props.row)"
+                >
+                  <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">
+                    下载这个仓管员的拣货单
+                  </q-tooltip>
+                </q-btn>
+              </q-td>
+            </template>
+          </q-tr>
+        </template>
       </q-table>
-        </transition>
-      <template>
-        <div class="q-pa-lg flex flex-center">
-          <q-pagination
-            v-show="page_count!==0"
-            v-model="current"
-            color="purple"
-            :max="Math.ceil(page_count / 30 ) "
-            :max-pages="30"
-            boundary-numbers
-            direction-links
-            @click="getList()"
-          />
-          <q-btn v-show="page_count===0" flat push color="dark" :label="$t('no_data')"></q-btn>
-        </div>
-      </template>
-    </div>
+    </transition>
+    <template>
+      <div class="q-pa-lg flex flex-center">
+        <q-btn v-show="pathname_previous" flat push color="purple" :label="$t('previous')" icon="navigate_before" @click="getListPrevious()">
+          <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">{{ $t('previous') }}</q-tooltip>
+        </q-btn>
+        <q-btn v-show="pathname_next" flat push color="purple" :label="$t('next')" icon-right="navigate_next" @click="getListNext()">
+          <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">{{ $t('next') }}</q-tooltip>
+        </q-btn>
+        <q-btn v-show="!pathname_previous && !pathname_next" flat push color="dark" :label="$t('no_data')"></q-btn>
+      </div>
+    </template>
+  </div>
 </template>
-    <router-view />
+<router-view />
 
 <script>
-import { getauth } from 'boot/axios_request'
+import { getauth, getfile, baseurl } from 'boot/axios_request'
+import { date, exportFile, LocalStorage } from 'quasar'
 
 export default {
-  name: 'Pagednprepick',
+  name: 'Pagestafflist',
   data () {
     return {
-      current: 1,
-      page_count: 0,
       openid: '',
       login_name: '',
       authin: '0',
-      pathname: 'dn/detail/?dn_status=3&pick_qty__gt=0',
+      pathname: 'staff/?picking_task=1',
       pathname_previous: '',
       pathname_next: '',
       separator: 'cell',
       loading: false,
       height: '',
       table_list: [],
-      bin_size_list: [],
-      bin_property_list: [],
-      warehouse_list: [],
+      staff_type_list: [],
       columns: [
-        { name: 'txnid', required: true, label: 'TxnId', align: 'left', field: 'txnid' },
-        { name: 'goods_code', label: this.$t('goods.view_goodslist.goods_code'), field: 'goods_code', align: 'center' },
-        { name: 'goods_desc', label: this.$t('goods.view_goodslist.goods_desc'), field: 'goods_desc', align: 'center' },
-        { name: 'goods_qty', label: this.$t('outbound.view_dn.goods_qty'), field: 'goods_qty', align: 'center' },
-        { name: 'pick_qty', label: this.$t('stock.view_stocklist.pick_stock'), field: 'pick_qty', align: 'center' },
-        { name: 'picked_qty', label: this.$t('stock.view_stocklist.picked_stock'), field: 'picked_qty', align: 'center' },
-        { name: 'customer', label: this.$t('baseinfo.view_customer.customer_name'), field: 'customer', align: 'center' },
-        { name: 'creater', label: this.$t('creater'), field: 'creater', align: 'center' },
+        { name: 'staff_name', required: true, label: this.$t('staff.view_staff.staff_name'), align: 'left', field: 'staff_name' },
         { name: 'create_time', label: this.$t('createtime'), field: 'create_time', align: 'center' },
-        { name: 'update_time', label: this.$t('updatetime'), field: 'update_time', align: 'center' }
+        { name: 'update_time', label: this.$t('updatetime'), field: 'update_time', align: 'center' },
+        { name: 'action', label: this.$t('action'), align: 'right' }
       ],
-      filter: '',
       pagination: {
         page: 1,
         rowsPerPage: '30'
@@ -131,98 +98,196 @@ export default {
   methods: {
     getList () {
       var _this = this
-      if (_this.$q.localStorage.has('auth')) {
-        getauth(_this.pathname + '&page=' + this.current, {
-        }).then(res => {
-          _this.page_count = res.count
+      getauth(_this.pathname, {})
+        .then(res => {
           _this.table_list = res.results
+          if (LocalStorage.getItem('lang') === 'zh-hans') {
+            _this.table_list.forEach((item, index) => {
+              if (item.staff_type === 'Admin') {
+                item.staff_type = '管理员'
+              } else if (item.staff_type === 'Customer') {
+                item.staff_type = '客户'
+              } else if (item.staff_type === 'Supplier') {
+                item.staff_type = '供应商'
+              } else if (item.staff_type === 'Manager') {
+                item.staff_type = '经理'
+              } else if (item.staff_type === 'Supervisor') {
+                item.staff_type = '主管'
+              } else if (item.staff_type === 'Inbound') {
+                item.staff_type = '收货组'
+              } else if (item.staff_type === 'Outbound') {
+                item.staff_type = '发货组'
+              } else if (item.staff_type === 'StockControl') {
+                item.staff_type = '库存管理'
+              }
+            })
+          }
           _this.pathname_previous = res.previous
           _this.pathname_next = res.next
-        }).catch(err => {
+        })
+        .catch(err => {
           _this.$q.notify({
             message: err.detail,
             icon: 'close',
             color: 'negative'
           })
         })
-      } else {
-      }
     },
     getSearchList () {
       var _this = this
-      if (_this.$q.localStorage.has('auth')) {
-        getauth(_this.pathname + '&dn_code__icontains=' + _this.filter + '&page=' + this.current, {
-        }).then(res => {
-          _this.page_count = res.count
+      _this.filter = _this.filter.replace(/\s+/g, '')
+      getauth(_this.pathname + '?staff_name__icontains=' + _this.filter, {})
+        .then(res => {
           _this.table_list = res.results
+          if (LocalStorage.getItem('lang') === 'zh-hans') {
+            _this.table_list.forEach((item, index) => {
+              if (item.staff_type === 'Admin') {
+                item.staff_type = '管理员'
+              } else if (item.staff_type === 'Customer') {
+                item.staff_type = '客户'
+              } else if (item.staff_type === 'Supplier') {
+                item.staff_type = '供应商'
+              } else if (item.staff_type === 'Manager') {
+                item.staff_type = '经理'
+              } else if (item.staff_type === 'Supervisor') {
+                item.staff_type = '主管'
+              } else if (item.staff_type === 'Inbound') {
+                item.staff_type = '收货组'
+              } else if (item.staff_type === 'Outbound') {
+                item.staff_type = '发货组'
+              } else if (item.staff_type === 'StockControl') {
+                item.staff_type = '库存管理'
+              }
+            })
+          }
           _this.pathname_previous = res.previous
           _this.pathname_next = res.next
-        }).catch(err => {
+        })
+        .catch(err => {
           _this.$q.notify({
             message: err.detail,
             icon: 'close',
             color: 'negative'
           })
         })
-      } else {
-      }
     },
     getListPrevious () {
       var _this = this
-      if (_this.$q.localStorage.has('auth')) {
-        getauth(_this.pathname_previous, {
-        }).then(res => {
+      getauth(_this.pathname_previous, {})
+        .then(res => {
           _this.table_list = res.results
+          if (LocalStorage.getItem('lang') === 'zh-hans') {
+            _this.table_list.forEach((item, index) => {
+              if (item.staff_type === 'Admin') {
+                item.staff_type = '管理员'
+              } else if (item.staff_type === 'Customer') {
+                item.staff_type = '客户'
+              } else if (item.staff_type === 'Supplier') {
+                item.staff_type = '供应商'
+              } else if (item.staff_type === 'Manager') {
+                item.staff_type = '经理'
+              } else if (item.staff_type === 'Supervisor') {
+                item.staff_type = '主管'
+              } else if (item.staff_type === 'Inbound') {
+                item.staff_type = '收货组'
+              } else if (item.staff_type === 'Outbound') {
+                item.staff_type = '发货组'
+              } else if (item.staff_type === 'StockControl') {
+                item.staff_type = '库存管理'
+              }
+            })
+          }
           _this.pathname_previous = res.previous
           _this.pathname_next = res.next
-        }).catch(err => {
+        })
+        .catch(err => {
           _this.$q.notify({
             message: err.detail,
             icon: 'close',
             color: 'negative'
           })
         })
-      } else {
-      }
     },
     getListNext () {
       var _this = this
-      if (_this.$q.localStorage.has('auth')) {
-        getauth(_this.pathname_next, {
-        }).then(res => {
+      getauth(_this.pathname_next, {})
+        .then(res => {
           _this.table_list = res.results
+          if (LocalStorage.getItem('lang') === 'zh-hans') {
+            _this.table_list.forEach((item, index) => {
+              if (item.staff_type === 'Admin') {
+                item.staff_type = '管理员'
+              } else if (item.staff_type === 'Customer') {
+                item.staff_type = '客户'
+              } else if (item.staff_type === 'Supplier') {
+                item.staff_type = '供应商'
+              } else if (item.staff_type === 'Manager') {
+                item.staff_type = '经理'
+              } else if (item.staff_type === 'Supervisor') {
+                item.staff_type = '主管'
+              } else if (item.staff_type === 'Inbound') {
+                item.staff_type = '收货组'
+              } else if (item.staff_type === 'Outbound') {
+                item.staff_type = '发货组'
+              } else if (item.staff_type === 'StockControl') {
+                item.staff_type = '库存管理'
+              }
+            })
+          }
           _this.pathname_previous = res.previous
           _this.pathname_next = res.next
-        }).catch(err => {
+        })
+        .catch(err => {
           _this.$q.notify({
             message: err.detail,
             icon: 'close',
             color: 'negative'
           })
         })
-      } else {
-      }
     },
     reFresh () {
       var _this = this
       _this.getList()
+    },
+    downloadPickingList (e) {
+      var _this = this
+      if (LocalStorage.has('auth')) {
+        getfile(baseurl + 'dn/picklistdownload/?lang=' + LocalStorage.getItem('lang') + '&picker=' + e.staff_name + '&picking_status=1', {}).then(res => {
+          var timeStamp = Date.now()
+          var formattedString = date.formatDate(timeStamp, 'YYYYMMDDHHmmssSSS')
+          const status = exportFile('pickinglist' + formattedString + '.csv', '\uFEFF' + res.data, 'text/csv')
+          if (status !== true) {
+            this.$q.notify({
+              message: 'Browser denied file download...',
+              color: 'negative',
+              icon: 'warning'
+            })
+          }
+        })
+      } else {
+        _this.$q.notify({
+          message: _this.$t('notice.loginerror'),
+          color: 'negative',
+          icon: 'warning'
+        })
+      }
     }
   },
   created () {
     var _this = this
-    if (_this.$q.localStorage.has('openid')) {
-      _this.openid = _this.$q.localStorage.getItem('openid')
+    if (LocalStorage.has('openid')) {
+      _this.openid = LocalStorage.getItem('openid')
     } else {
       _this.openid = ''
-      _this.$q.localStorage.set('openid', '')
+      LocalStorage.set('openid', '')
     }
-    if (_this.$q.localStorage.has('login_name')) {
-      _this.login_name = _this.$q.localStorage.getItem('login_name')
+    if (LocalStorage.has('login_name')) {
+      _this.login_name = LocalStorage.getItem('login_name')
     } else {
       _this.login_name = ''
-      _this.$q.localStorage.set('login_name', '')
+      LocalStorage.set('login_name', '')
     }
-    if (_this.$q.localStorage.has('auth')) {
+    if (LocalStorage.has('auth')) {
       _this.authin = '1'
       _this.getList()
     } else {
@@ -235,6 +300,11 @@ export default {
       _this.height = String(_this.$q.screen.height - 290) + 'px'
     } else {
       _this.height = _this.$q.screen.height - 290 + '' + 'px'
+    }
+    if (LocalStorage.getItem('lang') === 'zh-hans') {
+      _this.staff_type_list = ['经理', '主管', '收货组', '发货组', '库存控制', '客户', '供应商']
+    } else {
+      _this.staff_type_list = ['Manager', 'Supervisor', 'Inbount', 'Outbound', 'StockControl', 'Customer', 'Supplier']
     }
   },
   updated () {

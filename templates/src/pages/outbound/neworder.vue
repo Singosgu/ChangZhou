@@ -317,27 +317,6 @@ export default {
       } else {
       }
     },
-    orderreleaseAllData () {
-      var _this = this
-      // this.$q.loading.show({ message: '确认中' })
-      postauth(_this.pathname + 'orderrelease/', {})
-        .then((res) => {
-          _this.table_list = []
-          _this.getList()
-          _this.$q.notify({
-            message: '全部生成拣货单成功',
-            icon: 'check',
-            color: 'green'
-          })
-        })
-        .catch((err) => {
-          _this.$q.notify({
-            message: err.detail,
-            icon: 'close',
-            color: 'negative'
-          })
-        })
-    },
     reFresh () {
       var _this = this
       _this.getList()

@@ -5,6 +5,7 @@ from utils import datasolve
 class StaffGetSerializer(serializers.ModelSerializer):
     staff_name = serializers.CharField(read_only=True, required=False)
     staff_type = serializers.CharField(read_only=True, required=False)
+    picking_task = serializers.IntegerField(read_only=True, required=False)
     check_code = serializers.IntegerField(read_only=True, required=False)
     create_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M:%S')
     update_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M:%S')

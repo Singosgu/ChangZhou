@@ -55161,3 +55161,131 @@ Traceback (most recent call last):
     str(dn_detail_list[i].txnid) + random.randint(1,
 TypeError: can only concatenate str (not "int") to str
 [2024-04-29 19:38:05,814][django.server.log_message():157] [ERROR] "POST /dn/orderrelease/ HTTP/1.1" 500 110357
+[2024-05-04 11:07:14,356][django.request.log_response():224] [ERROR] Internal Server Error: /dn/detail/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\Github_desktop\ChangZhou\dn\views.py", line 241, in create
+    if DnListModel.objects.filter(openid=self.request.auth.openid, dn_code=str(data['dn_code']), is_delete=False).exists():
+KeyError: 'dn_code'
+[2024-05-04 11:07:14,496][django.server.log_message():157] [ERROR] "POST /dn/detail/?dn_status=2orderrelease/ HTTP/1.1" 500 105458
+[2024-05-04 17:41:51,188][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picklistdownload/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\Github_desktop\ChangZhou\dn\views.py", line 2673, in list
+    for instance in self.filter_queryset(self.get_queryset())
+  File "E:\Github_desktop\ChangZhou\dn\views.py", line 2647, in get_queryset
+    return PickingListModel.objects.filter(**query_dict)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\query.py", line 942, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\query.py", line 962, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\query.py", line 969, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\sql\query.py", line 1360, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\sql\query.py", line 1379, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\sql\query.py", line 1260, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\sql\query.py", line 1086, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\sql\query.py", line 1483, in names_to_path
+    raise FieldError("Cannot resolve keyword '%s' into field. "
+django.core.exceptions.FieldError: Cannot resolve keyword 'dn_status' into field. Choices are: bar_code, bin_name, carrier, create_time, creater, dn_code, goods_code, have_mian_dan, id, mian_dan, openid, order_line, order_type, pick_qty, picked_qty, picker, picking_status, t_code, trackingnumber, txnid, update_time
+[2024-05-04 17:41:51,418][django.server.log_message():157] [ERROR] "GET /dn/picklistdownload/?lang=zh-hans&picker=Aaron&picking_status=0 HTTP/1.1" 500 160573
+[2024-05-04 17:43:20,351][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picklistdownload/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\Github_desktop\ChangZhou\dn\views.py", line 2673, in list
+    for instance in self.filter_queryset(self.get_queryset())
+  File "E:\Github_desktop\ChangZhou\dn\views.py", line 2647, in get_queryset
+    return PickingListModel.objects.filter(**query_dict)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\query.py", line 942, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\query.py", line 962, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\query.py", line 969, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\sql\query.py", line 1360, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\sql\query.py", line 1379, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\sql\query.py", line 1260, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\sql\query.py", line 1086, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\db\models\sql\query.py", line 1483, in names_to_path
+    raise FieldError("Cannot resolve keyword '%s' into field. "
+django.core.exceptions.FieldError: Cannot resolve keyword 'dn_status' into field. Choices are: bar_code, bin_name, carrier, create_time, creater, dn_code, goods_code, have_mian_dan, id, mian_dan, openid, order_line, order_type, pick_qty, picked_qty, picker, picking_status, t_code, trackingnumber, txnid, update_time
+[2024-05-04 17:43:20,588][django.server.log_message():157] [ERROR] "GET /dn/picklistdownload/?lang=zh-hans&picker=Aaron&picking_status=0 HTTP/1.1" 500 160573
+[2024-05-04 18:03:47,605][django.request.log_response():224] [ERROR] Internal Server Error: /dn/onepicking/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\Github_desktop\ChangZhou\dn\views.py", line 1893, in create
+    PickingSumModel.objects.filter(txnid=qs[i].first().txnid).update(picker=data['staff_name'], picking_status=1)
+AttributeError: 'PickingListModel' object has no attribute 'first'
+[2024-05-04 18:03:47,758][django.server.log_message():157] [ERROR] "POST /dn/onepicking/?page=1&picking_status=0&order_line=2&bin_name__startswith=D06 HTTP/1.1" 500 107031

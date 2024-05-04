@@ -128,6 +128,16 @@ const routes = [
                 component: () => import("pages/outbound/scanpicking.vue"),
               },
               {
+                path: "onepicking",
+                name: "onepicking",
+                component: () => import("pages/outbound/onepicking.vue"),
+              },
+              {
+                path: "twopicking",
+                name: "twopicking",
+                component: () => import("pages/outbound/twopicking.vue"),
+              },
+              {
                 path: "shippedstock",
                 name: "shippedstock",
                 component: () => import("pages/outbound/shippedstock.vue"),

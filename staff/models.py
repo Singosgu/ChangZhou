@@ -9,7 +9,8 @@ class ListModel(models.Model):
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="Create Time")
     update_time = models.DateTimeField(auto_now=True, blank=True, null=True, verbose_name="Update Time")
     error_check_code_counter = models.IntegerField(default=0,verbose_name='check_code error counter')
-    is_lock = models.BooleanField(default=False,verbose_name='Whether the lock')
+    is_lock = models.BooleanField(default=False, verbose_name='Whether the lock')
+    picking_task = models.SmallIntegerField(default=0, verbose_name='是否有拣货任务')
     class Meta:
         db_table = 'staff'
         verbose_name = 'Staff'

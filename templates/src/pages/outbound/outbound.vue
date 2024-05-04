@@ -13,28 +13,22 @@
           <q-route-tab name="neworder" label="发货单明细" icon="img:statics/outbound/order.png" :to="{ name: 'neworder' }" exact/>
         </transition>
         <transition appear enter-active-class="animated zoomIn">
-          <q-route-tab name="freshorder" label="单件发货单" icon="img:statics/outbound/freshorder.png" :to="{ name: 'freshorder' }" exact/>
-        </transition>
-        <transition appear enter-active-class="animated zoomIn">
-          <q-route-tab name="neworder" label="多件发货单" icon="img:statics/outbound/order.png" :to="{ name: 'neworder' }" exact/>
+          <q-route-tab name="freshorder" label="生成拣货单" icon="img:statics/outbound/freshorder.png" :to="{ name: 'freshorder' }" exact/>
         </transition>
         <transition appear enter-active-class="animated zoomIn">
           <q-route-tab name="backorder" :label="$t('outbound.backorder')" icon="img:statics/outbound/backorder.png" :to="{ name: 'backorder' }" exact/>
         </transition>
         <transition appear enter-active-class="animated zoomIn">
-          <q-route-tab name="pickstock" :label="$t('outbound.pickstock')" icon="img:statics/outbound/pickstock.png" :to="{ name: 'pickstock' }" exact/>
-        </transition>
-        <transition appear enter-active-class="animated zoomIn">
           <q-route-tab name="pickedstock" :label="$t('outbound.pickedstock')" icon="img:statics/outbound/picked.png" :to="{ name: 'pickedstock' }" exact/>
         </transition>
-<!--        <transition appear enter-active-class="animated zoomIn">-->
-<!--          <q-route-tab name="pickinglist" :label="$t('outbound.pickinglist')" icon="img:statics/outbound/pickinglist.png" :to="{ name: 'pickinglist' }" exact/>-->
-<!--        </transition>-->
         <transition appear enter-active-class="animated zoomIn">
-          <q-route-tab name="scanpicking" label="单件拣货单" icon="receipt_long" :to="{ name: 'scanpicking' }" exact/>
+          <q-route-tab name="onepicking" label="单件拣货单" icon="receipt_long" :to="{ name: 'onepicking' }" exact/>
         </transition>
         <transition appear enter-active-class="animated zoomIn">
-          <q-route-tab name="scanpicking" label="多件拣货单" icon="dvr" :to="{ name: 'scanpicking' }" exact/>
+          <q-route-tab name="twopicking" label="多件拣货单" icon="dvr" :to="{ name: 'twopicking' }" exact/>
+        </transition>
+        <transition appear enter-active-class="animated zoomIn">
+          <q-route-tab name="pickstock" label="下载拣货单" icon="img:statics/outbound/pickstock.png" :to="{ name: 'pickstock' }" exact/>
         </transition>
         <transition appear enter-active-class="animated zoomIn">
           <q-route-tab name="scanpicking" label="单件出库" icon="barcode_reader" :to="{ name: 'scanpicking' }" exact/>
