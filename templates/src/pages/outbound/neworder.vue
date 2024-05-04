@@ -193,6 +193,11 @@ export default {
         carrier: '',
         sku: []
       }
+      this.txnid_list_data = []
+      this.order_type_data = ''
+      this.order_line = '单件'
+      this.carrier_data = ''
+      this.sku_list_data = []
       this.getList()
     },
     sortData () {
