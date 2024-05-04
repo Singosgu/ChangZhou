@@ -203,7 +203,6 @@ export default {
     sortData () {
       var _this = this
       if (this.filterData.txnid.length > 0) {
-        console.log(this.filterData.txnid)
         _this.txnid_list_data = this.filterData.txnid.split('\n')
       } else {
         _this.txnid_list_data = []
@@ -214,6 +213,7 @@ export default {
         _this.sku_list_data = []
       }
       this.order_type_data = this.filterData.order_type
+      console.log(this.filterData.order_line, this.order_line)
       if (this.filterData.order_line === '单件') {
         this.order_line = 1
       } else {
