@@ -136,7 +136,7 @@ export default {
       openid: '',
       login_name: '',
       authin: '0',
-      pathname: 'dn/detail/?dn_status=1',
+      pathname: 'dn/detail/?dn_status=2',
       pathname_previous: '',
       pathname_next: '',
       separator: 'cell',
