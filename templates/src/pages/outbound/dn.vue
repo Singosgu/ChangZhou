@@ -59,24 +59,24 @@
               </q-tooltip
               >
             </q-btn>
-            <q-btn label="批量确认订单" icon="recommend" @click="confirmOrders()">
-              <q-tooltip
-                content-class="bg-amber text-black shadow-4"
-                :offset="[10, 10]"
-                content-style="font-size: 12px"
-              >批量确认订单
-              </q-tooltip
-              >
-            </q-btn>
-            <q-btn label="全部生成拣货单" icon="confirmation_number" @click="orderreleaseAllData()">
-              <q-tooltip
-                content-class="bg-amber text-black shadow-4"
-                :offset="[10, 10]"
-                content-style="font-size: 12px"
-              >全部生成拣货单
-              </q-tooltip
-              >
-            </q-btn>
+<!--            <q-btn label="批量确认订单" icon="recommend" @click="confirmOrders()">-->
+<!--              <q-tooltip-->
+<!--                content-class="bg-amber text-black shadow-4"-->
+<!--                :offset="[10, 10]"-->
+<!--                content-style="font-size: 12px"-->
+<!--              >批量确认订单-->
+<!--              </q-tooltip-->
+<!--              >-->
+<!--            </q-btn>-->
+<!--            <q-btn label="全部生成拣货单" icon="confirmation_number" @click="orderreleaseAllData()">-->
+<!--              <q-tooltip-->
+<!--                content-class="bg-amber text-black shadow-4"-->
+<!--                :offset="[10, 10]"-->
+<!--                content-style="font-size: 12px"-->
+<!--              >全部生成拣货单-->
+<!--              </q-tooltip-->
+<!--              >-->
+<!--            </q-btn>-->
 <!--            <q-btn-->
 <!--              v-show="-->
 <!--                  $q.localStorage.getItem('staff_type') !== 'Supplier' &&-->
@@ -132,38 +132,38 @@
 <!--              </q-tooltip>-->
 <!--            </q-btn>-->
 
-            <q-btn
-              label='下载拣货单'
-              icon="file_download"
-              @click="handleDownLoadAllData"
-            >
-              <q-tooltip
-                content-class="bg-amber text-black shadow-4"
-                :offset="[10, 10]"
-                content-style="font-size: 12px"
-              >
-                下载所有拣货单
-              </q-tooltip>
-            </q-btn>
+<!--            <q-btn-->
+<!--              label='下载拣货单'-->
+<!--              icon="file_download"-->
+<!--              @click="handleDownLoadAllData"-->
+<!--            >-->
+<!--              <q-tooltip-->
+<!--                content-class="bg-amber text-black shadow-4"-->
+<!--                :offset="[10, 10]"-->
+<!--                content-style="font-size: 12px"-->
+<!--              >-->
+<!--                下载所有拣货单-->
+<!--              </q-tooltip>-->
+<!--            </q-btn>-->
           </q-btn-group>
-          <q-input
-            v-model="filterData.txnid"
-            filled
-            autogrow
-            label="TxnId"
-          />
-          <q-select v-model="filterData.order_type" outlined :options="order_type_list" label="发货方式" style="width: 150px"/>
+<!--          <q-input-->
+<!--            v-model="filterData.txnid"-->
+<!--            filled-->
+<!--            autogrow-->
+<!--            label="TxnId"-->
+<!--          />-->
+<!--          <q-select v-model="filterData.order_type" outlined :options="order_type_list" label="发货方式" style="width: 150px"/>-->
 <!--          <q-select v-model="filterData.order_line" outlined :options="order_line_list" label="订单行" style="width: 150px"/>-->
-          <q-select v-model="filterData.carrier" outlined :options="carrier_list" label="承运人" style="width: 150px"/>
-          <q-input
-            v-model="filterData.sku"
-            filled
-            autogrow
-            label="SKU"
-            style="width: 150px"
-          />
-          <q-btn label="筛选" @click="sortData()"></q-btn>
-          <q-btn label="清空" @click="filterDataClear()"></q-btn>
+<!--          <q-select v-model="filterData.carrier" outlined :options="carrier_list" label="承运人" style="width: 150px"/>-->
+<!--          <q-input-->
+<!--            v-model="filterData.sku"-->
+<!--            filled-->
+<!--            autogrow-->
+<!--            label="SKU"-->
+<!--            style="width: 150px"-->
+<!--          />-->
+<!--          <q-btn label="筛选" @click="sortData()"></q-btn>-->
+<!--          <q-btn label="清空" @click="filterDataClear()"></q-btn>-->
 <!--          <q-input-->
 <!--            outlined-->
 <!--            rounded-->
@@ -215,28 +215,28 @@
               </q-tooltip
               >
             </q-btn>
-            <q-btn
-              v-show="
-                $q.localStorage.getItem('staff_type') !== 'Supplier' &&
-                $q.localStorage.getItem('staff_type') !== 'Customer' &&
-                $q.localStorage.getItem('staff_type') !== 'Inbound' &&
-                $q.localStorage.getItem('staff_type') !== 'StockControl'
-              "
-              round
-              flat
-              push
-              color="positive"
-              icon="img:statics/outbound/order.png"
-              @click="neworderData(props.row)"
-            >
-              <q-tooltip
-                content-class="bg-amber text-black shadow-4"
-                :offset="[10, 10]"
-                content-style="font-size: 12px"
-              >{{ $t("confirmorder") }}
-              </q-tooltip
-              >
-            </q-btn>
+<!--            <q-btn-->
+<!--              v-show="-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Supplier' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Customer' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Inbound' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'StockControl'-->
+<!--              "-->
+<!--              round-->
+<!--              flat-->
+<!--              push-->
+<!--              color="positive"-->
+<!--              icon="img:statics/outbound/order.png"-->
+<!--              @click="neworderData(props.row)"-->
+<!--            >-->
+<!--              <q-tooltip-->
+<!--                content-class="bg-amber text-black shadow-4"-->
+<!--                :offset="[10, 10]"-->
+<!--                content-style="font-size: 12px"-->
+<!--              >{{ $t("confirmorder") }}-->
+<!--              </q-tooltip-->
+<!--              >-->
+<!--            </q-btn>-->
 <!--            <q-btn-->
 <!--              v-show="-->
 <!--                $q.localStorage.getItem('staff_type') !== 'Supplier' &&-->
@@ -274,71 +274,71 @@
                 >{{ $t("twoKai.deliver_download") }}</q-tooltip
               >
             </q-btn> -->
-            <q-btn
-              v-show="
-                $q.localStorage.getItem('staff_type') !== 'Supplier' &&
-                $q.localStorage.getItem('staff_type') !== 'Customer' &&
-                $q.localStorage.getItem('staff_type') !== 'Inbound' &&
-                $q.localStorage.getItem('staff_type') !== 'StockControl'
-              "
-              round
-              flat
-              push
-              color="secondary"
-              icon="article"
-              @click="PrintPickingList(props.row)"
-            >
-              <q-tooltip
-                content-class="bg-amber text-black shadow-4"
-                :offset="[10, 10]"
-                content-style="font-size: 12px"
-              >{{ $t("twoKai.look_jianhuodan") }}
-              </q-tooltip
-              >
-            </q-btn>
-            <q-btn
-              v-show="
-                $q.localStorage.getItem('staff_type') !== 'Supplier' &&
-                $q.localStorage.getItem('staff_type') !== 'Customer' &&
-                $q.localStorage.getItem('staff_type') !== 'Inbound' &&
-                $q.localStorage.getItem('staff_type') !== 'StockControl'
-              "
-              round
-              flat
-              push
-              color="purple"
-              icon="img:statics/outbound/picked.png"
-              @click="pickedData(props.row)"
-            >
-              <q-tooltip
-                content-class="bg-amber text-black shadow-4"
-                :offset="[10, 10]"
-                content-style="font-size: 12px"
-              >{{ $t("confirmpicked") }}
-              </q-tooltip
-              >
-            </q-btn>
-            <q-btn
-              v-show="
-                $q.localStorage.getItem('staff_type') !== 'Supplier' &&
-                $q.localStorage.getItem('staff_type') !== 'Customer' &&
-                $q.localStorage.getItem('staff_type') !== 'Inbound' &&
-                $q.localStorage.getItem('staff_type') !== 'StockControl'
-              "
-              round
-              flat
-              push
-              color="dark"
-              icon="rv_hookup"
-              @click="DispatchDN(props.row)"
-            >
-              <q-tooltip
-                content-class="bg-amber text-black shadow-4"
-                :offset="[10, 10]"
-                content-style="font-size: 12px"
-                >{{ $t("dispatch") }}</q-tooltip
-              >
-            </q-btn>
+<!--            <q-btn-->
+<!--              v-show="-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Supplier' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Customer' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Inbound' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'StockControl'-->
+<!--              "-->
+<!--              round-->
+<!--              flat-->
+<!--              push-->
+<!--              color="secondary"-->
+<!--              icon="article"-->
+<!--              @click="PrintPickingList(props.row)"-->
+<!--            >-->
+<!--              <q-tooltip-->
+<!--                content-class="bg-amber text-black shadow-4"-->
+<!--                :offset="[10, 10]"-->
+<!--                content-style="font-size: 12px"-->
+<!--              >{{ $t("twoKai.look_jianhuodan") }}-->
+<!--              </q-tooltip-->
+<!--              >-->
+<!--            </q-btn>-->
+<!--            <q-btn-->
+<!--              v-show="-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Supplier' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Customer' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Inbound' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'StockControl'-->
+<!--              "-->
+<!--              round-->
+<!--              flat-->
+<!--              push-->
+<!--              color="purple"-->
+<!--              icon="img:statics/outbound/picked.png"-->
+<!--              @click="pickedData(props.row)"-->
+<!--            >-->
+<!--              <q-tooltip-->
+<!--                content-class="bg-amber text-black shadow-4"-->
+<!--                :offset="[10, 10]"-->
+<!--                content-style="font-size: 12px"-->
+<!--              >{{ $t("confirmpicked") }}-->
+<!--              </q-tooltip-->
+<!--              >-->
+<!--            </q-btn>-->
+<!--            <q-btn-->
+<!--              v-show="-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Supplier' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Customer' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'Inbound' &&-->
+<!--                $q.localStorage.getItem('staff_type') !== 'StockControl'-->
+<!--              "-->
+<!--              round-->
+<!--              flat-->
+<!--              push-->
+<!--              color="dark"-->
+<!--              icon="rv_hookup"-->
+<!--              @click="DispatchDN(props.row)"-->
+<!--            >-->
+<!--              <q-tooltip-->
+<!--                content-class="bg-amber text-black shadow-4"-->
+<!--                :offset="[10, 10]"-->
+<!--                content-style="font-size: 12px"-->
+<!--                >{{ $t("dispatch") }}</q-tooltip-->
+<!--              >-->
+<!--            </q-btn>-->
             <!-- <q-btn
               v-show="
                 $q.localStorage.getItem('staff_type') !== 'Supplier' &&

@@ -2,7 +2,7 @@ from dateutil.relativedelta import relativedelta
 from rest_framework import viewsets
 from .models import DnListModel, DnDetailModel, PickingListModel, PickingSumModel, CarrierList
 from . import serializers
-from .page import MyPageNumberPaginationDNList
+from .page import MyPageNumberPaginationDNList, MyPageNumberPaginationDNDetail
 from utils.page import MyPageNumberPagination
 from utils.datasolve import sumOfList, transportation_calculate
 from rest_framework.filters import OrderingFilter
@@ -193,7 +193,7 @@ class DnDetailViewSet(viewsets.ModelViewSet):
         update:
             Update a data（put：update）
     """
-    pagination_class = MyPageNumberPagination
+    pagination_class = MyPageNumberPaginationDNDetail
     filter_backends = [DjangoFilterBackend, OrderingFilter, ]
     ordering_fields = ['id', "create_time", "update_time", ]
     filter_class = DnDetailFilter

@@ -2,7 +2,7 @@
     <div>
       <transition appear enter-active-class="animated fadeIn">
       <q-table
-        class="my-sticky-header-table shadow-24"
+        class="my-sticky-header-column-table shadow-24"
         :data="table_list"
         row-key="id"
         :separator="separator"
@@ -24,18 +24,30 @@
                  {{ $t('refreshtip') }}
                </q-tooltip>
              </q-btn>
+             <q-btn label="生成拣货单" icon="confirmation_number" @click="orderreleaseAllData()">
+              <q-tooltip
+                content-class="bg-amber text-black shadow-4"
+                :offset="[10, 10]"
+                content-style="font-size: 12px"
+              >全部生成拣货单
+              </q-tooltip
+              >
+            </q-btn>
            </q-btn-group>
-           <q-space />
-           <q-input outlined rounded dense debounce="300" color="primary" v-model="filter" :placeholder="$t('search')" @blur="getSearchList()" @keyup.enter="getSearchList()">
-             <template v-slot:append>
-               <q-icon name="search" @click="getSearchList()"/>
-             </template>
-           </q-input>
          </template>
          <template v-slot:body="props">
            <q-tr :props="props">
                <q-td key="txnid" :props="props">
                  {{ props.row.txnid }}
+               </q-td>
+               <q-td key="method" :props="props">
+                 {{ props.row.method }}
+               </q-td>
+               <q-td key="trackingnumber" :props="props">
+                 {{ props.row.trackingnumber }}
+               </q-td>
+               <q-td key="carrier" :props="props">
+                 {{ props.row.carrier }}
                </q-td>
                <q-td key="goods_code" :props="props">
                  {{ props.row.goods_code }}
@@ -64,6 +76,13 @@
              <q-td key="update_time" :props="props">
                {{ props.row.update_time }}
              </q-td>
+             <q-td key="action" :props="props" style="width: 50px">
+               <q-btn round flat push color="dark" icon="delete">
+                 <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">
+                   {{ $t('deletebackorder') }}
+                </q-tooltip>
+               </q-btn>
+             </q-td>
            </q-tr>
          </template>
       </q-table>
@@ -88,7 +107,7 @@
     <router-view />
 
 <script>
-import { getauth } from 'boot/axios_request'
+import {getauth, postauth} from 'boot/axios_request'
 
 export default {
   name: 'Pagednneworder',
@@ -99,7 +118,7 @@ export default {
       openid: '',
       login_name: '',
       authin: '0',
-      pathname: 'dn/detail/?dn_status=1',
+      pathname: 'dn/detail/?dn_status=2',
       pathname_previous: '',
       pathname_next: '',
       separator: 'cell',
@@ -111,6 +130,9 @@ export default {
       warehouse_list: [],
       columns: [
         { name: 'txnid', required: true, label: 'TxnId', align: 'left', field: 'txnid' },
+        { name: 'method', required: true, label: 'Method', align: 'left', field: 'method' },
+        { name: 'trackingnumber', required: true, label: '面单', align: 'left', field: 'trackingnumber' },
+        { name: 'carrier', required: true, label: '承运人', align: 'left', field: 'carrier' },
         { name: 'goods_code', label: this.$t('goods.view_goodslist.goods_code'), field: 'goods_code', align: 'center' },
         { name: 'goods_desc', label: this.$t('goods.view_goodslist.goods_desc'), field: 'goods_desc', align: 'center' },
         { name: 'goods_qty', label: this.$t('outbound.view_dn.goods_qty'), field: 'goods_qty', align: 'center' },
@@ -119,7 +141,8 @@ export default {
         { name: 'customer', label: this.$t('baseinfo.view_customer.customer_name'), field: 'customer', align: 'center' },
         { name: 'creater', label: this.$t('creater'), field: 'creater', align: 'center' },
         { name: 'create_time', label: this.$t('createtime'), field: 'create_time', align: 'center' },
-        { name: 'update_time', label: this.$t('updatetime'), field: 'update_time', align: 'center' }
+        { name: 'update_time', label: this.$t('updatetime'), field: 'update_time', align: 'center' },
+        { name: 'action', label: this.$t('action'), align: 'right' }
       ],
       filter: '',
       pagination: {
@@ -202,6 +225,27 @@ export default {
         })
       } else {
       }
+    },
+    orderreleaseAllData () {
+      var _this = this
+      // this.$q.loading.show({ message: '确认中' })
+      postauth(_this.pathname + 'orderrelease/', {})
+        .then((res) => {
+          _this.table_list = []
+          _this.getList()
+          _this.$q.notify({
+            message: '全部生成拣货单成功',
+            icon: 'check',
+            color: 'green'
+          })
+        })
+        .catch((err) => {
+          _this.$q.notify({
+            message: err.detail,
+            icon: 'close',
+            color: 'negative'
+          })
+        })
     },
     reFresh () {
       var _this = this

@@ -30,7 +30,7 @@ class DnDetailFilter(FilterSet):
             "id": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'isnull', 'in', 'range'],
             "txnid": ['exact', 'iexact', 'contains', 'icontains', 'in'],
             "order_type": ['exact', 'iexact', 'contains', 'icontains', 'in'],
-            "order_line": ['exact', 'iexact', 'contains', 'icontains', 'in'],
+            "order_line": ['exact', 'iexact'],
             "trackingnumber": ['exact', 'iexact', 'contains', 'icontains'],
             "carrier": ['exact', 'iexact', 'contains', 'icontains', 'in'],
             "dn_code": ['exact', 'iexact', 'contains', 'icontains'],
