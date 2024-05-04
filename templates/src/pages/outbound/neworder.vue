@@ -213,12 +213,12 @@ export default {
         _this.sku_list_data = []
       }
       this.order_type_data = this.filterData.order_type
-      console.log(this.filterData.order_line, this.order_line)
       if (this.filterData.order_line === '单件') {
         this.order_line = 1
       } else {
         this.order_line = 2
       }
+      console.log(this.filterData.order_line, this.order_line)
       this.carrier_data = this.filterData.carrier
       _this.getList()
     },
