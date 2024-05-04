@@ -34,6 +34,7 @@
               >
             </q-btn>
            </q-btn-group>
+           <q-space />
            <q-input
             v-model="filterData.txnid"
             filled
