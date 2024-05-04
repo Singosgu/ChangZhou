@@ -218,7 +218,6 @@ export default {
       } else {
         this.order_line = 2
       }
-      console.log(this.filterData.order_line, this.order_line)
       this.carrier_data = this.filterData.carrier
       _this.getList()
     },
@@ -228,9 +227,12 @@ export default {
         if (this.order_line === '单件') {
           this.order_line = 1
         } else {
-          this.order_line = 2
+          if (this.order_line === 1) {
+            this.order_line = 1
+          } else {
+            this.order_line = 2
+          }
         }
-        console.log(this.order_line)
         getauth(_this.pathname + '&page=' + this.current + '&txnid__in=' + this.txnid_list_data + '&order_type=' + this.order_type_data + '&carrier=' + this.carrier_data + '&order_line=' + this.order_line + '&goods_code__in=' + this.sku_list_data, {
         }).then(res => {
           _this.page_count = res.count
