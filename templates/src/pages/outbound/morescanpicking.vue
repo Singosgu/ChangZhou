@@ -31,17 +31,8 @@
                <q-td key="txnid" :props="props">
                  {{ props.row.txnid }}
                </q-td>
-               <q-td key="bin_name" :props="props">
-                 {{ props.row.bin_name }}
-               </q-td>
-               <q-td key="goods_code" :props="props">
-                 {{ props.row.goods_code }}
-               </q-td>
-               <q-td key="pick_qty" :props="props">
-                 {{ props.row.pick_qty }}
-               </q-td>
-             <q-td key="picked_qty" :props="props">
-               {{ props.row.picked_qty }}
+              <q-td key="trackingnumber" :props="props">
+               {{ props.row.trackingnumber }}
              </q-td>
              <q-td key="creater" :props="props">
                {{ props.row.creater }}
@@ -89,7 +80,7 @@ export default {
       openid: '',
       login_name: '',
       authin: '0',
-      pathname: 'dn/pickinglistfilter/',
+      pathname: 'dn/pickingsumfilter/',
       pathname_previous: '',
       pathname_next: '',
       separator: 'cell',
@@ -101,10 +92,7 @@ export default {
       warehouse_list: [],
       columns: [
         { name: 'txnid', required: true, label: 'TxnId', align: 'left', field: 'txnid' },
-        { name: 'bin_name', label: this.$t('warehouse.view_binset.bin_name'), field: 'bin_name', align: 'center' },
-        { name: 'goods_code', label: this.$t('goods.view_goodslist.goods_code'), field: 'goods_code', align: 'center' },
-        { name: 'pick_qty', label: this.$t('stock.view_stocklist.pick_stock'), field: 'pick_qty', align: 'center' },
-        { name: 'picked_qty', label: this.$t('stock.view_stocklist.picked_stock'), field: 'picked_qty', align: 'center' },
+        { name: 'trackingnumber', required: true, label: '面单号', align: 'center', field: 'trackingnumber' },
         { name: 'creater', label: this.$t('creater'), field: 'creater', align: 'center' },
         { name: 'create_time', label: this.$t('createtime'), field: 'create_time', align: 'center' },
         { name: 'update_time', label: this.$t('updatetime'), field: 'update_time', align: 'center' }
@@ -112,7 +100,7 @@ export default {
       filter: '',
       pagination: {
         page: 1,
-        rowsPerPage: '5000'
+        rowsPerPage: '10000'
       },
       scanData: [],
       resData: '',
@@ -124,7 +112,7 @@ export default {
     getList (e) {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
-        getauth(_this.pathname + '?page=' + this.current + '&order_line=1&dn_code=' + '' + e + '&max_page=10000&picking_status=1', {
+        getauth(_this.pathname + '?page=' + this.current + '&order_line=2&dn_code=' + '' + e + '&max_page=10000&picking_status=1', {
         }).then(res => {
           _this.page_count = res.count
           _this.table_list = res.results
@@ -179,7 +167,7 @@ export default {
         {
           headers: {
             'Content-Type': 'application/json, charset="utf-8"',
-            token: 'SCANGOODS',
+            token: this.$q.localStorage.getItem('openid'),
             language: this.$q.localStorage.getItem('lang'),
             operator: this.$q.localStorage.getItem('login_id')
           }
@@ -187,10 +175,8 @@ export default {
         if (!res.data.detail) {
           this.resData = res.data.code
           this.resMode = res.data.mode
-          if (this.resMode === 'DN') {
+          if (this.resMode === 'PSUM') {
             this.getList(this.resData)
-          } else if (this.resMode === 'GOODS') {
-            this.PickChange()
           } else if (this.resMode === 'MD') {
             this.MDConfirm(this.resData)
           } else {
@@ -207,35 +193,6 @@ export default {
           message: err.detail
         })
       })
-    },
-    PickChange () {
-      try {
-        this.table_list.forEach((item, index) => {
-          if (item.goods_code === this.resData) {
-            if (item.pick_qty > 0) {
-              item.picked_qty += 1
-              item.pick_qty -= 1
-              this.scan_detail.push(item)
-              this.table_list.unshift(item)
-              this.table_list.splice(index + 1, 1)
-              this.submitRes(item)
-              throw new Error('success')
-            } else {
-              if (index + 1 === this.table_list.length) {
-                this.$q.notify({
-                  type: 'negative',
-                  icon: 'close',
-                  message: 'Can Not Pick More'
-                })
-              }
-            }
-          }
-        })
-      } catch (e) {
-        console.log(e)
-      } finally {
-        console.log('error')
-      }
     },
     submitRes (e) {
       const submitData = {

@@ -95,13 +95,6 @@
              <q-td key="update_time" :props="props">
                {{ props.row.update_time }}
              </q-td>
-             <q-td key="action" :props="props" style="width: 50px">
-<!--               <q-btn round flat push color="dark" icon="delete">-->
-<!--                 <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">-->
-<!--                   {{ $t('deletebackorder') }}-->
-<!--                </q-tooltip>-->
-<!--               </q-btn>-->
-             </q-td>
            </q-tr>
          </template>
       </q-table>
@@ -160,8 +153,7 @@ export default {
         { name: 'customer', label: this.$t('baseinfo.view_customer.customer_name'), field: 'customer', align: 'center' },
         { name: 'creater', label: this.$t('creater'), field: 'creater', align: 'center' },
         { name: 'create_time', label: this.$t('createtime'), field: 'create_time', align: 'center' },
-        { name: 'update_time', label: this.$t('updatetime'), field: 'update_time', align: 'center' },
-        { name: 'action', label: this.$t('action'), align: 'right' }
+        { name: 'update_time', label: this.$t('updatetime'), field: 'update_time', align: 'center' }
       ],
       filter: '',
       filterData: {

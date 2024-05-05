@@ -117,7 +117,8 @@ export default {
       scanData: [],
       resData: '',
       resMode: '',
-      scan_detail: []
+      scan_detail: [],
+      sendData: {}
     }
   },
   methods: {
@@ -218,7 +219,7 @@ export default {
               this.scan_detail.push(item)
               this.table_list.unshift(item)
               this.table_list.splice(index + 1, 1)
-              this.submitRes(item)
+              this.sendData = item
               throw new Error('success')
             } else {
               if (index + 1 === this.table_list.length) {
@@ -236,6 +237,9 @@ export default {
       } finally {
         console.log('error')
       }
+    },
+    submitSendData (e) {
+      this.submitRes(e)
     },
     submitRes (e) {
       const submitData = {
@@ -309,6 +313,12 @@ export default {
     },
     InitData () {
       this.submitForm = false
+    }
+  },
+  watch: {
+    sendData (sendData) {
+      var _this = this
+      _this.submitSendData(sendData)
     }
   },
   created () {
