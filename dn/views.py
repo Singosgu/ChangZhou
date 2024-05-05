@@ -612,7 +612,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
     pagination_class = MyPageNumberPagination
     filter_backends = [DjangoFilterBackend, OrderingFilter, ]
     ordering_fields = ['id', "create_time", "update_time", ]
-    filter_class = DnListFilter
+    filter_class = DnDetailFilter
 
     def get_project(self):
         try:
@@ -645,7 +645,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
         if self.action in ['create']:
             return serializers.DNDetailGetSerializer
         elif self.action in ['update']:
-            return serializers.DNListUpdateSerializer
+            return serializers.DNDetailGetSerializer
         else:
             return self.http_method_not_allowed(request=self.request)
 
