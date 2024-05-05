@@ -34,7 +34,7 @@
           <q-route-tab name="scanpicking" label="单件出库" icon="barcode_reader" :to="{ name: 'scanpicking' }" exact/>
         </transition>
         <transition appear enter-active-class="animated zoomIn">
-          <q-route-tab name="scanpicking" label="多件出库" icon="qr_code_scanner" :to="{ name: 'scanpicking' }" exact/>
+          <q-route-tab name="morescanpicking" label="多件出库" icon="qr_code_scanner" :to="{ name: 'morescanpicking' }" exact/>
         </transition>
 <!--        <transition appear enter-active-class="animated zoomIn">-->
 <!--          <q-route-tab name="shippedstock" label="扫描出库" icon="img:statics/outbound/outbound.png" :to="{ name: 'shippedstock' }" exact/>-->
