@@ -24,14 +24,7 @@
                  {{ $t('refreshtip') }}
                </q-tooltip>
              </q-btn>
-<!--             <q-btn color="secondary" glossy :label="$t('outbound.confirm')" @click="confirmData()" />-->
            </q-btn-group>
-           <q-space />
-<!--           <q-input outlined rounded dense debounce="50000" color="primary" v-model="filter" :placeholder="$t('search')" @blur="getSearchList()" @keyup.enter="getSearchList()">-->
-<!--             <template v-slot:append>-->
-<!--               <q-icon name="search" @click="getSearchList()"/>-->
-<!--             </template>-->
-<!--           </q-input>-->
          </template>
          <template v-slot:body="props">
            <q-tr :props="props">
@@ -78,43 +71,6 @@
           <q-btn v-show="page_count===0" flat push color="dark" :label="$t('no_data')"></q-btn>
         </div>
       </template>
-      <q-dialog v-model="submitForm">
-      <q-card class="shadow-24">
-        <q-bar
-          class="bg-light-blue-10 text-white rounded-borders"
-          style="height: 50px"
-        >
-          <div>确认发货</div>
-          <q-space/>
-          <q-btn dense flat icon="close" v-close-popup>
-            <q-tooltip content-class="bg-amber text-black shadow-4">{{
-                $t("index.close")
-              }}
-            </q-tooltip>
-          </q-btn>
-        </q-bar>
-        <q-card-section
-          style="max-height: 325px; width: 400px"
-          class="scroll"
-        >该操作不可逆
-        </q-card-section
-        >
-        <div style="float: right; padding: 15px 15px 15px 0">
-          <q-btn
-            color="white"
-            text-color="black"
-            style="margin-right: 25px"
-            @click="InitData()"
-          >{{ $t("cancel") }}
-          </q-btn
-          >
-          <q-btn color="primary" @click="submitData()">{{
-              $t("submit")
-            }}
-          </q-btn>
-        </div>
-      </q-card>
-    </q-dialog>
     </div>
 
 </template>
@@ -123,7 +79,6 @@
 <script>
 import { getauth, putauth, postauth } from 'boot/axios_request'
 import axios from 'axios'
-import {LocalStorage} from "quasar";
 
 export default {
   name: 'Pagednprepick',
@@ -162,7 +117,6 @@ export default {
       scanData: [],
       resData: '',
       resMode: '',
-      submitForm: false,
       scan_detail: []
     }
   },
@@ -170,26 +124,7 @@ export default {
     getList (e) {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
-        getauth(_this.pathname + '?order_line=1&page=' + this.current + '&dn_code=' + '' + e + '&max_page=5000&picking_status=0', {
-        }).then(res => {
-          _this.page_count = res.count
-          _this.table_list = res.results
-          _this.pathname_previous = res.previous
-          _this.pathname_next = res.next
-        }).catch(err => {
-          _this.$q.notify({
-            message: err.detail,
-            icon: 'close',
-            color: 'negative'
-          })
-        })
-      } else {
-      }
-    },
-    getSearchList () {
-      var _this = this
-      if (_this.$q.localStorage.has('auth')) {
-        getauth(_this.pathname + '?dn_code__icontains=' + _this.filter + '&page=' + this.current, {
+        getauth(_this.pathname + '?page=' + this.current + '&order_line=1&dn_code=' + '' + e + '&max_page=10000&picking_status=1', {
         }).then(res => {
           _this.page_count = res.count
           _this.table_list = res.results
@@ -239,9 +174,6 @@ export default {
         })
       }
     },
-    confirmData () {
-      this.submitForm = true
-    },
     getScanData (e) {
       axios.get('scanner/list/' + e + '/',
         {
@@ -259,6 +191,8 @@ export default {
             this.getList(this.resData)
           } else if (this.resMode === 'GOODS') {
             this.PickChange()
+          } else if (this.resMode === 'MD') {
+            this.MDConfirm(this.resData)
           } else {
             this.$q.notify({
               message: e + '编码不存在',
@@ -281,7 +215,7 @@ export default {
             if (item.pick_qty > 0) {
               item.picked_qty += 1
               item.pick_qty -= 1
-              this.scan_detail.splice(index + 1, 1)
+              this.scan_detail.push(item)
               this.table_list.unshift(item)
               this.table_list.splice(index + 1, 1)
               this.submitRes(item)
@@ -303,36 +237,14 @@ export default {
         console.log('error')
       }
     },
-    submitData () {
-      var dn_code = this.table_list[0].dn_code
-      getauth('dn/list/?dn_code=' + dn_code, {}).then((res) => {
-        if (!res.detail) {
-          this.submitRes(res.results[0])
-        } else {
-          this.$q.notify({
-            type: 'negative',
-            icon: 'close',
-            message: this.$t('notice.mobile_scan.notice1')
-          })
-        }
-      })
-        .catch((err) => {
-          this.$q.notify({
-            type: 'negative',
-            icon: 'close',
-            message: this.$t('notice.mobile_scan.notice3')
-          })
-        })
-    },
     submitRes (e) {
-      console.log(e)
-      const resData = {
+      const submitData = {
         creater: this.login_name,
         customer: e.customer,
         dn_code: e.dn_code,
         goodsData: this.scan_detail
       }
-      putauth('dn/picked/' + e.id + '/', resData, {
+      putauth('dn/picked/' + e.id + '/', submitData, {
       })
         .then((res) => {
           if (!res.detail) {
@@ -353,6 +265,33 @@ export default {
             message: this.$t('notice.network_error')
           })
         })
+    },
+    MDConfirm (e) {
+      getauth('dn/list/?trackingnumber=' + e).then((res) => {
+        if (res.results.length > 0) {
+          if (res.results[0].dn_status === 4) {
+            postauth('dn/dispatch/' + res.results[0].id + '/', res.results[0]).then((res) => {
+              this.$q.notify({
+                message: '发货成功',
+                icon: 'check',
+                color: 'green'
+              })
+            })
+          } else {
+            this.$q.notify({
+              message: '订单已完成，或者还未到发货环节',
+              icon: 'close',
+              color: 'negative'
+            })
+          }
+        } else {
+          this.$q.notify({
+            message: '面单不存在',
+            icon: 'close',
+            color: 'negative'
+          })
+        }
+      })
     },
     reFresh () {
       var _this = this
