@@ -217,8 +217,6 @@ export default {
             if (item.pick_qty > 0) {
               item.picked_qty += 1
               item.pick_qty -= 1
-              this.scan_detail = []
-              this.scan_detail.push(item)
               this.table_list.unshift(item)
               this.table_list.splice(index + 1, 1)
               this.sendData = item
@@ -241,6 +239,8 @@ export default {
       }
     },
     submitSendData (e) {
+      this.scan_detail = []
+      this.scan_detail.push(e)
       this.submitRes(e)
     },
     submitRes (e) {
