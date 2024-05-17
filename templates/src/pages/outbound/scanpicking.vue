@@ -118,14 +118,15 @@ export default {
       resData: '',
       resMode: '',
       scan_detail: [],
-      sendData: {}
+      sendData: {},
+      picking_status_list: [1,2]
     }
   },
   methods: {
     getList (e) {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
-        getauth(_this.pathname + '?page=' + this.current + '&order_line=1&dn_code=' + '' + e + '&max_page=10000&picking_status=1', {
+        getauth(_this.pathname + '?page=' + this.current + '&order_line=1&dn_code=' + '' + e + '&max_page=10000&picking_status__in=' + _this.picking_status_list, {
         }).then(res => {
           _this.page_count = res.count
           _this.table_list = res.results
@@ -212,10 +213,11 @@ export default {
     PickChange () {
       try {
         this.table_list.forEach((item, index) => {
-          if (item.goods_code === this.resData) {
+          if (item.goods_code === this.resData && item.picking_status === 1) {
             if (item.pick_qty > 0) {
               item.picked_qty += 1
               item.pick_qty -= 1
+              this.scan_detail = []
               this.scan_detail.push(item)
               this.table_list.unshift(item)
               this.table_list.splice(index + 1, 1)

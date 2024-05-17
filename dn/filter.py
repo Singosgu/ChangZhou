@@ -68,7 +68,7 @@ class DnPickingListFilter(FilterSet):
             "dn_code": ['exact', 'iexact', 'contains', 'icontains'],
             "bin_name": ['exact', 'iexact', 'contains', 'icontains', 'startswith'],
             "goods_code": ['exact', 'iexact', 'contains', 'icontains'],
-            "picking_status": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'range'],
+            "picking_status": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'range', 'in'],
             "picker": ['exact', 'iexact', 'contains', 'icontains'],
             "pick_qty": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'range'],
             "picked_qty": ['exact', 'iexact', 'gt', 'gte', 'lt', 'lte', 'range'],
