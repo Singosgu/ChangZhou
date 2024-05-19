@@ -128,19 +128,12 @@ class SannerView(viewsets.ModelViewSet):
             else:
                 superopenid = u.openid
             query_dict = {}
-            query_dict1 = {}
             if bar_code is not None:
-                query_dict['bar_code__icontains'] = bar_code
-                query_dict1['bar_code'] = bar_code
+                query_dict['bar_code'] = bar_code
             else:
                 if self.request.auth.openid != superopenid:
                     query_dict['openid'] = self.request.auth.openid
-                    query_dict1['openid'] = self.request.auth.openid
-            qs_list = ListModel.objects.filter(**query_dict)
-            if qs_list.first().mode == "MD":
-                return ListModel.objects.filter(**query_dict)
-            else:
-                return ListModel.objects.filter(**query_dict1)
+            return ListModel.objects.filter(**query_dict)
         else:
             return ListModel.objects.none()
 

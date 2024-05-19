@@ -217,6 +217,7 @@ export default {
             if (item.pick_qty > 0) {
               item.picked_qty += 1
               item.pick_qty -= 1
+              item.picking_status = 2
               this.table_list.unshift(item)
               this.table_list.splice(index + 1, 1)
               this.sendData = item
@@ -277,6 +278,7 @@ export default {
         if (res.results.length > 0) {
           if (res.results[0].dn_status === 4) {
             postauth('dn/dispatch/' + res.results[0].id + '/', res.results[0]).then((res) => {
+              this.getList('')
               this.$q.notify({
                 message: '发货成功',
                 icon: 'check',
