@@ -2704,7 +2704,7 @@ def get_mian_dan(request):
                         mian_dan=res[0].get('LabelData', '').replace(" ", ""),
                         have_mian_dan=True
                     )
-                    scanner.objects.create(openid=request.META.get('HTTP_TOKEN'), mode="MD",
+                    scanner.objects.create(openid='SCANGOODS', mode="MD",
                                            code=res[0].get('TrackingInfo', '').get('TrackingNumber'),
                                            bar_code=Md5.md5(str(res[0].get('TrackingInfo', '').get('TrackingNumber'))))
                     dn_list[i].save()
@@ -2765,7 +2765,7 @@ class confirmOrdersViewSet(viewsets.ModelViewSet):
         for i in range(len(qs_list)):
             qs = qs_list[i]
             if qs.openid != self.request.auth.openid:
-                raise APIException({"detail": "Cannot delete data which not yours"})
+                raise APIException({"detail": "不能确认非你仓库的订单"})
             else:
                 DnListModel.objects.filter(openid=self.request.auth.openid, dn_code=qs.dn_code,
                                            dn_status=1, is_delete=False).update(dn_status=2)
