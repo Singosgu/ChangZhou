@@ -247,9 +247,9 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                 headers=headers).json().get('Orders')
             for v in get_order:
                 for x in v.get('OrderItems', ''):
-                    if goods.objects.filter(goods_code=x.get('ItemSKU', ''), is_delete=False).exists() is False:
+                    if goods.objects.filter(goods_code=x.get('ItemSKU', '').strip(), is_delete=False).exists() is False:
                         goods.objects.create(
-                            goods_code=x.get('ItemSKU', ''),
+                            goods_code=x.get('ItemSKU', '').strip(),
                             goods_desc='N/A',
                             goods_supplier='N/A',
                             goods_unit='N/A',
@@ -260,14 +260,14 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                             goods_specs='N/A',
                             goods_origin='N/A',
                             creater=self.request.auth.name,
-                            bar_code=x.get('ItemSKU', ''),
+                            bar_code=x.get('ItemSKU', '').strip(),
                             openid=data.get('openid')
                         )
-                        qr_code_check = scanner.objects.filter(openid='SCANGOODS', mode="GOODS", code=x.get('ItemSKU', ''),
-                                               bar_code=x.get('ItemSKU', ''))
+                        qr_code_check = scanner.objects.filter(openid='SCANGOODS', mode="GOODS", code=x.get('ItemSKU', '').strip(),
+                                                               bar_code=x.get('ItemSKU', '').strip())
                         if qr_code_check.exists() is False:
                             scanner.objects.create(openid='SCANGOODS', mode="GOODS", code=x.get('ItemSKU', ''),
-                                                   bar_code=x.get('ItemSKU', ''))
+                                                   bar_code=x.get('ItemSKU', '').strip())
             for j in get_order:
                 qs_set = DnListModel.objects.filter(is_delete=False)
                 order_day = str(timezone.now().strftime('%Y%m%d'))
@@ -299,40 +299,40 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                     else:
                         order_line = 2
                     DnListModel.objects.create(
-                        txnid=j.get('TxnId', ''),
+                        txnid=j.get('TxnId', '').strip(),
                         order_line=order_line,
-                        order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', ''),
+                        order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', '').strip(),
                         tp_detail=j,
                         dn_code=dn_code,
                         total_weight=sumOfList(total_weight_list, len(total_weight_list)),
                         total_volume=sumOfList(total_volume_list, len(total_volume_list)),
                         total_cost=sumOfList(total_cost_list, len(total_cost_list)),
-                        customer=j.get('To', '').get('Name', ''),
+                        customer=j.get('To', '').get('Name', '').strip(),
                         creater=self.request.auth.name,
                         bar_code=bar_code,
                         openid=data.get('openid', ''),
                         priority=priority,
-                        warehouse_id=int(data.get('warehouse_id', ''))
+                        warehouse_id=int(str(data.get('warehouse_id', '')).strip())
                     ),
-                    if customer.objects.filter(openid=data.get('openid', ''), customer_name=j.get('To', '').get('Name', ''), is_delete=False).exists() is False:
+                    if customer.objects.filter(openid=data.get('openid', ''), customer_name=j.get('To', '').get('Name', '').strip(), is_delete=False).exists() is False:
                         customer.objects.create(
                             openid=data.get('openid', ''),
-                            customer_name=j.get('To', '').get('Name', ''),
-                            customer_city=j.get('To', '').get('City', ''),
-                            customer_address=j.get('To', '').get('Street', '') + j.get('To', '').get('Street2', ''),
-                            customer_contact=j.get('To', '').get('PhoneNumber', ''),
-                            customer_manager=j.get('To', '').get('Email', ''),
+                            customer_name=j.get('To', '').get('Name', '').strip(),
+                            customer_city=j.get('To', '').get('City', '').strip(),
+                            customer_address=j.get('To', '').get('Street', '') + j.get('To', '').get('Street2', '').strip(),
+                            customer_contact=str(j.get('To', '').get('PhoneNumber', '')).strip(),
+                            customer_manager=j.get('To', '').get('Email', '').strip(),
                             creater=self.request.auth.name
                         )
                     for k in j.get('OrderItems', ''):
-                        goods_detail = goods.objects.filter(goods_code=k.get('ItemSKU', '')).first()
+                        goods_detail = goods.objects.filter(goods_code=k.get('ItemSKU', '').strip()).first()
                         DnDetailModel.objects.create(
                             openid=data.get('openid', ''),
-                            txnid=j.get('TxnId', ''),
+                            txnid=j.get('TxnId', '').strip(),
                             order_line=order_line,
-                            order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', ''),
+                            order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', '').strip(),
                             dn_code=dn_code,
-                            customer=j.get('To', '').get('Name', ''),
+                            customer=j.get('To', '').get('Name', '').strip(),
                             goods_code=goods_detail.goods_code,
                             goods_desc=goods_detail.goods_desc,
                             goods_qty=k.get('Quantity', ''),
@@ -343,13 +343,13 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                             priority=priority,
                             warehouse_id=int(data.get('warehouse_id', ''))
                         )
-                        if carrierlist.objects.filter(carrier=j.get('ShippingDetails', '')[0].get('Package', '').get('TrackingInfo', '').get('CarrierName', '')).exists() is False:
+                        if carrierlist.objects.filter(carrier=j.get('ShippingDetails', '')[0].get('Package', '').get('TrackingInfo', '').get('CarrierName', '').strip()).exists() is False:
                             carrierlist.objects.create(
-                                carrier=j.get('ShippingDetails', '')[0].get('Package', '').get('TrackingInfo', '').get('CarrierName', '')
+                                carrier=j.get('ShippingDetails', '')[0].get('Package', '').get('TrackingInfo', '').get('CarrierName', '').strip()
                             )
-                        if ordertype.objects.filter(order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', '')).exists() is False:
+                        if ordertype.objects.filter(order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', '').strip()).exists() is False:
                             ordertype.objects.create(
-                                order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', '')
+                                order_type=j.get('ShippingDetails', '')[0].get('Package', '').get('Method', '').strip()
                             )
                         if stocklist.objects.filter(
                                 openid=data.get('openid', ''),

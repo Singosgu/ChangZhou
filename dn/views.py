@@ -2690,25 +2690,25 @@ def get_mian_dan(request):
                 res = requests.get('https://api.teapplix.com/api2/Shipment?ReturnLabel=1&TxnId=' + dn_list[i].txnid,
                                    headers=headers).json().get('Items', '')
                 if len(res) > 0:
-                    dn_list[i].carrier = res[0].get('TrackingInfo', '').get('CarrierName')
-                    dn_list[i].trackingnumber = res[0].get('TrackingInfo', '').get('TrackingNumber')
-                    dn_list[i].mian_dan = res[0].get('LabelData', '').replace(" ", "")
+                    dn_list[i].carrier = res[0].get('TrackingInfo', '').get('CarrierName').strip()
+                    dn_list[i].trackingnumber = str(res[0].get('TrackingInfo', '').get('TrackingNumber')).strip()
+                    dn_list[i].mian_dan = res[0].get('LabelData', '').strip()
                     dn_list[i].have_mian_dan = True
                     if CarrierList.objects.filter(carrier=res[0].get('TrackingInfo', '').get('CarrierName')).exists() is False:
                         CarrierList.objects.create(
-                            carrier=res[0].get('TrackingInfo', '').get('CarrierName')
+                            carrier=res[0].get('TrackingInfo', '').get('CarrierName').strip()
                         )
                     DnDetailModel.objects.filter(txnid=dn_list[i].txnid).update(
-                        carrier=res[0].get('TrackingInfo', '').get('CarrierName'),
-                        trackingnumber=res[0].get('TrackingInfo', '').get('TrackingNumber'),
-                        mian_dan=res[0].get('LabelData', '').replace(" ", ""),
+                        carrier=res[0].get('TrackingInfo', '').get('CarrierName').strip(),
+                        trackingnumber=str(res[0].get('TrackingInfo', '').get('TrackingNumber')).strip(),
+                        mian_dan=res[0].get('LabelData', '').strip(),
                         have_mian_dan=True
                     )
                     scanner.objects.create(openid='SCANGOODS', mode="MD",
-                                           code=res[0].get('TrackingInfo', '').get('TrackingNumber'),
-                                           bar_code=res[0].get('TrackingInfo', '').get('TrackingNumber'))
+                                           code=str(res[0].get('TrackingInfo', '').get('TrackingNumber')).strip(),
+                                           bar_code=str(res[0].get('TrackingInfo', '').get('TrackingNumber')).strip())
                     dn_list[i].save()
-                    # decoded_data = base64.b64decode(res[0].get('LabelData', '').replace(" ", ""))
+                    # decoded_data = base64.b64decode(res[0].get('LabelData', '').strip())
                     # path = str(settings.BASE_DIR) + '/media/miandan/' + str(dn_list[i].txnid) + '.pdf'
                     # with open(path, 'wb') as file:
                     #     file.write(decoded_data)

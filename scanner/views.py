@@ -120,19 +120,12 @@ class SannerView(viewsets.ModelViewSet):
             return None
 
     def get_queryset(self):
-        bar_code = self.get_project()
+        bar_code = self.get_project().strip()
         if self.request.user:
-            u = Users.objects.filter(vip=9).first()
-            if u is None:
-                superopenid = None
-            else:
-                superopenid = u.openid
             query_dict = {}
             if bar_code is not None:
                 query_dict['bar_code'] = bar_code
-            else:
-                if self.request.auth.openid != superopenid:
-                    query_dict['openid'] = 'SCANGOODS'
+                query_dict['openid'] = 'SCANGOODS'
             qs_list = ListModel.objects.filter(**query_dict)
             if qs_list.exists():
                 return qs_list
@@ -153,6 +146,6 @@ class SannerView(viewsets.ModelViewSet):
             return self.http_method_not_allowed(request=self.request)
 
     def list(self, request, *args, **kwargs):
-        instance = self.get_queryset().first()
+        instance = self.get_queryset().order_by('-id').first()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)

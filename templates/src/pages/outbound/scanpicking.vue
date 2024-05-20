@@ -77,7 +77,7 @@
     <router-view />
 
 <script>
-import { getauth, putauth, postauth } from 'boot/axios_request'
+import { baseurl, getauth, putauth, postauth } from 'boot/axios_request'
 import axios from 'axios'
 
 export default {
@@ -177,7 +177,7 @@ export default {
       }
     },
     getScanData (e) {
-      axios.get('scanner/list/' + e + '/',
+      axios.get(baseurl + 'scanner/list/' + e + '/',
         {
           headers: {
             'Content-Type': 'application/json, charset="utf-8"',

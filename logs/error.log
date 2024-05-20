@@ -55289,3 +55289,99 @@ Traceback (most recent call last):
     PickingSumModel.objects.filter(txnid=qs[i].first().txnid).update(picker=data['staff_name'], picking_status=1)
 AttributeError: 'PickingListModel' object has no attribute 'first'
 [2024-05-04 18:03:47,758][django.server.log_message():157] [ERROR] "POST /dn/onepicking/?page=1&picking_status=0&order_line=2&bin_name__startswith=D06 HTTP/1.1" 500 107031
+[2024-05-20 13:58:19,596][django.request.log_response():224] [ERROR] Internal Server Error: /scanner/list/AltAlt1ZC161030324032088/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\Github_desktop\ChangZhou\scanner\views.py", line 165, in list
+    instance = self.get_queryset().first()
+  File "E:\Github_desktop\ChangZhou\scanner\views.py", line 139, in get_queryset
+    for i in x:
+TypeError: 'int' object is not iterable
+[2024-05-20 13:58:19,761][django.server.log_message():157] [ERROR] "GET /scanner/list/AltAlt1ZC161030324032088/ HTTP/1.1" 500 108969
+[2024-05-20 13:58:19,903][django.request.log_response():224] [ERROR] Internal Server Error: /scanner/list/AltAlt1ZC161030324032088/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\Github_desktop\ChangZhou\scanner\views.py", line 165, in list
+    instance = self.get_queryset().first()
+  File "E:\Github_desktop\ChangZhou\scanner\views.py", line 139, in get_queryset
+    for i in x:
+TypeError: 'int' object is not iterable
+[2024-05-20 13:58:20,065][django.server.log_message():157] [ERROR] "GET /scanner/list/AltAlt1ZC161030324032088/ HTTP/1.1" 500 108969
+[2024-05-20 13:58:20,679][django.request.log_response():224] [ERROR] Internal Server Error: /scanner/list/1ZC161030324032088/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\Github_desktop\ChangZhou\scanner\views.py", line 165, in list
+    instance = self.get_queryset().first()
+  File "E:\Github_desktop\ChangZhou\scanner\views.py", line 139, in get_queryset
+    for i in x:
+TypeError: 'int' object is not iterable
+[2024-05-20 13:58:20,835][django.server.log_message():157] [ERROR] "GET /scanner/list/1ZC161030324032088/ HTTP/1.1" 500 108819
+[2024-05-20 13:58:20,976][django.request.log_response():224] [ERROR] Internal Server Error: /scanner/list/1ZC161030324032088/
+Traceback (most recent call last):
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\Github_desktop\venv\ChangZhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\Github_desktop\ChangZhou\scanner\views.py", line 165, in list
+    instance = self.get_queryset().first()
+  File "E:\Github_desktop\ChangZhou\scanner\views.py", line 139, in get_queryset
+    for i in x:
+TypeError: 'int' object is not iterable
+[2024-05-20 13:58:21,138][django.server.log_message():157] [ERROR] "GET /scanner/list/1ZC161030324032088/ HTTP/1.1" 500 108819
