@@ -663,6 +663,8 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
         for i in range(len(dn_detail_list)):
             qs = DnListModel.objects.filter(openid=self.request.auth.openid, dn_code=dn_detail_list[i].dn_code,
                                             is_delete=False).first()
+            qs.dn_status = 3
+            qs.save()
             total_weight = qs.total_weight
             total_volume = qs.total_volume
             total_cost = qs.total_cost
@@ -1189,103 +1191,103 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                     continue
             else:
                 continue
-            if picking_list_label == 1:
-                if back_order_list_label == 2:
-                    back_order_total_volume = sumOfList(back_order_goods_volume_list,
-                                                        len(back_order_goods_volume_list))
-                    back_order_total_weight = sumOfList(back_order_goods_weight_list,
-                                                        len(back_order_goods_weight_list))
-                    back_order_total_cost = sumOfList(back_order_goods_cost_list,
-                                                      len(back_order_goods_cost_list))
-                    customer_city = customer.objects.filter(
-                                                            customer_name=str(qs.customer),
-                                                            is_delete=False).first().customer_city
-                    warehouse_city = warehouse.objects.filter(
-                        openid=self.request.auth.openid).first().warehouse_city
-                    transportation_fee = transportation.objects.filter(
-                        Q(openid=self.request.auth.openid, send_city__icontains=warehouse_city,
-                          receiver_city__icontains=customer_city,
-                          is_delete=False) | Q(openid='init_data', send_city__icontains=warehouse_city,
-                                               receiver_city__icontains=customer_city,
-                                               is_delete=False))
-                    transportation_res = {
-                        "detail": []
-                    }
-                    transportation_back_order_res = {
-                        "detail": []
-                    }
-                    if len(transportation_fee) >= 1:
-                        transportation_list = []
-                        transportation_back_order_list = []
-                        for k in range(len(transportation_fee)):
-                            transportation_cost = transportation_calculate(total_weight,
-                                                                           total_volume,
-                                                                           transportation_fee[k].weight_fee,
-                                                                           transportation_fee[k].volume_fee,
-                                                                           transportation_fee[k].min_payment)
-                            transportation_back_order_cost = transportation_calculate(back_order_total_weight,
-                                                                                      back_order_total_volume,
-                                                                                      transportation_fee[k].weight_fee,
-                                                                                      transportation_fee[k].volume_fee,
-                                                                                      transportation_fee[k].min_payment)
-                            transportation_detail = {
-                                "transportation_supplier": transportation_fee[k].transportation_supplier,
-                                "transportation_cost": transportation_cost
-                            }
-                            transportation_back_order_detail = {
-                                "transportation_supplier": transportation_fee[k].transportation_supplier,
-                                "transportation_cost": transportation_back_order_cost
-                            }
-                            transportation_list.append(transportation_detail)
-                            transportation_back_order_list.append(transportation_back_order_detail)
-                        transportation_res['detail'] = transportation_list
-                        transportation_back_order_res['detail'] = transportation_back_order_list
-                    DnListModel.objects.create(openid=self.request.auth.openid,
-                                               dn_code=back_order_dn_code,
-                                               dn_status=2,
-                                               total_weight=back_order_total_weight,
-                                               total_volume=back_order_total_volume,
-                                               total_cost=back_order_total_cost,
-                                               customer=qs.customer,
-                                               creater=str(staff_name),
-                                               bar_code=bar_code,
-                                               back_order_label=True,
-                                               transportation_fee=transportation_back_order_res,
-                                               create_time=qs.create_time)
-                    scanner.objects.create(openid=self.request.auth.openid, mode="DN", code=back_order_dn_code,
-                                           bar_code=bar_code)
-                    PickingListModel.objects.bulk_create(picking_list, batch_size=100)
-                    DnDetailModel.objects.bulk_create(back_order_list, batch_size=100)
-                    qs.total_weight = total_weight
-                    qs.total_volume = total_volume
-                    qs.total_cost = total_cost
-                    qs.transportation_fee = transportation_res
-                    qs.dn_status = 3
-                    qs.save()
-                elif back_order_list_label == 0:
-                    PickingListModel.objects.bulk_create(picking_list, batch_size=100)
-                    qs.dn_status = 3
-                    qs.save()
-            elif picking_list_label == 0:
-                if back_order_list_label == 2:
-                    DnDetailModel.objects.bulk_create(back_order_list, batch_size=100)
-                    DnListModel.objects.create(openid=self.request.auth.openid,
-                                               dn_code=back_order_dn_code,
-                                               dn_status=2,
-                                               total_weight=qs.total_weight,
-                                               total_volume=qs.total_volume,
-                                               total_cost=qs.total_cost,
-                                               customer=qs.customer,
-                                               creater=str(staff_name),
-                                               bar_code=bar_code,
-                                               back_order_label=True,
-                                               transportation_fee=qs.transportation_fee,
-                                               create_time=qs.create_time)
-                    scanner.objects.create(openid=self.request.auth.openid, mode="DN", code=back_order_dn_code,
-                                           bar_code=bar_code)
-                    qs.is_delete = True
-                    qs.dn_status = 3
-                    qs.save()
+        if picking_list_label == 1:
+            if back_order_list_label == 2:
+                back_order_total_volume = sumOfList(back_order_goods_volume_list,
+                                                    len(back_order_goods_volume_list))
+                back_order_total_weight = sumOfList(back_order_goods_weight_list,
+                                                    len(back_order_goods_weight_list))
+                back_order_total_cost = sumOfList(back_order_goods_cost_list,
+                                                  len(back_order_goods_cost_list))
+                customer_city = customer.objects.filter(
+                                                        customer_name=str(qs.customer),
+                                                        is_delete=False).first().customer_city
+                warehouse_city = warehouse.objects.filter(
+                    openid=self.request.auth.openid).first().warehouse_city
+                transportation_fee = transportation.objects.filter(
+                    Q(openid=self.request.auth.openid, send_city__icontains=warehouse_city,
+                      receiver_city__icontains=customer_city,
+                      is_delete=False) | Q(openid='init_data', send_city__icontains=warehouse_city,
+                                           receiver_city__icontains=customer_city,
+                                           is_delete=False))
+                transportation_res = {
+                    "detail": []
+                }
+                transportation_back_order_res = {
+                    "detail": []
+                }
+                if len(transportation_fee) >= 1:
+                    transportation_list = []
+                    transportation_back_order_list = []
+                    for k in range(len(transportation_fee)):
+                        transportation_cost = transportation_calculate(total_weight,
+                                                                       total_volume,
+                                                                       transportation_fee[k].weight_fee,
+                                                                       transportation_fee[k].volume_fee,
+                                                                       transportation_fee[k].min_payment)
+                        transportation_back_order_cost = transportation_calculate(back_order_total_weight,
+                                                                                  back_order_total_volume,
+                                                                                  transportation_fee[k].weight_fee,
+                                                                                  transportation_fee[k].volume_fee,
+                                                                                  transportation_fee[k].min_payment)
+                        transportation_detail = {
+                            "transportation_supplier": transportation_fee[k].transportation_supplier,
+                            "transportation_cost": transportation_cost
+                        }
+                        transportation_back_order_detail = {
+                            "transportation_supplier": transportation_fee[k].transportation_supplier,
+                            "transportation_cost": transportation_back_order_cost
+                        }
+                        transportation_list.append(transportation_detail)
+                        transportation_back_order_list.append(transportation_back_order_detail)
+                    transportation_res['detail'] = transportation_list
+                    transportation_back_order_res['detail'] = transportation_back_order_list
+                DnListModel.objects.create(openid=self.request.auth.openid,
+                                           dn_code=back_order_dn_code,
+                                           dn_status=2,
+                                           total_weight=back_order_total_weight,
+                                           total_volume=back_order_total_volume,
+                                           total_cost=back_order_total_cost,
+                                           customer=qs.customer,
+                                           creater=str(staff_name),
+                                           bar_code=bar_code,
+                                           back_order_label=True,
+                                           transportation_fee=transportation_back_order_res,
+                                           create_time=qs.create_time)
+                scanner.objects.create(openid=self.request.auth.openid, mode="DN", code=back_order_dn_code,
+                                       bar_code=bar_code)
+                PickingListModel.objects.bulk_create(picking_list, batch_size=100)
+                DnDetailModel.objects.bulk_create(back_order_list, batch_size=100)
+                qs.total_weight = total_weight
+                qs.total_volume = total_volume
+                qs.total_cost = total_cost
+                qs.transportation_fee = transportation_res
+                qs.dn_status = 3
+                qs.save()
+            elif back_order_list_label == 0:
+                PickingListModel.objects.bulk_create(picking_list, batch_size=100)
+                qs.dn_status = 3
+                qs.save()
+        elif picking_list_label == 0:
+            if back_order_list_label == 2:
+                DnDetailModel.objects.bulk_create(back_order_list, batch_size=100)
+                DnListModel.objects.create(openid=self.request.auth.openid,
+                                           dn_code=back_order_dn_code,
+                                           dn_status=2,
+                                           total_weight=qs.total_weight,
+                                           total_volume=qs.total_volume,
+                                           total_cost=qs.total_cost,
+                                           customer=qs.customer,
+                                           creater=str(staff_name),
+                                           bar_code=bar_code,
+                                           back_order_label=True,
+                                           transportation_fee=qs.transportation_fee,
+                                           create_time=qs.create_time)
+                scanner.objects.create(openid=self.request.auth.openid, mode="DN", code=back_order_dn_code,
+                                       bar_code=bar_code)
+                qs.is_delete = True
+                qs.dn_status = 3
+                qs.save()
         return Response({"detail": "success"}, status=200)
 
     def update(self, request, pk):
