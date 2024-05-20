@@ -133,7 +133,16 @@ class SannerView(viewsets.ModelViewSet):
             else:
                 if self.request.auth.openid != superopenid:
                     query_dict['openid'] = self.request.auth.openid
-            return ListModel.objects.filter(**query_dict)
+            qs_list = ListModel.objects.filter(**query_dict)
+            if qs_list.exists():
+                return qs_list
+            else:
+                try:
+                    ups_mian_dan_code = bar_code.split('420')[1][5:]
+                    query_dict['bar_code'] = ups_mian_dan_code
+                    return ListModel.objects.filter(**query_dict)
+                except:
+                    return ListModel.objects.none()
         else:
             return ListModel.objects.none()
 
