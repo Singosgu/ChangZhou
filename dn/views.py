@@ -712,7 +712,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                                                    dn_code=dn_detail_list[i].dn_code,
                                                                    creater=str(staff_name)
                                                                    )
-                                    scanner.objects.create(openid=self.request.auth.openid, mode="PSUM",
+                                    scanner.objects.create(openid='SCANGOODS', mode="PSUM",
                                                            code=dn_detail_list[i].txnid,
                                                            bar_code=Md5.md5(str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
                                 picking_list.append(PickingListModel(openid=self.request.auth.openid,
@@ -729,7 +729,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                                                      pick_qty=bin_can_pick_qty,
                                                                      creater=str(staff_name),
                                                                      t_code=goods_bin_stock_list[j].t_code))
-                                scanner.objects.create(openid=self.request.auth.openid, mode="PLIST",
+                                scanner.objects.create(openid='SCANGOODS', mode="PLIST",
                                                        code=dn_detail_list[i].txnid,
                                                        bar_code=Md5.md5(
                                                            str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
@@ -805,7 +805,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                                                    dn_code=dn_detail_list[i].dn_code,
                                                                    creater=str(staff_name)
                                                                    )
-                                    scanner.objects.create(openid=self.request.auth.openid, mode="PSUM",
+                                    scanner.objects.create(openid='SCANGOODS', mode="PSUM",
                                                            code=dn_detail_list[i].txnid,
                                                            bar_code=Md5.md5(
                                                                str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
@@ -825,7 +825,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                                                      pick_qty=bin_can_pick_qty,
                                                                      creater=str(staff_name),
                                                                      t_code=goods_bin_stock_list[j].t_code))
-                                scanner.objects.create(openid=self.request.auth.openid, mode="PLIST",
+                                scanner.objects.create(openid='SCANGOODS', mode="PLIST",
                                                        code=dn_detail_list[i].txnid,
                                                        bar_code=Md5.md5(
                                                            str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
