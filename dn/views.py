@@ -2706,7 +2706,7 @@ def get_mian_dan(request):
                     )
                     scanner.objects.create(openid='SCANGOODS', mode="MD",
                                            code=res[0].get('TrackingInfo', '').get('TrackingNumber'),
-                                           bar_code=Md5.md5(str(res[0].get('TrackingInfo', '').get('TrackingNumber'))))
+                                           bar_code=res[0].get('TrackingInfo', '').get('TrackingNumber'))
                     dn_list[i].save()
                     # decoded_data = base64.b64decode(res[0].get('LabelData', '').replace(" ", ""))
                     # path = str(settings.BASE_DIR) + '/media/miandan/' + str(dn_list[i].txnid) + '.pdf'
