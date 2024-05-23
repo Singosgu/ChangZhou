@@ -131,8 +131,8 @@ class SannerView(viewsets.ModelViewSet):
                 return qs_list
             else:
                 try:
-                    ups_mian_dan_code = bar_code.split('420')[1][5:]
-                    query_dict['bar_code'] = ups_mian_dan_code
+                    usps_mian_dan_code = str(bar_code).split('420')[1][5:]
+                    query_dict['bar_code'] = usps_mian_dan_code
                     return ListModel.objects.filter(**query_dict)
                 except:
                     return ListModel.objects.none()
