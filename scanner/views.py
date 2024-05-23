@@ -120,7 +120,7 @@ class SannerView(viewsets.ModelViewSet):
             return None
 
     def get_queryset(self):
-        bar_code = self.get_project().strip()
+        bar_code = str(self.get_project()).strip()
         if self.request.user:
             query_dict = {}
             if bar_code is not None:
