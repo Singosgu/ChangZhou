@@ -4,7 +4,6 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.utils.urls import remove_query_param, replace_query_param
 
-from customer.models import ListModel as customer
 from warehouse.models import ListModel as warehouse
 from .models import OrderTypeList as ordertype
 from .models import CarrierList as carrierlist
@@ -54,10 +53,6 @@ class MyPageNumberPaginationDNList(PageNumberPagination):
             raise APIException({"detail": "Wrong API Url"})
 
     def get_paginated_response(self, data):
-        customer_list_data = customer.objects.filter(is_delete=False)
-        customer_list = []
-        for i in range(len(customer_list_data)):
-            customer_list.append(customer_list_data[i].customer_name)
         warehouse_list_data = warehouse.objects.filter(is_delete=False)
         warehouse_list = []
         for i in range(len(warehouse_list_data)):
@@ -78,7 +73,6 @@ class MyPageNumberPaginationDNList(PageNumberPagination):
         return Response(OrderedDict([
             ('carrier_list', carrier_list),
             ('order_type_list', order_type_list),
-            ('customer_list', customer_list),
             ('warehouse_list', warehouse_list),
             ('count', self.page.paginator.count),
             ('next', self.get_next_link()),
@@ -129,10 +123,6 @@ class MyPageNumberPaginationDNDetail(PageNumberPagination):
             raise APIException({"detail": "Wrong API Url"})
 
     def get_paginated_response(self, data):
-        customer_list_data = customer.objects.filter(is_delete=False)
-        customer_list = []
-        for i in range(len(customer_list_data)):
-            customer_list.append(customer_list_data[i].customer_name)
         warehouse_list_data = warehouse.objects.filter(is_delete=False)
         warehouse_list = []
         for i in range(len(warehouse_list_data)):
@@ -153,7 +143,6 @@ class MyPageNumberPaginationDNDetail(PageNumberPagination):
         return Response(OrderedDict([
             ('carrier_list', carrier_list),
             ('order_type_list', order_type_list),
-            ('customer_list', customer_list),
             ('warehouse_list', warehouse_list),
             ('count', self.page.paginator.count),
             ('next', self.get_next_link()),

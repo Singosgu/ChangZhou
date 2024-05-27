@@ -33,6 +33,7 @@ from .files import FileListRenderCN, FileListRenderEN, FileDetailRenderCN, FileD
 from rest_framework.settings import api_settings
 from staff.models import ListModel as staff
 from userprofile.models import Users
+from django.db.models import Sum
 
 
 class DnListViewSet(viewsets.ModelViewSet):
@@ -2632,10 +2633,10 @@ class PickListDownloadView(viewsets.ModelViewSet):
                 superopenid = None
             else:
                 superopenid = u.openid
-            query_dict = {}
+            query_dict = {"picking_status": 1}
             if self.request.auth.openid != superopenid:
                 query_dict['openid'] = self.request.auth.openid
-            return PickingListModel.objects.filter(**query_dict)
+            return PickingListModel.objects.filter(**query_dict).annotate(total_qty=Sum('pick_qty'))
         else:
             return PickingListModel.objects.none()
 
@@ -2657,8 +2658,6 @@ class PickListDownloadView(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         qs = self.filter_queryset(self.get_queryset())
-        for i in qs:
-            print(i.txnid)
         from datetime import datetime
         dt = datetime.now()
         data = (
