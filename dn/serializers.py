@@ -49,7 +49,7 @@ class DNListGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = DnListModel
         exclude = ['openid', 'is_delete', ]
-        read_only_fields = ['id', ]
+        read_only_fields = ['id', 'tp_detail']
     def get_warehouse_id(self, obj):
         return obj.warehouse_id
 
