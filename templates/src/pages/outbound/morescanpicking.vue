@@ -239,11 +239,7 @@ export default {
         .then((res) => {
           if (!res.detail) {
             this.scan_detail = []
-            var picking_list = []
-            getauth('dn/pickinglistfilter/?dn_code=' + e.dn_code).then((res) => {
-              picking_list = res.results
-            })
-            postauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', { data: e.mian_dan, bar_code: e.bar_code, pickinglist: picking_list }).then((res) => {
+            postauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', { data: e.mian_dan }).then((res) => {
               this.$q.notify({
                 message: '面单打印成功'
               })
