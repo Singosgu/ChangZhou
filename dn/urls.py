@@ -36,6 +36,9 @@ re_path(r'^picked/(?P<pk>\d+)/$', views.DnPickedViewSet.as_view({
     'post': 'create',
     'put': 'update'
 }), name="picked_1"),
+re_path(r'^morepicked/(?P<pk>\d+)/$', views.DnPickedSumViewSet.as_view({
+    'post': 'create',
+}), name="picked_1"),
 re_path(r'^dispatch/(?P<pk>\d+)/$', views.DnDispatchViewSet.as_view({
     'post': 'create',
 }), name="dispatch_1"),

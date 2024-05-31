@@ -31,12 +31,9 @@
                <q-td key="txnid" :props="props">
                  {{ props.row.txnid }}
                </q-td>
-              <q-td key="trackingnumber" :props="props">
-               {{ props.row.trackingnumber }}
-             </q-td>
-             <q-td key="creater" :props="props">
-               {{ props.row.creater }}
-             </q-td>
+               <q-td key="trackingnumber" :props="props">
+                 {{ props.row.trackingnumber }}
+               </q-td>
              <q-td key="create_time" :props="props">
                {{ props.row.create_time }}
              </q-td>
@@ -68,7 +65,7 @@
     <router-view />
 
 <script>
-import { getauth, putauth, postauth } from 'boot/axios_request'
+import { baseurl, getauth, putauth, postauth } from 'boot/axios_request'
 import axios from 'axios'
 
 export default {
@@ -92,7 +89,7 @@ export default {
       warehouse_list: [],
       columns: [
         { name: 'txnid', required: true, label: 'TxnId', align: 'left', field: 'txnid' },
-        { name: 'trackingnumber', required: true, label: '面单号', align: 'center', field: 'trackingnumber' },
+        { name: 'trackingnumber', label: '面单号', field: 'trackingnumber', align: 'center' },
         { name: 'creater', label: this.$t('creater'), field: 'creater', align: 'center' },
         { name: 'create_time', label: this.$t('createtime'), field: 'create_time', align: 'center' },
         { name: 'update_time', label: this.$t('updatetime'), field: 'update_time', align: 'center' }
@@ -100,19 +97,21 @@ export default {
       filter: '',
       pagination: {
         page: 1,
-        rowsPerPage: '10000'
+        rowsPerPage: '5000'
       },
       scanData: [],
       resData: '',
       resMode: '',
-      scan_detail: []
+      scan_detail: [],
+      sendData: {},
+      picking_status_list: [1,2]
     }
   },
   methods: {
     getList (e) {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
-        getauth(_this.pathname + '?page=' + this.current + '&order_line=2&dn_code=' + '' + e + '&max_page=10000&picking_status=1', {
+        getauth(_this.pathname + '?page=' + this.current + '&order_line=1&dn_code=' + '' + e + '&max_page=10000&picking_status__in=' + _this.picking_status_list, {
         }).then(res => {
           _this.page_count = res.count
           _this.table_list = res.results
@@ -163,11 +162,11 @@ export default {
       }
     },
     getScanData (e) {
-      axios.get('scanner/list/' + e + '/',
+      axios.get(baseurl + 'scanner/list/' + e + '/',
         {
           headers: {
             'Content-Type': 'application/json, charset="utf-8"',
-            token: this.$q.localStorage.getItem('openid'),
+            token: 'SCANGOODS',
             language: this.$q.localStorage.getItem('lang'),
             operator: this.$q.localStorage.getItem('login_id')
           }
@@ -175,8 +174,10 @@ export default {
         if (!res.data.detail) {
           this.resData = res.data.code
           this.resMode = res.data.mode
-          if (this.resMode === 'PSUM') {
+          if (this.resMode === 'DN') {
             this.getList(this.resData)
+          } else if (this.resMode === 'PSUM') {
+            this.PickChange()
           } else if (this.resMode === 'MD') {
             this.MDConfirm(this.resData)
           } else {
@@ -194,6 +195,38 @@ export default {
         })
       })
     },
+    PickChange () {
+      try {
+        this.table_list.forEach((item, index) => {
+          if (item.bar_code === this.resData && item.picking_status === 1) {
+            if (item.pick_qty > 0) {
+              item.picking_status = 2
+              this.table_list.unshift(item)
+              this.table_list.splice(index + 1, 1)
+              this.sendData = item
+              throw new Error('success')
+            } else {
+              if (index + 1 === this.table_list.length) {
+                this.$q.notify({
+                  type: 'negative',
+                  icon: 'close',
+                  message: 'Can Not Pick More'
+                })
+              }
+            }
+          }
+        })
+      } catch (e) {
+        console.log(e)
+      } finally {
+        console.log('error')
+      }
+    },
+    submitSendData (e) {
+      this.scan_detail = []
+      this.scan_detail.push(e)
+      this.submitRes(e)
+    },
     submitRes (e) {
       const submitData = {
         creater: this.login_name,
@@ -201,12 +234,16 @@ export default {
         dn_code: e.dn_code,
         goodsData: this.scan_detail
       }
-      putauth('dn/picked/' + e.id + '/', submitData, {
+      postauth('dn/morepicked/' + e.id + '/', submitData, {
       })
         .then((res) => {
           if (!res.detail) {
             this.scan_detail = []
-            postauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', { data: e.mian_dan }).then((res) => {
+            var picking_list = []
+            getauth('dn/pickinglistfilter/?dn_code=' + e.dn_code).then((res) => {
+              picking_list = res.results
+            })
+            postauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', { data: e.mian_dan, bar_code: e.bar_code, pickinglist: picking_list }).then((res) => {
               this.$q.notify({
                 message: '面单打印成功'
               })
@@ -228,6 +265,7 @@ export default {
         if (res.results.length > 0) {
           if (res.results[0].dn_status === 4) {
             postauth('dn/dispatch/' + res.results[0].id + '/', res.results[0]).then((res) => {
+              this.getList('')
               this.$q.notify({
                 message: '发货成功',
                 icon: 'check',
@@ -266,6 +304,12 @@ export default {
     },
     InitData () {
       this.submitForm = false
+    }
+  },
+  watch: {
+    sendData (sendData) {
+      var _this = this
+      _this.submitSendData(sendData)
     }
   },
   created () {

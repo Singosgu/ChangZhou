@@ -48,8 +48,8 @@ class DNListGetSerializer(serializers.ModelSerializer):
     update_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M:%S')
     class Meta:
         model = DnListModel
-        exclude = ['openid', 'is_delete', ]
-        read_only_fields = ['id', 'tp_detail']
+        exclude = ['openid', 'is_delete', 'tp_detail', 'mian_dan']
+        read_only_fields = ['id', ]
     def get_warehouse_id(self, obj):
         return obj.warehouse_id
 
@@ -112,8 +112,8 @@ class DNDetailGetSerializer(serializers.ModelSerializer):
     back_order_label = serializers.BooleanField(read_only=True, required=False)
     class Meta:
         model = DnDetailModel
-        exclude = ['openid', 'is_delete', ]
-        read_only_fields = ['id', 'openid']
+        exclude = ['openid', 'is_delete', 'tp_detail', 'mian_dan']
+        read_only_fields = ['id', 'openid', 'tp_detail']
 
 class DNDetailPostSerializer(serializers.ModelSerializer):
     openid = serializers.CharField(read_only=False, required=False, validators=[datasolve.openid_validate])
