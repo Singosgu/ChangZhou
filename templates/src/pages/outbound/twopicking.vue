@@ -202,7 +202,9 @@ export default {
       allocte_form: false,
       filter_data: {
         txnid: '',
-        staff_name: ''
+        staff_name: '',
+        dn_code: '',
+        bar_code: ''
       }
     }
   },
@@ -292,6 +294,8 @@ export default {
       if (_this.$q.localStorage.has('auth')) {
         _this.allocte_form = true
         _this.filter_data.txnid = e.txnid
+        _this.filter_data.dn_code = e.dn_code
+        _this.filter_data.bar_code = e.bar_code
       } else {
         _this.$q.notify({
           message: _this.$t('no_auth'),
@@ -327,6 +331,8 @@ export default {
       _this.allocte_form = false
       _this.filter_data.txnid = ''
       _this.filter_data.staff_name = ''
+      _this.filter_data.dn_code = ''
+      _this.filter_data.bar_code = ''
     },
     resSubmit () {
       var _this = this
@@ -334,6 +340,15 @@ export default {
         postauth(baseurl + 'dn/morepicking/?page=' + this.current + '&picking_status=0&order_line=2&txnid=' + _this.filter_data.txnid, _this.filter_data).then(res => {
           _this.cancelSubmit()
           _this.getList()
+          var picking_list = []
+          getauth('dn/pickinglistfilter/?dn_code=' + _this.filter_data.dn_code).then((res) => {
+            picking_list = res.results
+          })
+          postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + _this.filter_data.txnid + '/', { bar_code: _this.filter_data.bar_code, pickinglist: picking_list }).then((res) => {
+            this.$q.notify({
+              message: '拣货单打印成功'
+            })
+          })
           _this.$q.notify({
             message: '分配成功',
             icon: 'check',
