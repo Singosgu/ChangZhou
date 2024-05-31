@@ -183,7 +183,7 @@
         <template v-slot:body-cell-action="props">
           <q-td key="action" :props="props" style="width: 100px">
             <q-btn
-              v-show="props.row.mian_dan !== ''"
+              v-show="props.row.have_mian_dan !== false"
               round
               flat
               push
@@ -200,7 +200,7 @@
               >
             </q-btn>
             <q-btn
-              v-show="props.row.mian_dan === ''"
+              v-show="props.row.have_mian_dan === true"
               round
               flat
               push
