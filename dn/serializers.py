@@ -112,7 +112,7 @@ class DNDetailGetSerializer(serializers.ModelSerializer):
     back_order_label = serializers.BooleanField(read_only=True, required=False)
     class Meta:
         model = DnDetailModel
-        exclude = ['openid', 'is_delete', 'tp_detail', 'mian_dan']
+        exclude = ['openid', 'is_delete', 'mian_dan']
         read_only_fields = ['id', 'openid', 'tp_detail']
 
 class DNDetailPostSerializer(serializers.ModelSerializer):
