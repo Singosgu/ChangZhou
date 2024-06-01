@@ -25,7 +25,6 @@ re_path(r'^orderrelease/(?P<pk>\d+)/$', views.DnOrderReleaseViewSet.as_view({
     'put': 'update',
 }), name="orderrelease_1"),
 path(r'pickinglistfilter/', views.DnPickingListFilterViewSet.as_view({"get": "list"}), name="pickinglistfilter"),
-path(r'pickinglistget/', views.DnPickingListQueryFilterViewSet.as_view({"get": "list"}), name="DnPickingListQueryFilterViewSet"),
 path(r'pickingsumfilter/', views.DnPickingSumFilterViewSet.as_view({"get": "list"}), name="pickingsumfilter"),
 path(r'onepicking/', views.PickerOneAllocateViewSet.as_view({"post": "create"}), name="onepicking"),
 path(r'morepicking/', views.PickerMoreAllocateViewSet.as_view({"post": "create"}), name="morepicking"),
