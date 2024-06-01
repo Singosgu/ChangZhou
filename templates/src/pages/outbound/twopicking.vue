@@ -213,7 +213,7 @@ export default {
     getList () {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
-        getauth('dn/pickinglistfilter/?dn_code=DN202406011', {}).then((res) => {
+        getauth('dn/pickinglistfilter/?txnid=TEST-2024053107', {}).then((res) => {
           console.log(res)
         })
         getauth(_this.pathname + '?page=' + this.current + '&picking_status=0&order_line=2', {
@@ -343,7 +343,7 @@ export default {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
         postauth(baseurl + 'dn/morepicking/?page=' + this.current + '&picking_status=0&order_line=2&txnid=' + _this.filter_data.txnid, _this.filter_data).then(res => {
-          getauth('dn/pickinglistfilter/?dn_code=' + _this.filter_data.dn_code).then((res) => {
+          getauth('dn/pickinglistfilter/?txnid=' + _this.filter_data.txnid).then((res) => {
             _this.filter_data.picking_list = res.results
             postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + _this.filter_data.txnid + '/', _this.filter_data ).then((result) => {
               this.$q.notify({
