@@ -338,8 +338,6 @@ export default {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
         postauth(baseurl + 'dn/morepicking/?page=' + this.current + '&picking_status=0&order_line=2&txnid=' + _this.filter_data.txnid, _this.filter_data).then(res => {
-          _this.cancelSubmit()
-          _this.getList()
           var picking_list = []
           getauth('dn/pickinglistfilter/?dn_code=' + _this.filter_data.dn_code).then((res) => {
             picking_list = res.results
@@ -349,6 +347,8 @@ export default {
               message: '拣货单打印成功'
             })
           })
+          _this.cancelSubmit()
+          _this.getList()
           _this.$q.notify({
             message: '分配成功',
             icon: 'check',
