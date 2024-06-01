@@ -212,8 +212,7 @@ export default {
     getList () {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
-        getauth('dn/pickinglistfilter/' + '?page=' + this.current, {})
-        getauth(_this.pathname + '?page=' + this.current + '&order_line=2', {
+        getauth(_this.pathname + '?page=' + this.current + '&picking_status=0&order_line=2', {
         }).then(res => {
           _this.page_count = res.count
           _this.table_list = res.results
