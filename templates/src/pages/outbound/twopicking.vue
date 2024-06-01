@@ -204,7 +204,8 @@ export default {
         txnid: '',
         staff_name: '',
         dn_code: '',
-        bar_code: ''
+        bar_code: '',
+        picking_list: []
       }
     }
   },
@@ -212,6 +213,9 @@ export default {
     getList () {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
+        getauth('dn/pickinglistfilter/?dn_code=DN202406011', {}).then((res) => {
+          console.log(res)
+        })
         getauth(_this.pathname + '?page=' + this.current + '&picking_status=0&order_line=2', {
         }).then(res => {
           _this.page_count = res.count
@@ -333,23 +337,18 @@ export default {
       _this.filter_data.staff_name = ''
       _this.filter_data.dn_code = ''
       _this.filter_data.bar_code = ''
+      _this.filter_data.picking_list = []
     },
     resSubmit () {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
         postauth(baseurl + 'dn/morepicking/?page=' + this.current + '&picking_status=0&order_line=2&txnid=' + _this.filter_data.txnid, _this.filter_data).then(res => {
-          var picking_list = []
           getauth('dn/pickinglistfilter/?dn_code=' + _this.filter_data.dn_code).then((res) => {
-            picking_list = res.results
-            _this.$q.notify({
-              message: picking_list,
-              icon: 'check',
-              color: 'green'
-            })
-          })
-          postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + _this.filter_data.txnid + '/', { bar_code: _this.filter_data.bar_code, pickinglist: picking_list }).then((res) => {
-            this.$q.notify({
-              message: '拣货单打印成功'
+            _this.filter_data.picking_list = res.results
+            postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + _this.filter_data.txnid + '/', _this.filter_data ).then((result) => {
+              this.$q.notify({
+                message: '拣货单打印成功'
+              })
             })
           })
           _this.cancelSubmit()
