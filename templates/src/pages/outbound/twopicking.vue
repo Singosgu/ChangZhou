@@ -341,6 +341,11 @@ export default {
           var picking_list = []
           getauth('dn/pickinglistfilter/?dn_code=' + _this.filter_data.dn_code).then((res) => {
             picking_list = res.results
+            _this.$q.notify({
+              message: picking_list,
+              icon: 'check',
+              color: 'green'
+            })
           })
           postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + _this.filter_data.txnid + '/', { bar_code: _this.filter_data.bar_code, pickinglist: picking_list }).then((res) => {
             this.$q.notify({
