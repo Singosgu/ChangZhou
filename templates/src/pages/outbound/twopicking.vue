@@ -213,7 +213,7 @@ export default {
     getList () {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
-        getauth('dn/pickinglistfilter/', {}).then((res) => {
+        getauth('dn/pickinglistfilter/?txnid=TEST-2024053111', {}).then((res) => {
           console.log(res)
         })
         getauth(_this.pathname + '?page=' + this.current + '&picking_status=0&order_line=2', {
