@@ -31,6 +31,7 @@ from asn.models import AsnDetailModel as asndetail
 from dn.models import DnListModel as dnlist
 from dn.models import DnDetailModel as dndetail
 from dn.models import PickingListModel as pklist
+from dn.models import PickingSumModel as pkslist
 from binset.models import ListModel as binset
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
@@ -1425,6 +1426,8 @@ class StockInitViewSet(views.APIView):
                 dnlist.objects.filter(openid=self.request.auth.openid).delete()
                 dndetail.objects.filter(openid=self.request.auth.openid).delete()
                 pklist.objects.filter(openid=self.request.auth.openid).delete()
+                pkslist.objects.filter(openid=self.request.auth.openid).delete()
+                staff.objects.filter(openid=self.request.auth.openid).update(picking_task=0)
                 for i in range((df.shape[0])):
                     if str(df.iloc[i][0]) == 'nan':
                         continue
