@@ -1823,6 +1823,38 @@ class DnPickingSumFilterViewSet(viewsets.ModelViewSet):
         else:
             return self.http_method_not_allowed(request=self.request)
 
+
+class DnPickingListQueryFilterViewSet(viewsets.ModelViewSet):
+    """
+        list:
+            Picklist for Filter
+    """
+    pagination_class = MyPageNumberPaginationPicking
+    filter_backends = [DjangoFilterBackend, OrderingFilter, ]
+    ordering_fields = ['id', "create_time", "update_time", ]
+    filter_class = DnPickingListFilter
+
+    def get_queryset(self):
+        if self.request.user:
+            u = Users.objects.filter(vip=9).first()
+            if u is None:
+                superopenid = None
+            else:
+                superopenid = u.openid
+            query_dict = {}
+            if self.request.auth.openid != superopenid:
+                query_dict['openid'] = self.request.auth.openid
+            return PickingListModel.objects.filter(**query_dict)
+        else:
+            return PickingListModel.objects.none()
+
+    def get_serializer_class(self):
+        if self.action in ['list']:
+            return serializers.DNPickingListGetSerializer
+        else:
+            return self.http_method_not_allowed(request=self.request)
+
+
 class DnPickingListFilterViewSet(viewsets.ModelViewSet):
     """
         list:
