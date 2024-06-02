@@ -65,11 +65,11 @@
     <router-view />
 
 <script>
-import { baseurl, getauth, putauth, postauth } from 'boot/axios_request'
+import { baseurl, getauth, postauth } from 'boot/axios_request'
 import axios from 'axios'
 
 export default {
-  name: 'Pagednprepick',
+  name: 'Pagednmorepick',
   data () {
     return {
       current: 1,

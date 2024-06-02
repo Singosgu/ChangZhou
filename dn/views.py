@@ -702,6 +702,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                 goods_qty_change.pick_stock = goods_qty_change.pick_stock + bin_can_pick_qty
                                 picking_sum = PickingSumModel.objects.filter(openid=self.request.auth.openid, txnid=dn_detail_list[i].txnid)
                                 if picking_sum.exists() is False:
+                                    bar_code = Md5.md5(str(dn_detail_list[i].txnid) + str(random.randint(1, 9999)))
                                     PickingSumModel.objects.create(openid=self.request.auth.openid,
                                                                    txnid=dn_detail_list[i].txnid,
                                                                    order_line=dn_detail_list[i].order_line,
@@ -711,11 +712,12 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                                                    mian_dan=dn_detail_list[i].mian_dan,
                                                                    have_mian_dan=dn_detail_list[i].have_mian_dan,
                                                                    dn_code=dn_detail_list[i].dn_code,
-                                                                   creater=str(staff_name)
+                                                                   creater=str(staff_name),
+                                                                   bar_code=bar_code
                                                                    )
                                     scanner.objects.create(openid='SCANGOODS', mode="PSUM",
                                                            code=dn_detail_list[i].txnid,
-                                                           bar_code=Md5.md5(str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
+                                                           bar_code=bar_code)
                                 picking_list.append(PickingListModel(openid=self.request.auth.openid,
                                                                      txnid=dn_detail_list[i].txnid,
                                                                      order_line=dn_detail_list[i].order_line,
@@ -795,6 +797,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                 picking_sum = PickingSumModel.objects.filter(openid=self.request.auth.openid,
                                                                              txnid=dn_detail_list[i].txnid)
                                 if picking_sum.exists() is False:
+                                    bar_code = Md5.md5(str(dn_detail_list[i].txnid) + str(random.randint(1, 9999)))
                                     PickingSumModel.objects.create(openid=self.request.auth.openid,
                                                                    txnid=dn_detail_list[i].txnid,
                                                                    order_line=dn_detail_list[i].order_line,
@@ -804,12 +807,12 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                                                    mian_dan=dn_detail_list[i].mian_dan,
                                                                    have_mian_dan=dn_detail_list[i].have_mian_dan,
                                                                    dn_code=dn_detail_list[i].dn_code,
-                                                                   creater=str(staff_name)
+                                                                   creater=str(staff_name),
+                                                                   bar_code=bar_code
                                                                    )
                                     scanner.objects.create(openid='SCANGOODS', mode="PSUM",
                                                            code=dn_detail_list[i].txnid,
-                                                           bar_code=Md5.md5(
-                                                               str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
+                                                           bar_code=bar_code)
                                 picking_list.append(PickingListModel(openid=self.request.auth.openid,
                                                                      txnid=dn_detail_list[i].txnid,
                                                                      order_line=dn_detail_list[i].order_line,
@@ -890,6 +893,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                 picking_sum = PickingSumModel.objects.filter(openid=self.request.auth.openid,
                                                                              txnid=dn_detail_list[i].txnid)
                                 if picking_sum.exists() is False:
+                                    bar_code = Md5.md5(str(dn_detail_list[i].txnid) + str(random.randint(1, 9999)))
                                     PickingSumModel.objects.create(openid=self.request.auth.openid,
                                                                    txnid=dn_detail_list[i].txnid,
                                                                    order_line=dn_detail_list[i].order_line,
@@ -899,12 +903,12 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                                                    mian_dan=dn_detail_list[i].mian_dan,
                                                                    have_mian_dan=dn_detail_list[i].have_mian_dan,
                                                                    dn_code=dn_detail_list[i].dn_code,
-                                                                   creater=str(staff_name)
+                                                                   creater=str(staff_name),
+                                                                   bar_code=bar_code
                                                                    )
                                     scanner.objects.create(openid=self.request.auth.openid, mode="PSUM",
                                                            code=dn_detail_list[i].txnid,
-                                                           bar_code=Md5.md5(
-                                                               str(dn_detail_list[i].txnid) + str(random.randint(1,9999))))
+                                                           bar_code=bar_code)
                                 picking_list.append(PickingListModel(openid=self.request.auth.openid,
                                                                      txnid=dn_detail_list[i].txnid,
                                                                      order_line=dn_detail_list[i].order_line,
@@ -938,6 +942,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                 picking_sum = PickingSumModel.objects.filter(openid=self.request.auth.openid,
                                                                              txnid=dn_detail_list[i].txnid)
                                 if picking_sum.exists() is False:
+                                    bar_code = Md5.md5(str(dn_detail_list[i].txnid) + str(random.randint(1, 9999)))
                                     PickingSumModel.objects.create(openid=self.request.auth.openid,
                                                                    txnid=dn_detail_list[i].txnid,
                                                                    order_line=dn_detail_list[i].order_line,
@@ -947,12 +952,12 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                                                    mian_dan=dn_detail_list[i].mian_dan,
                                                                    have_mian_dan=dn_detail_list[i].have_mian_dan,
                                                                    dn_code=dn_detail_list[i].dn_code,
-                                                                   creater=str(staff_name)
+                                                                   creater=str(staff_name),
+                                                                   bar_code=bar_code
                                                                    )
                                     scanner.objects.create(openid=self.request.auth.openid, mode="PSUM",
                                                            code=dn_detail_list[i].txnid,
-                                                           bar_code=Md5.md5(
-                                                               str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
+                                                           bar_code=bar_code)
                                 picking_list.append(PickingListModel(openid=self.request.auth.openid,
                                                                      txnid=dn_detail_list[i].txnid,
                                                                      order_line=dn_detail_list[i].order_line,
@@ -1005,6 +1010,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                 picking_sum = PickingSumModel.objects.filter(openid=self.request.auth.openid,
                                                                              txnid=dn_detail_list[i].txnid)
                                 if picking_sum.exists() is False:
+                                    bar_code = Md5.md5(str(dn_detail_list[i].txnid) + str(random.randint(1, 9999)))
                                     PickingSumModel.objects.create(openid=self.request.auth.openid,
                                                                    txnid=dn_detail_list[i].txnid,
                                                                    order_line=dn_detail_list[i].order_line,
@@ -1014,12 +1020,12 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                                                    mian_dan=dn_detail_list[i].mian_dan,
                                                                    have_mian_dan=dn_detail_list[i].have_mian_dan,
                                                                    dn_code=dn_detail_list[i].dn_code,
-                                                                   creater=str(staff_name)
+                                                                   creater=str(staff_name),
+                                                                   bar_code=bar_code
                                                                    )
                                     scanner.objects.create(openid=self.request.auth.openid, mode="PSUM",
                                                            code=dn_detail_list[i].txnid,
-                                                           bar_code=Md5.md5(
-                                                               str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
+                                                           bar_code=bar_code)
                                 picking_list.append(PickingListModel(openid=self.request.auth.openid,
                                                                      txnid=dn_detail_list[i].txnid,
                                                                      order_line=dn_detail_list[i].order_line,
@@ -1056,6 +1062,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                 picking_sum = PickingSumModel.objects.filter(openid=self.request.auth.openid,
                                                                              txnid=dn_detail_list[i].txnid)
                                 if picking_sum.exists() is False:
+                                    bar_code = Md5.md5(str(dn_detail_list[i].txnid) + str(random.randint(1, 9999)))
                                     PickingSumModel.objects.create(openid=self.request.auth.openid,
                                                                    txnid=dn_detail_list[i].txnid,
                                                                    order_line=dn_detail_list[i].order_line,
@@ -1065,12 +1072,12 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                                                    mian_dan=dn_detail_list[i].mian_dan,
                                                                    have_mian_dan=dn_detail_list[i].have_mian_dan,
                                                                    dn_code=dn_detail_list[i].dn_code,
-                                                                   creater=str(staff_name)
+                                                                   creater=str(staff_name),
+                                                                   bar_code=bar_code
                                                                    )
                                     scanner.objects.create(openid=self.request.auth.openid, mode="PSUM",
                                                            code=dn_detail_list[i].txnid,
-                                                           bar_code=Md5.md5(
-                                                               str(dn_detail_list[i].txnid) + str(random.randint(1,9999))))
+                                                           bar_code=bar_code)
                                 picking_list.append(PickingListModel(openid=self.request.auth.openid,
                                                                      txnid=dn_detail_list[i].txnid,
                                                                      order_line=dn_detail_list[i].order_line,
@@ -1110,6 +1117,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                 picking_sum = PickingSumModel.objects.filter(openid=self.request.auth.openid,
                                                                              txnid=dn_detail_list[i].txnid)
                                 if picking_sum.exists() is False:
+                                    bar_code = Md5.md5(str(dn_detail_list[i].txnid) + str(random.randint(1, 9999)))
                                     PickingSumModel.objects.create(openid=self.request.auth.openid,
                                                                    txnid=dn_detail_list[i].txnid,
                                                                    order_line=dn_detail_list[i].order_line,
@@ -1119,12 +1127,12 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                                                    mian_dan=dn_detail_list[i].mian_dan,
                                                                    have_mian_dan=dn_detail_list[i].have_mian_dan,
                                                                    dn_code=dn_detail_list[i].dn_code,
-                                                                   creater=str(staff_name)
+                                                                   creater=str(staff_name),
+                                                                   bar_code=bar_code
                                                                    )
                                     scanner.objects.create(openid=self.request.auth.openid, mode="PSUM",
                                                            code=dn_detail_list[i].txnid,
-                                                           bar_code=Md5.md5(
-                                                               str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
+                                                           bar_code=bar_code)
                                 picking_list.append(PickingListModel(openid=self.request.auth.openid,
                                                                      txnid=dn_detail_list[i].txnid,
                                                                      order_line=dn_detail_list[i].order_line,
@@ -1142,8 +1150,7 @@ class DnOrderReleaseViewSet(viewsets.ModelViewSet):
                                                                      t_code=goods_bin_stock_list[j].t_code))
                                 scanner.objects.create(openid=self.request.auth.openid, mode="PLIST",
                                                        code=dn_detail_list[i].txnid,
-                                                       bar_code=Md5.md5(
-                                                           str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
+                                                       bar_code=Md5.md5(str(dn_detail_list[i].txnid) + str(random.randint(1, 9999))))
                                 picking_list_label = 1
                                 dn_detail_list[i].pick_qty = dn_detail_list[i].pick_qty + dn_need_pick_qty
                                 dn_detail_list[i].dn_status = 3
