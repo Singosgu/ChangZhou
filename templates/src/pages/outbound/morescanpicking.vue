@@ -200,9 +200,13 @@ export default {
           console.log(item)
           if (item.bar_code === this.resData && item.picking_status === 1) {
             item.picking_status = 2
+            console.log(1)
             this.table_list.unshift(item)
+            console.log(2)
             this.table_list.splice(index + 1, 1)
+            console.log(3)
             this.sendData = item
+            console.log(4)
             console.log(this.sendData)
             throw new Error('success')
           }
