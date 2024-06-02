@@ -111,7 +111,7 @@ export default {
     getList (e) {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
-        getauth(_this.pathname + '?page=' + this.current + '&order_line=2&dn_code=' + '' + e + '&max_page=10000&picking_status__in=' + _this.picking_status_list, {
+        getauth(_this.pathname + '?page=' + this.current + '&order_line=2&dn_code=' + '' + e + '&max_page=10000&picking_status=1', {
         }).then(res => {
           _this.page_count = res.count
           _this.table_list = res.results
@@ -174,6 +174,7 @@ export default {
         if (!res.data.detail) {
           this.resData = res.data.code
           this.resMode = res.data.mode
+          console.log(res)
           if (this.resMode === 'DN') {
             this.getList(this.resData)
           } else if (this.resMode === 'PSUM') {
