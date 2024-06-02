@@ -134,6 +134,8 @@ class SannerView(viewsets.ModelViewSet):
                     if str(bar_code).startswith('420'):
                         query_dict['bar_code'] = str(bar_code)[8:]
                         return ListModel.objects.filter(**query_dict)
+                    else:
+                        return ListModel.objects.none()
                 except:
                     return ListModel.objects.none()
         else:

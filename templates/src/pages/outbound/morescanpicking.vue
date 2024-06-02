@@ -90,7 +90,6 @@ export default {
       columns: [
         { name: 'txnid', required: true, label: 'TxnId', align: 'left', field: 'txnid' },
         { name: 'trackingnumber', label: '面单号', field: 'trackingnumber', align: 'center' },
-        { name: 'creater', label: this.$t('creater'), field: 'creater', align: 'center' },
         { name: 'create_time', label: this.$t('createtime'), field: 'create_time', align: 'center' },
         { name: 'update_time', label: this.$t('updatetime'), field: 'update_time', align: 'center' }
       ],
