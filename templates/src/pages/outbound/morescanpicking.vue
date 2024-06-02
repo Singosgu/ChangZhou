@@ -204,21 +204,12 @@ export default {
       try {
         this.table_list.forEach((item, index) => {
           if (item.bar_code === this.resData && item.picking_status === 1) {
-            if (item.pick_qty > 0) {
-              item.picking_status = 2
-              this.table_list.unshift(item)
-              this.table_list.splice(index + 1, 1)
-              this.sendData = item
-              throw new Error('success')
-            } else {
-              if (index + 1 === this.table_list.length) {
-                this.$q.notify({
-                  type: 'negative',
-                  icon: 'close',
-                  message: 'Can Not Pick More'
-                })
-              }
-            }
+            item.picking_status = 2
+            this.table_list.unshift(item)
+            this.table_list.splice(index + 1, 1)
+            this.sendData = item
+            console.log(this.sendData)
+            throw new Error('success')
           }
         })
       } catch (e) {
