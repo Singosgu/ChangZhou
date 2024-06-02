@@ -197,10 +197,7 @@ export default {
     PickChange () {
       try {
         this.table_list.forEach((item, index) => {
-          console.log(item)
-          console.log(this.resData)
-          console.log(item.bar_code)
-          if (item.bar_code === this.resData && item.picking_status === 1) {
+          if (item.txnid === this.resData && item.picking_status === 1) {
             item.picking_status = 2
             console.log(1)
             this.table_list.unshift(item)
