@@ -346,17 +346,17 @@ export default {
           getauth('dn/pickinglistfilter/?txnid=' + _this.filter_data.txnid).then((res) => {
             _this.filter_data.picking_list = res.results
             postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + _this.filter_data.txnid + '/', _this.filter_data ).then((result) => {
+              _this.cancelSubmit()
+              _this.getList()
+              _this.$q.notify({
+                message: '分配成功',
+                icon: 'check',
+                color: 'green'
+              })
               this.$q.notify({
                 message: '拣货单打印成功'
               })
             })
-          })
-          _this.cancelSubmit()
-          _this.getList()
-          _this.$q.notify({
-            message: '分配成功',
-            icon: 'check',
-            color: 'green'
           })
         }).catch(err => {
           _this.$q.notify({
