@@ -173,14 +173,19 @@ export default {
         if (!res.data.detail) {
           this.resData = res.data.code
           this.resMode = res.data.mode
+          console.log(res.data.mode, this.resMode)
           console.log(res)
           if (this.resMode === 'DN') {
+            console.log(1)
             this.getList(this.resData)
           } else if (this.resMode === 'PSUM') {
+            console.log(2)
             this.PickChange()
           } else if (this.resMode === 'MD') {
+            console.log(3)
             this.MDConfirm(this.resData)
           } else {
+            console.log(4)
             this.$q.notify({
               message: e + '编码不存在',
               icon: 'close',
