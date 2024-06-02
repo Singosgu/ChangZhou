@@ -197,7 +197,9 @@ export default {
     PickChange () {
       try {
         this.table_list.forEach((item, index) => {
-          console.log(item, item.bar_code, item.picking_status)
+          console.log(item)
+          console.log(this.resData)
+          console.log(item.bar_code)
           if (item.bar_code === this.resData && item.picking_status === 1) {
             item.picking_status = 2
             console.log(1)
@@ -209,6 +211,8 @@ export default {
             console.log(4)
             console.log(this.sendData)
             throw new Error('success')
+          } else {
+            console.log(5)
           }
         })
       } catch (e) {
