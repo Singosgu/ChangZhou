@@ -48,7 +48,7 @@ class DNListGetSerializer(serializers.ModelSerializer):
     update_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M:%S')
     class Meta:
         model = DnListModel
-        exclude = ['openid', 'is_delete', 'tp_detail', 'mian_dan']
+        exclude = ['openid', 'is_delete', 'tp_detail']
         read_only_fields = ['id', ]
     def get_warehouse_id(self, obj):
         return obj.warehouse_id
