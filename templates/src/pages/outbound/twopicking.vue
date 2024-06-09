@@ -4,7 +4,7 @@
       <q-table
         class="my-sticky-header-table shadow-24"
         :data="table_list"
-        row-key="id"
+        row-key="name"
         :separator="separator"
         :loading="loading"
         :filter="filter"
