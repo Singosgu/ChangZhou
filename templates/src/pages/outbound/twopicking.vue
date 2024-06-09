@@ -2,7 +2,7 @@
     <div>
       <transition appear enter-active-class="animated fadeIn">
       <q-table
-        class="my-sticky-header-column-table shadow-24"
+        class="my-sticky-header-table shadow-24"
         :data="table_list"
         row-key="id"
         :separator="separator"
@@ -16,6 +16,9 @@
         :table-style="{ height: height }"
         flat
         bordered
+        :selected-rows-label="getSelectedString"
+        selection="multiple"
+        :selected.sync="selected"
       >
          <template v-slot:top>
            <q-btn-group push>
@@ -24,6 +27,11 @@
                  {{ $t('refreshtip') }}
                </q-tooltip>
              </q-btn>
+             <q-btn round flat push icon="how_to_vote" @click="openStaff()">
+                 <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">
+                   把拣货单分配给拣货员
+                 </q-tooltip>
+              </q-btn>
            </q-btn-group>
            <q-space />
            <q-input outlined rounded dense debounce="300" color="primary" v-model="filter" :placeholder="$t('search')" @blur="getSearchList()" @keyup.enter="getSearchList()">
@@ -109,25 +117,6 @@
             dense
             outlined
             square
-            disable
-            readonly
-            v-model="filter_data.txnid"
-            :options="bin_list"
-            label="TxnId名称"
-            style="margin-bottom: 5px"
-            :rules="[(val) => (val && val.length > 0) || '请选择TxnId']"
-            @keyup.enter="allocateSubmit()"
-          >
-          </q-select>
-          <q-select
-            filled
-            use-input
-            fill-input
-            hide-selected
-            input-debounce="0"
-            dense
-            outlined
-            square
             v-model="filter_data.staff_name"
             :options="staff_list"
             label="拣货员"
@@ -163,7 +152,7 @@
 import { getauth, postauth, baseurl } from 'boot/axios_request'
 
 export default {
-  name: 'Pagednonepick',
+  name: 'Pagednmorepick',
   data () {
     return {
       current: 1,
@@ -206,7 +195,8 @@ export default {
         dn_code: '',
         bar_code: '',
         picking_list: []
-      }
+      },
+      selected: []
     }
   },
   methods: {
@@ -293,13 +283,25 @@ export default {
       var _this = this
       _this.getList()
     },
-    allocateStaff (e) {
+    openStaff () {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
         _this.allocte_form = true
+      } else {
+        _this.$q.notify({
+          message: _this.$t('no_auth'),
+          icon: 'close',
+          color: 'negative'
+        })
+      }
+    },
+    allocateStaff (e) {
+      var _this = this
+      if (_this.$q.localStorage.has('auth')) {
         _this.filter_data.txnid = e.txnid
         _this.filter_data.dn_code = e.dn_code
         _this.filter_data.bar_code = e.bar_code
+        _this.resSubmit()
       } else {
         _this.$q.notify({
           message: _this.$t('no_auth'),
@@ -311,21 +313,17 @@ export default {
     allocateSubmit () {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
-        if (_this.filter_data.txnid === '') {
+        if (_this.filter_data.staff_name === '') {
           _this.$q.notify({
-            message: '请选择TxnId名称',
+            message: '请选择拣货员',
             icon: 'close',
             color: 'negative'
           })
         } else {
-          if (_this.filter_data.staff_name === '') {
-            _this.$q.notify({
-              message: '请选择拣货员',
-              icon: 'close',
-              color: 'negative'
+          if (this.selected.length >= 1) {
+            _this.selected.forEach((item, index) => {
+              _this.allocateStaff(item)
             })
-          } else {
-            _this.resSubmit()
           }
         }
       }
@@ -334,7 +332,6 @@ export default {
       var _this = this
       _this.allocte_form = false
       _this.filter_data.txnid = ''
-      _this.filter_data.staff_name = ''
       _this.filter_data.dn_code = ''
       _this.filter_data.bar_code = ''
       _this.filter_data.picking_list = []
@@ -345,7 +342,7 @@ export default {
         postauth(baseurl + 'dn/morepicking/?page=' + this.current + '&picking_status=0&order_line=2&txnid=' + _this.filter_data.txnid, _this.filter_data).then(res => {
           getauth('dn/pickinglistfilter/?txnid=' + _this.filter_data.txnid).then((res) => {
             _this.filter_data.picking_list = res.results
-            postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + _this.filter_data.txnid + '/', _this.filter_data ).then((result) => {
+            postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + _this.filter_data.txnid + '/', _this.filter_data).then((result) => {
               _this.cancelSubmit()
               _this.getList()
               _this.$q.notify({
@@ -367,6 +364,9 @@ export default {
         })
       } else {
       }
+    },
+    getSelectedString () {
+      return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
     }
   },
   created () {
