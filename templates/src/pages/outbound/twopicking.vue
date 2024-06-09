@@ -4,7 +4,7 @@
       <q-table
         class="my-sticky-header-table shadow-24"
         :data="table_list"
-        row-key="name"
+        row-key="id"
         :separator="separator"
         :loading="loading"
         :filter="filter"
@@ -16,7 +16,7 @@
         :table-style="{ height: height }"
         flat
         bordered
-        :selected-rows-label="getSelectedString"
+        :selected-rows-label="getSelectedString()"
         selection="multiple"
         :selected.sync="selected"
       >
