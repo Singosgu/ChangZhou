@@ -40,34 +40,6 @@
              </template>
            </q-input>
          </template>
-         <template v-slot:body="props">
-           <q-tr :props="props">
-               <q-td key="txnid" :props="props">
-                 {{ props.row.txnid }}
-               </q-td>
-<!--               <q-td key="bin_name" :props="props">-->
-<!--                 {{ props.row.bin_name }}-->
-<!--               </q-td>-->
-<!--               <q-td key="goods_code" :props="props">-->
-<!--                 {{ props.row.goods_code }}-->
-<!--               </q-td>-->
-<!--               <q-td key="pick_qty" :props="props">-->
-<!--                 {{ props.row.pick_qty }}-->
-<!--               </q-td>-->
-<!--             <q-td key="picked_qty" :props="props">-->
-<!--               {{ props.row.picked_qty }}-->
-<!--             </q-td>-->
-             <q-td key="creater" :props="props">
-               {{ props.row.creater }}
-             </q-td>
-             <q-td key="create_time" :props="props">
-               {{ props.row.create_time }}
-             </q-td>
-             <q-td key="update_time" :props="props">
-               {{ props.row.update_time }}
-             </q-td>
-           </q-tr>
-         </template>
       </q-table>
         </transition>
       <template>
