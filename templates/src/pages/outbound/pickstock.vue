@@ -252,7 +252,7 @@ export default {
     downloadPickingList (e) {
       var _this = this
       if (LocalStorage.has('auth')) {
-        getfile(baseurl + 'dn/picklistdownload/?lang=' + LocalStorage.getItem('lang') + '&picker=' + e.staff_name + '&picking_status=1', {}).then(res => {
+        getfile(baseurl + 'dn/picklistdownload/?lang=' + LocalStorage.getItem('lang') + '&picker=' + e.staff_name + '&picking_status=1&order_line=1', {}).then(res => {
           var timeStamp = Date.now()
           var formattedString = date.formatDate(timeStamp, 'YYYYMMDDHHmmssSSS')
           const status = exportFile('pickinglist' + formattedString + '.csv', '\uFEFF' + res.data, 'text/csv')

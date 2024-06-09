@@ -27,7 +27,7 @@
                  {{ $t('refreshtip') }}
                </q-tooltip>
              </q-btn>
-             <q-btn label="分配拣货员" round flat push icon="how_to_vote" @click="openStaff()">
+             <q-btn label="分配拣货员" icon="how_to_vote" @click="openStaff()">
                  <q-tooltip content-class="bg-amber text-black shadow-4" :offset="[10, 10]" content-style="font-size: 12px">
                    把拣货单分配给拣货员
                  </q-tooltip>
