@@ -16,7 +16,6 @@
         :table-style="{ height: height }"
         flat
         bordered
-        :selected-rows-label="getSelectedString()"
         selection="multiple"
         :selected.sync="selected"
       >
@@ -288,6 +287,12 @@ export default {
             _this.selected.forEach((item, index) => {
               _this.allocateStaff(item)
             })
+            _this.getList()
+            _this.$q.notify({
+              message: '分配成功',
+              icon: 'check',
+              color: 'green'
+            })
           }
         }
       }
@@ -308,14 +313,8 @@ export default {
             _this.filter_data.picking_list = res.results
             postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + _this.filter_data.txnid + '/', _this.filter_data).then((result) => {
               _this.cancelSubmit()
-              _this.getList()
-              _this.$q.notify({
-                message: '分配成功',
-                icon: 'check',
-                color: 'green'
-              })
               this.$q.notify({
-                message: '拣货单打印成功'
+                message: _this.filter_data.txnid + '的拣货单打印成功'
               })
             })
           })
