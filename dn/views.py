@@ -2796,25 +2796,7 @@ class PickListDownloadView(viewsets.ModelViewSet):
             query_dict = {"picking_status": 1}
             if self.request.auth.openid != superopenid:
                 query_dict['openid'] = self.request.auth.openid
-            return PickingListModel.objects.filter(**query_dict).values('bin_name',
-                                                                        'picker',
-                                                                        'goods_code',
-                                                                        'pick_qty',
-                                                                        'picked_qty').exclude('txnid',
-                                                                                    'order_line',
-                                                                                    'order_type',
-                                                                                    'trackingnumber',
-                                                                                    'carrier',
-                                                                                    'mian_dan',
-                                                                                    'have_mian_dan',
-                                                                                    'dn_code',
-                                                                                    'picking_status',
-                                                                                    'creater',
-                                                                                    't_code',
-                                                                                    'bar_code',
-                                                                                    'openid',
-                                                                                    'create_time',
-                                                                                    'update_time').all()
+            return PickingListModel.objects.filter(**query_dict)
         else:
             return PickingListModel.objects.none()
 
