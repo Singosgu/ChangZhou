@@ -2817,7 +2817,7 @@ class PickListDownloadView(viewsets.ModelViewSet):
             return FileListRenderEN().render(data)
 
     def list(self, request, *args, **kwargs):
-        qs = self.filter_queryset(self.get_queryset()).values('picker', 'bin_name', 'goods_code').annotate(total_amount=Sum('pick_qty'))
+        qs = self.filter_queryset(self.get_queryset())
         from datetime import datetime
         dt = datetime.now()
         data = (
