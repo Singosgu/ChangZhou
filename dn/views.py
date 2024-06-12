@@ -17,13 +17,15 @@ from goods.models import ListModel as goods
 from payment.models import TransportationFeeListModel as transportation
 from stock.models import StockListModel as stocklist
 from stock.models import StockBinModel as stockbin
+from driver.models import ListModel as driverlist
+from driver.models import DispatchListModel as driverdispatch
 from scanner.models import ListModel as scanner
 from cyclecount.models import QTYRecorder as qtychangerecorder
 from cyclecount.models import CyclecountModeDayModel as cyclecount
 from django.db.models import Q
 from django.db.models import Sum
 from utils.md5 import Md5
-import re, random, json, datetime
+import re, random
 from .serializers import FileListRenderSerializer, FileDetailRenderSerializer
 from django.http import StreamingHttpResponse, JsonResponse
 from django.utils import timezone
@@ -31,9 +33,7 @@ from .files import FileListRenderCN, FileListRenderEN, FileDetailRenderCN, FileD
 from rest_framework.settings import api_settings
 from staff.models import ListModel as staff
 from userprofile.models import Users
-from django.db.models import Sum, Count
-from django.core.serializers import deserialize
-import pandas as pd
+from django.db.models import Sum
 
 
 class DnListViewSet(viewsets.ModelViewSet):
@@ -2796,13 +2796,13 @@ class PickListDownloadView(viewsets.ModelViewSet):
             query_dict = {"picking_status": 1}
             if self.request.auth.openid != superopenid:
                 query_dict['openid'] = self.request.auth.openid
-            return PickingListModel.objects.filter(**query_dict)
+            return PickingListModel.objects.filter(**query_dict).annotate(total_qty=Sum('pick_qty'))
         else:
             return PickingListModel.objects.none()
 
     def get_serializer_class(self):
         if self.action in ['list']:
-            return serializers.DNPickingListGetDownloadSerializer
+            return serializers.DNPickingListGetSerializer
         else:
             return self.http_method_not_allowed(request=self.request)
 
@@ -2817,32 +2817,20 @@ class PickListDownloadView(viewsets.ModelViewSet):
             return FileListRenderEN().render(data)
 
     def list(self, request, *args, **kwargs):
-        qs = self.filter_queryset(self.get_queryset()).annotate(total_amount=Count('goods_code')).values('picker', 'bin_name', 'goods_code', 'total_amount')
-        qs = qs.filter(total_amount__gt=0)
-        dt = datetime.datetime.now()
-        picker_list = []
-        bin_name_list = []
-        goods_code_list = []
-        pick_qty_list = []
-        picked_qty_list = []
-        for i in qs:
-            picker_list.append(i['picker'])
-            bin_name_list.append(i['bin_name'])
-            goods_code_list.append(i['goods_code'])
-            pick_qty_list.append(i['total_amount'])
-            picked_qty_list.append('')
-        data = {
-            '拣货员': picker_list,
-            '库位名': bin_name_list,
-            'SKU': goods_code_list,
-            '待拣货数量': pick_qty_list,
-            '已拣货数量': picked_qty_list,
-        }
-        df = pd.DataFrame(data)
-        excel_path = str(settings.BASE_DIR) + '/media/picking_list_' + str(dt.strftime('%Y%m%d%H%M%S%f') + '.xlsx')
-        df.to_excel(excel_path, index=False)
-        request_path = 'media/picking_list_' + str(dt.strftime('%Y%m%d%H%M%S%f') + '.xlsx')
-        return Response({'results': request_path})
+        qs = self.filter_queryset(self.get_queryset())
+        from datetime import datetime
+        dt = datetime.now()
+        data = (
+            serializers.DNPickingListGetSerializer(instance).data
+            for instance in self.filter_queryset(self.get_queryset())
+        )
+        renderer = self.get_lang(data)
+        response = StreamingHttpResponse(
+            renderer,
+            content_type="text/csv"
+        )
+        response['Content-Disposition'] = "attachment; filename='picklist_{}.csv'".format(str(dt.strftime('%Y%m%d%H%M%S%f')))
+        return response
 
 
 import requests, base64
