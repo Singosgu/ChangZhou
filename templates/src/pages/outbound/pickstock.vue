@@ -253,7 +253,7 @@ export default {
       var _this = this
       if (LocalStorage.has('auth')) {
         getauth(baseurl + 'dn/picklistdownload/?lang=' + LocalStorage.getItem('lang') + '&picker=' + e.staff_name + '&picking_status=1&order_line=1', {}).then(res => {
-          getauth(baseurl + res.results, {}).then(res =>{
+          getauth(baseurl + res.results, {}).then(res => {
             _this.$q.notify({
               message: '下载成功',
               color: 'green',
