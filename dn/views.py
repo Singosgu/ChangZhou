@@ -2817,7 +2817,7 @@ class PickListDownloadView(viewsets.ModelViewSet):
             return FileListRenderEN().render(data)
 
     def list(self, request, *args, **kwargs):
-        qs = self.filter_queryset(self.get_queryset()).order_by('bin_name', 'goods_code').values('picker', 'bin_name', 'goods_code').annotate(total_amount=Sum('pick_qty'))
+        qs = self.filter_queryset(self.get_queryset()).values('picker', 'bin_name', 'goods_code').annotate(total_amount=Sum('pick_qty'))
         qs = qs.filter(total_amount__gt=0)
         dt = datetime.datetime.now()
         picker_list = []
@@ -2839,8 +2839,9 @@ class PickListDownloadView(viewsets.ModelViewSet):
             '已拣货数量': picked_qty_list,
         }
         df = pd.DataFrame(data)
+        grouped_df = df.groupby([df['拣货员'], df['库位名'], df['SKU']]).agg({'待拣货数量': ['sum']})
         excel_path = str(settings.BASE_DIR) + '/media/picking_list_' + str(dt.strftime('%Y%m%d%H%M%S%f') + '.xlsx')
-        df.to_excel(excel_path, index=False)
+        grouped_df.to_excel(excel_path, index=False)
         request_path = 'media/picking_list_' + str(dt.strftime('%Y%m%d%H%M%S%f') + '.xlsx')
         return Response({'results': request_path})
 
