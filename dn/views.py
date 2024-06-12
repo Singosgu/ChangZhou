@@ -2843,8 +2843,7 @@ class PickListDownloadView(viewsets.ModelViewSet):
         df = pd.DataFrame(data)
         excel_path = str(settings.BASE_DIR) + '/media/picking_list_' + str(dt.strftime('%Y%m%d%H%M%S%f') + '.xlsx')
         df.to_excel(excel_path, index=False)
-        request_path = 'https://wms25.czlingyue.com/media/picking_list_' + str(dt.strftime('%Y%m%d%H%M%S%f') + '.xlsx')
-        return Response({'results': request_path})
+        return Response({'results': excel_path})
 
 
 import requests, base64
