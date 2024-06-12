@@ -278,7 +278,7 @@ export default {
         if (res.results.length > 0) {
           if (res.results[0].dn_status === 4) {
             postauth('dn/dispatch/' + res.results[0].id + '/', res.results[0]).then((res) => {
-              this.getList('')
+              this.table_list.splice(0, 1)
               this.$q.notify({
                 message: '发货成功',
                 icon: 'check',
