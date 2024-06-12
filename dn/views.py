@@ -36,8 +36,6 @@ from userprofile.models import Users
 from django.db.models import Sum
 from django.core.serializers import deserialize
 import pandas as pd
-from wsgiref.util import FileWrapper
-import mimetypes
 
 
 class DnListViewSet(viewsets.ModelViewSet):
@@ -2845,10 +2843,8 @@ class PickListDownloadView(viewsets.ModelViewSet):
         df = pd.DataFrame(data)
         excel_path = str(settings.BASE_DIR) + '/media/picking_list_' + str(dt.strftime('%Y%m%d%H%M%S%f') + '.xlsx')
         df.to_excel(excel_path, index=False)
-        content_type, encoding = mimetypes.guess_type(excel_path)
-        resp = StreamingHttpResponse(FileWrapper(open(excel_path, 'rb')), content_type=content_type)
-        resp['Cache-Control'] = "max-age=864000000000"
-        return resp
+        request_path = 'https://wms25.czlingyue.com/media/picking_list_' + str(dt.strftime('%Y%m%d%H%M%S%f') + '.xlsx')
+        return Response({'results': request_path})
 
 
 import requests, base64
