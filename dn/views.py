@@ -25,7 +25,7 @@ from cyclecount.models import CyclecountModeDayModel as cyclecount
 from django.db.models import Q
 from django.db.models import Sum
 from utils.md5 import Md5
-import re, random
+import re, random, json
 from .serializers import FileListRenderSerializer, FileDetailRenderSerializer
 from django.http import StreamingHttpResponse, JsonResponse
 from django.utils import timezone
@@ -34,6 +34,7 @@ from rest_framework.settings import api_settings
 from staff.models import ListModel as staff
 from userprofile.models import Users
 from django.db.models import Sum
+from django.core.serializers import deserialize
 
 
 class DnListViewSet(viewsets.ModelViewSet):
@@ -2817,12 +2818,14 @@ class PickListDownloadView(viewsets.ModelViewSet):
             return FileListRenderEN().render(data)
 
     def list(self, request, *args, **kwargs):
-        qs = self.filter_queryset(self.get_queryset())
+        qs = self.filter_queryset(self.get_queryset()).values('picker', 'bin_name', 'goods_code', 'picked_qty').annotate(total_amount=Sum('pick_qty'))
+        datastore = json.loads(qs)
+        queryset = deserialize('json', datastore)
         from datetime import datetime
         dt = datetime.now()
         data = (
             serializers.DNPickingListGetDownloadSerializer(instance).data
-            for instance in qs
+            for instance in queryset
         )
         renderer = self.get_lang(data)
         response = StreamingHttpResponse(
