@@ -2818,20 +2818,9 @@ class PickListDownloadView(viewsets.ModelViewSet):
             return FileListRenderEN().render(data)
 
     def list(self, request, *args, **kwargs):
-        qs = self.filter_queryset(self.get_queryset()).values('picker', 'bin_name', 'goods_code', 'picked_qty').annotate(total_amount=Sum('pick_qty'))
-        from datetime import datetime
-        dt = datetime.now()
-        data = (
-            serializers.DNPickingListGetDownloadSerializer(instance).data
-            for instance in qs
-        )
-        renderer = self.get_lang(data)
-        response = StreamingHttpResponse(
-            renderer,
-            content_type="text/csv"
-        )
-        response['Content-Disposition'] = "attachment; filename='picklist_{}.csv'".format(str(dt.strftime('%Y%m%d%H%M%S%f')))
-        return response
+        qs = self.filter_queryset(self.get_queryset()).values('picker', 'bin_name', 'goods_code').annotate(total_amount=Sum('pick_qty'))
+        qs = qs.filter(total_amount__gt=0)
+        return Response(qs)
 
 
 import requests, base64

@@ -199,7 +199,7 @@ class DNPickingListGetDownloadSerializer(serializers.ModelSerializer):
     class Meta:
         model = PickingListModel
         exclude = []
-        read_only_fields = ['id', ]
+        read_only_fields = []
 
 class DNPickingCheckGetSerializer(serializers.ModelSerializer):
     dn_code = serializers.CharField(read_only=True, required=False)
