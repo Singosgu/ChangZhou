@@ -114,6 +114,7 @@ def picklist_file_headers():
         'bin_name',
         'goods_code',
         # 'picking_status',
+        'pick_qty',
         'picked_qty'
     ]
 

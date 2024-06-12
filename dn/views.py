@@ -2796,7 +2796,7 @@ class PickListDownloadView(viewsets.ModelViewSet):
             query_dict = {"picking_status": 1}
             if self.request.auth.openid != superopenid:
                 query_dict['openid'] = self.request.auth.openid
-            return PickingListModel.objects.filter(**query_dict)
+            return PickingListModel.objects.filter(**query_dict).values('picker', 'bin_name', 'goods_code').annotate(total_amount=Sum('pick_qty'))
         else:
             return PickingListModel.objects.none()
 
