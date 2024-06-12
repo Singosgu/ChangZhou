@@ -65,8 +65,8 @@
 <router-view />
 
 <script>
-import { getauth, baseurl } from 'boot/axios_request'
-import { LocalStorage } from 'quasar'
+import { getauth, getfile, baseurl } from 'boot/axios_request'
+import { date, exportFile, LocalStorage } from 'quasar'
 
 export default {
   name: 'Pagestafflist',
@@ -252,16 +252,17 @@ export default {
     downloadPickingList (e) {
       var _this = this
       if (LocalStorage.has('auth')) {
-        getauth(baseurl + 'dn/picklistdownload/?lang=' + LocalStorage.getItem('lang') + '&picker=' + e.staff_name + '&picking_status=1&order_line=1', {}).then(res => {
-          console.log(res.results)
-          console.log(baseurl + res.results)
-          getauth(baseurl + res.results, {}).then(res => {
-            _this.$q.notify({
-              message: '下载成功',
-              color: 'green',
-              icon: 'check'
+        getfile(baseurl + 'dn/picklistdownload/?lang=' + LocalStorage.getItem('lang') + '&picker=' + e.staff_name + '&picking_status=1&order_line=1', {}).then(res => {
+          var timeStamp = Date.now()
+          var formattedString = date.formatDate(timeStamp, 'YYYYMMDDHHmmssSSS')
+          const status = exportFile('pickinglist' + formattedString + '.csv', '\uFEFF' + res.data, 'text/csv')
+          if (status !== true) {
+            this.$q.notify({
+              message: 'Browser denied file download...',
+              color: 'negative',
+              icon: 'warning'
             })
-          })
+          }
         })
       } else {
         _this.$q.notify({
