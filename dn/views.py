@@ -2819,13 +2819,11 @@ class PickListDownloadView(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         qs = self.filter_queryset(self.get_queryset()).values('picker', 'bin_name', 'goods_code', 'picked_qty').annotate(total_amount=Sum('pick_qty'))
-        datastore = json.loads(qs)
-        queryset = deserialize('json', datastore)
         from datetime import datetime
         dt = datetime.now()
         data = (
             serializers.DNPickingListGetDownloadSerializer(instance).data
-            for instance in queryset
+            for instance in qs
         )
         renderer = self.get_lang(data)
         response = StreamingHttpResponse(
