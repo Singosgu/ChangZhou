@@ -2796,7 +2796,7 @@ class PickListDownloadView(viewsets.ModelViewSet):
             query_dict = {"picking_status": 1}
             if self.request.auth.openid != superopenid:
                 query_dict['openid'] = self.request.auth.openid
-            return PickingListModel.objects.filter(**query_dict).values('picker', 'bin_name', 'goods_code').annotate(total_amount=Sum('pick_qty'))
+            return PickingListModel.objects.filter(**query_dict)
         else:
             return PickingListModel.objects.none()
 
@@ -2817,12 +2817,12 @@ class PickListDownloadView(viewsets.ModelViewSet):
             return FileListRenderEN().render(data)
 
     def list(self, request, *args, **kwargs):
-        qs = self.filter_queryset(self.get_queryset())
+        qs = self.filter_queryset(self.get_queryset()).values('picker', 'bin_name', 'goods_code').annotate(total_amount=Sum('pick_qty'))
         from datetime import datetime
         dt = datetime.now()
         data = (
             serializers.DNPickingListGetDownloadSerializer(instance).data
-            for instance in self.filter_queryset(self.get_queryset())
+            for instance in qs
         )
         renderer = self.get_lang(data)
         response = StreamingHttpResponse(
