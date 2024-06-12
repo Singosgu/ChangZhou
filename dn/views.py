@@ -2841,7 +2841,7 @@ class PickListDownloadView(viewsets.ModelViewSet):
             '已拣货数量': picked_qty_list,
         }
         df = pd.DataFrame(data)
-        excel_path = str(settings.BASE_DIR) + '/media/picking_list_' + str(dt.strftime('%Y%m%d%H%M%S%f'))
+        excel_path = str(settings.BASE_DIR) + '/media/picking_list_' + str(dt.strftime('%Y%m%d%H%M%S%f') + '.xlsx')
         df.to_excel(excel_path, index=False)
         return Response({'results': excel_path})
 
