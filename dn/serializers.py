@@ -194,8 +194,8 @@ class DNPickingListGetSerializer(serializers.ModelSerializer):
 class DNPickingListGetDownloadSerializer(serializers.ModelSerializer):
     bin_name = serializers.CharField(read_only=True, required=False)
     goods_code = serializers.CharField(read_only=True, required=False)
-    picking_status = serializers.IntegerField(read_only=True, required=False)
     pick_qty = serializers.IntegerField(read_only=True, required=False)
+    picked_qty = serializers.IntegerField(read_only=True, required=False)
     class Meta:
         model = PickingListModel
         exclude = []

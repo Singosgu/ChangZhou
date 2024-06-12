@@ -122,6 +122,7 @@ def picklist_cn_data_header():
         (['bin_name', u'库位名']),
         (['goods_code', u'SKU']),
         # (['picking_status', u'拣货单状态']),
+        (['pick_qty', u'已拣货数量']),
         (['picked_qty', u'已拣货数量']),
         (['picker', u'拣货员'])
     ])
@@ -131,6 +132,7 @@ def picklist_en_data_header():
         (['bin_name', u'bin_name']),
         (['goods_code', u'SKU']),
         # (['picking_status', u'picking_status']),
+        (['pick_qty', u'已拣货数量']),
         (['picked_qty', u'picked_qty']),
         (['picker', u'picker'])
     ])
