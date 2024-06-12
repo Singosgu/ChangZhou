@@ -190,6 +190,17 @@ class DNPickingListGetSerializer(serializers.ModelSerializer):
         exclude = ['openid', ]
         read_only_fields = ['id', ]
 
+
+class DNPickingListGetDownloadSerializer(serializers.ModelSerializer):
+    bin_name = serializers.CharField(read_only=True, required=False)
+    goods_code = serializers.CharField(read_only=True, required=False)
+    picking_status = serializers.IntegerField(read_only=True, required=False)
+    pick_qty = serializers.IntegerField(read_only=True, required=False)
+    class Meta:
+        model = PickingListModel
+        exclude = []
+        read_only_fields = ['id', ]
+
 class DNPickingCheckGetSerializer(serializers.ModelSerializer):
     dn_code = serializers.CharField(read_only=True, required=False)
     bin_name = serializers.CharField(read_only=True, required=False)

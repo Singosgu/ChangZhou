@@ -110,33 +110,27 @@ def detail_en_data_header():
 
 def picklist_file_headers():
     return [
-        'txnid',
         'picker',
         'bin_name',
         'goods_code',
         # 'picking_status',
-        'total_qty',
         'picked_qty'
     ]
 
 def picklist_cn_data_header():
     return dict([
-        (['txnid', u'TxnId']),
         (['bin_name', u'库位名']),
         (['goods_code', u'SKU']),
         # (['picking_status', u'拣货单状态']),
-        (['total_qty', u'待拣货数量']),
         (['picked_qty', u'已拣货数量']),
         (['picker', u'拣货员'])
     ])
 
 def picklist_en_data_header():
     return dict([
-        (['txnid', u'TxnId']),
         (['bin_name', u'bin_name']),
         (['goods_code', u'SKU']),
         # (['picking_status', u'picking_status']),
-        (['total_qty', u'pick_qty']),
         (['picked_qty', u'picked_qty']),
         (['picker', u'picker'])
     ])

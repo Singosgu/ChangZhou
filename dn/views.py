@@ -2796,13 +2796,31 @@ class PickListDownloadView(viewsets.ModelViewSet):
             query_dict = {"picking_status": 1}
             if self.request.auth.openid != superopenid:
                 query_dict['openid'] = self.request.auth.openid
-            return PickingListModel.objects.filter(**query_dict).annotate(total_qty=Sum('pick_qty'))
+            return PickingListModel.objects.filter(**query_dict).values('bin_name',
+                                                                        'picker',
+                                                                        'goods_code',
+                                                                        'pick_qty',
+                                                                        'picked_qty').exclude('txnid',
+                                                                                    'order_line',
+                                                                                    'order_type',
+                                                                                    'trackingnumber',
+                                                                                    'carrier',
+                                                                                    'mian_dan',
+                                                                                    'have_mian_dan',
+                                                                                    'dn_code',
+                                                                                    'picking_status',
+                                                                                    'creater',
+                                                                                    't_code',
+                                                                                    'bar_code',
+                                                                                    'openid',
+                                                                                    'create_time',
+                                                                                    'update_time').all()
         else:
             return PickingListModel.objects.none()
 
     def get_serializer_class(self):
         if self.action in ['list']:
-            return serializers.DNPickingListGetSerializer
+            return serializers.DNPickingListGetDownloadSerializer
         else:
             return self.http_method_not_allowed(request=self.request)
 
@@ -2821,7 +2839,7 @@ class PickListDownloadView(viewsets.ModelViewSet):
         from datetime import datetime
         dt = datetime.now()
         data = (
-            serializers.DNPickingListGetSerializer(instance).data
+            serializers.DNPickingListGetDownloadSerializer(instance).data
             for instance in self.filter_queryset(self.get_queryset())
         )
         renderer = self.get_lang(data)
