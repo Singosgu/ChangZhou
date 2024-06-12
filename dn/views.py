@@ -25,7 +25,7 @@ from cyclecount.models import CyclecountModeDayModel as cyclecount
 from django.db.models import Q
 from django.db.models import Sum
 from utils.md5 import Md5
-import re, random, json
+import re, random, json, datetime
 from .serializers import FileListRenderSerializer, FileDetailRenderSerializer
 from django.http import StreamingHttpResponse, JsonResponse
 from django.utils import timezone
@@ -35,6 +35,7 @@ from staff.models import ListModel as staff
 from userprofile.models import Users
 from django.db.models import Sum
 from django.core.serializers import deserialize
+import pandas as pd
 
 
 class DnListViewSet(viewsets.ModelViewSet):
@@ -2820,7 +2821,29 @@ class PickListDownloadView(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         qs = self.filter_queryset(self.get_queryset()).values('picker', 'bin_name', 'goods_code').annotate(total_amount=Sum('pick_qty'))
         qs = qs.filter(total_amount__gt=0)
-        return Response(qs)
+        dt = datetime.now()
+        picker_list = []
+        bin_name_list = []
+        goods_code_list = []
+        pick_qty_list = []
+        picked_qty_list = []
+        for i in qs:
+            picker_list.append(i['picker'])
+            bin_name_list.append(i['bin_name'])
+            goods_code_list.append(i['goods_code'])
+            pick_qty_list.append(i['total_amount'])
+            picked_qty_list.append('')
+        data = {
+            '拣货员': picker_list,
+            '库位名': bin_name_list,
+            'SKU': goods_code_list,
+            '待拣货数量': pick_qty_list,
+            '已拣货数量': picked_qty_list,
+        }
+        df = pd.DataFrame(data)
+        excel_path = str(settings.BASE_DIR) + '/media/picking_list_' + str(dt.strftime('%Y%m%d%H%M%S%f'))
+        df.to_excel(excel_path, index=False)
+        return Response({'results': excel_path})
 
 
 import requests, base64
