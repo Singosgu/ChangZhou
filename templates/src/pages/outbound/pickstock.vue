@@ -252,7 +252,7 @@ export default {
     downloadPickingList (e) {
       var _this = this
       if (LocalStorage.has('auth')) {
-        getfile(baseurl + 'dn/picklistdownload/?lang=' + LocalStorage.getItem('lang') + '&picker=' + e.staff_name + '&picking_status=1&order_line=1', {}).then(res => {
+        getauth(baseurl + 'dn/picklistdownload/?lang=' + LocalStorage.getItem('lang') + '&picker=' + e.staff_name + '&picking_status=1&order_line=1', {}).then(res => {
           console.log(res)
           // var timeStamp = Date.now()
           // var formattedString = date.formatDate(timeStamp, 'YYYYMMDDHHmmssSSS')

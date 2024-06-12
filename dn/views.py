@@ -17,8 +17,6 @@ from goods.models import ListModel as goods
 from payment.models import TransportationFeeListModel as transportation
 from stock.models import StockListModel as stocklist
 from stock.models import StockBinModel as stockbin
-from driver.models import ListModel as driverlist
-from driver.models import DispatchListModel as driverdispatch
 from scanner.models import ListModel as scanner
 from cyclecount.models import QTYRecorder as qtychangerecorder
 from cyclecount.models import CyclecountModeDayModel as cyclecount
