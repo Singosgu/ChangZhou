@@ -2839,9 +2839,11 @@ class PickListDownloadView(viewsets.ModelViewSet):
             '已拣货数量': picked_qty_list,
         }
         df = pd.DataFrame(data)
+        grouped_df = df.groupby('拣货员', '库位名', 'SKU')['待拣货数量'].sum()
         excel_path = str(settings.BASE_DIR) + '/media/picking_list_' + str(dt.strftime('%Y%m%d%H%M%S%f') + '.xlsx')
-        df.to_excel(excel_path, index=False)
-        return Response({'results': excel_path})
+        grouped_df.to_excel(excel_path, index=False)
+        request_path = 'media/picking_list_' + str(dt.strftime('%Y%m%d%H%M%S%f') + '.xlsx')
+        return Response({'results': request_path})
 
 
 import requests, base64
