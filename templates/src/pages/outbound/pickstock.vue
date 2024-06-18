@@ -27,7 +27,7 @@
         <template v-slot:body="props">
           <q-tr :props="props">
               <q-td key="staff_name" :props="props">{{ props.row.staff_name }}</q-td>
-            <q-td key="create_time" :props="props">{{ props.row.create_time }}</q-td>
+<!--            <q-td key="create_time" :props="props">{{ props.row.create_time }}</q-td>-->
             <q-td key="update_time" :props="props">{{ props.row.update_time }}</q-td>
             <template>
               <q-td key="action" :props="props" style="width: 50px">
@@ -85,8 +85,8 @@ export default {
       staff_type_list: [],
       columns: [
         { name: 'staff_name', required: true, label: this.$t('staff.view_staff.staff_name'), align: 'left', field: 'staff_name' },
-        { name: 'create_time', label: this.$t('createtime'), field: 'create_time', align: 'center' },
-        { name: 'update_time', label: this.$t('updatetime'), field: 'update_time', align: 'center' },
+        // { name: 'create_time', label: this.$t('createtime'), field: 'create_time', align: 'center' },
+        { name: 'update_time', label: this.$t('createtime'), field: 'update_time', align: 'center' },
         { name: 'action', label: this.$t('action'), align: 'right' }
       ],
       pagination: {

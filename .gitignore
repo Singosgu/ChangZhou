@@ -12,3 +12,5 @@ bfg.jar
 data.json
 error.log
 server.log
+greaterwms/settings.py
+templates/public/statics/baseurl.js

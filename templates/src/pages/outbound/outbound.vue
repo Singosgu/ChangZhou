@@ -18,9 +18,9 @@
         <transition appear enter-active-class="animated zoomIn">
           <q-route-tab name="backorder" :label="$t('outbound.backorder')" icon="img:statics/outbound/backorder.png" :to="{ name: 'backorder' }" exact/>
         </transition>
-        <transition appear enter-active-class="animated zoomIn">
-          <q-route-tab name="pickedstock" :label="$t('outbound.pickedstock')" icon="img:statics/outbound/picked.png" :to="{ name: 'pickedstock' }" exact/>
-        </transition>
+<!--        <transition appear enter-active-class="animated zoomIn">-->
+<!--          <q-route-tab name="pickedstock" :label="$t('outbound.pickedstock')" icon="img:statics/outbound/picked.png" :to="{ name: 'pickedstock' }" exact/>-->
+<!--        </transition>-->
         <transition appear enter-active-class="animated zoomIn">
           <q-route-tab name="onepicking" label="单件拣货单" icon="receipt_long" :to="{ name: 'onepicking' }" exact/>
         </transition>

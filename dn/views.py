@@ -1897,7 +1897,10 @@ class PickerOneAllocateViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         qs = self.filter_queryset(self.get_queryset())
         data = self.request.data
-        staff.objects.filter(openid=self.request.auth.openid, staff_name=data['staff_name']).update(picking_task=1)
+        staff_list = staff.objects.filter(openid=self.request.auth.openid, staff_name=data['staff_name'])
+        staff_list.update(picking_task=1)
+        for obj in staff_list:
+            obj.save()
         for i in range(len(qs)):
             PickingSumModel.objects.filter(txnid=qs[i].txnid).update(picker=data['staff_name'], picking_status=1)
         qs.update(picker=data['staff_name'], picking_status=1)
@@ -2796,7 +2799,7 @@ class PickListDownloadView(viewsets.ModelViewSet):
             query_dict = {"picking_status": 1}
             if self.request.auth.openid != superopenid:
                 query_dict['openid'] = self.request.auth.openid
-            return PickingListModel.objects.filter(**query_dict).annotate(total_qty=Sum('pick_qty'))
+            return PickingListModel.objects.filter(**query_dict)
         else:
             return PickingListModel.objects.none()
 
@@ -2817,12 +2820,12 @@ class PickListDownloadView(viewsets.ModelViewSet):
             return FileListRenderEN().render(data)
 
     def list(self, request, *args, **kwargs):
-        qs = self.filter_queryset(self.get_queryset())
+        qs = self.filter_queryset(self.get_queryset()).order_by('bin_name').values('bin_name','goods_code').annotate(pick_qty=Sum('pick_qty')).values('bin_name','goods_code','picker','pick_qty','picked_qty')
         from datetime import datetime
         dt = datetime.now()
         data = (
             serializers.DNPickingListGetSerializer(instance).data
-            for instance in self.filter_queryset(self.get_queryset())
+            for instance in qs
         )
         renderer = self.get_lang(data)
         response = StreamingHttpResponse(

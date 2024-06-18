@@ -16,8 +16,6 @@
         :table-style="{ height: height }"
         flat
         bordered
-        selection="multiple"
-        :selected.sync="selected"
       >
         <template v-slot:top>
           <q-btn-group push>
@@ -59,6 +57,7 @@
               </q-tooltip
               >
             </q-btn>
+            <q-toggle v-model="filter_zero" label="过滤获取面单" left-label @input="handleFilterChange()" />
 <!--            <q-btn label="批量确认订单" icon="recommend" @click="confirmOrders()">-->
 <!--              <q-tooltip-->
 <!--                content-class="bg-amber text-black shadow-4"-->
@@ -183,7 +182,7 @@
         <template v-slot:body-cell-action="props">
           <q-td key="action" :props="props" style="width: 100px">
             <q-btn
-              v-show="props.row.have_mian_dan !== false"
+              v-show="props.row.have_mian_dan === true"
               round
               flat
               push
@@ -200,7 +199,7 @@
               >
             </q-btn>
             <q-btn
-              v-show="props.row.have_mian_dan === true"
+              v-show="props.row.have_mian_dan === false"
               round
               flat
               push
@@ -458,7 +457,7 @@
     </transition>
     <template>
       <div class="q-pa-lg flex flex-center">
-        <q-select outlined v-model="max_page_data" :options="max_page" label="每页数量" style="width: 200px" />
+        <q-select outlined v-model="max_page_data" :options="max_page" label="每页数量" class="q-field__native q-field--dense" style="width: 100px" />
         <q-btn
           v-show="page_count===0"
           flat
@@ -469,13 +468,14 @@
         <q-pagination
           v-show="page_count!==0"
           v-model="current"
-          color="purple"
-          :max="Math.ceil(page_count / 1000 ) "
-          :max-pages="1000"
+          color="black"
+          :max="Math.ceil(page_count / max_page_data ) "
+          :max-pages="5"
           boundary-numbers
           direction-links
           @click="getList()"
         />
+        <div style="margin-left:20px"> Total:  {{ page_count }} </div>
       </div>
     </template>
     <q-dialog v-model="newForm">
@@ -1704,6 +1704,7 @@ export default {
       goodsData9: { bin: '', code: '', qty: '' },
       goodsData10: { bin: '', code: '', qty: '' },
       editid: 0,
+      filter_zero: false,
       editFormData: {},
       pickedForm: false,
       pickedid: 0,
@@ -1778,6 +1779,9 @@ export default {
   methods: {
     pickingOrders () {
       console.log(111)
+    },
+    handleFilterChange() {
+      this.getList();
     },
     sortData () {
       var _this = this
@@ -2027,7 +2031,7 @@ export default {
       var carrier_search = this.carrier_data
       var sku_search = this.sku_list_data
       if (LocalStorage.has('auth')) {
-        getauth(_this.pathname + 'list/' + '?max_page=' + _this.max_page_data + '&page=' + this.current + '&txnid__in=' + txnid_search + '&order_type=' + order_type_search + '&carrier=' + carrier_search + '&sku_search__in=' + sku_search, {})
+        getauth(_this.pathname + 'list/' + '?max_page=' + _this.max_page_data + '&page=' + this.current + '&have_mian_dan=' + this.filter_zero  + '&txnid__in=' + txnid_search + '&order_type=' + order_type_search + '&carrier=' + carrier_search + '&sku_search__in=' + sku_search, {})
           .then((res) => {
             _this.page_count = res.count
             _this.table_list = []

@@ -18,6 +18,7 @@ class DnListFilter(FilterSet):
             "customer": ['exact', 'iexact', 'contains', 'icontains'],
             "creater": ['exact', 'iexact', 'contains', 'icontains'],
             "back_order_label": ['exact', 'iexact'],
+            "have_mian_dan": ['exact', 'iexact'],
             "is_delete": ['exact', 'iexact'],
             "create_time": ['year', 'month', 'day', 'week_day', 'gt', 'gte', 'lt', 'lte', 'range'],
             "update_time": ['year', 'month', 'day', 'week_day', 'gt', 'gte', 'lt', 'lte', 'range']

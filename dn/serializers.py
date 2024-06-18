@@ -182,6 +182,8 @@ class DNPickingListGetSerializer(serializers.ModelSerializer):
     pick_qty = serializers.IntegerField(read_only=True, required=False)
     total_qty = serializers.IntegerField(read_only=True, required=False)
     picker = serializers.CharField(read_only=True, required=False)
+    creater = serializers.CharField(read_only=True, required=False)
+    t_code = serializers.CharField(read_only=True, required=False)
     picked_qty = serializers.IntegerField(read_only=True, required=False)
     create_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M:%S')
     update_time = serializers.DateTimeField(read_only=True, format='%Y-%m-%d %H:%M:%S')

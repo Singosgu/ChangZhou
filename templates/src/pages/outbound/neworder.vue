@@ -35,24 +35,80 @@
             </q-btn>
            </q-btn-group>
            <q-space />
-           <q-input
-            v-model="filterData.txnid"
-            filled
-            autogrow
-            label="TxnId"
-          />
-          <q-select v-model="filterData.order_type" outlined :options="order_type_list" label="发货方式" style="width: 150px"/>
-          <q-select v-model="filterData.order_line" outlined :options="order_line_list" label="订单行" style="width: 150px"/>
-          <q-select v-model="filterData.carrier" outlined :options="carrier_list" label="承运人" style="width: 150px"/>
-          <q-input
-            v-model="filterData.sku"
-            filled
-            autogrow
-            label="SKU"
-            style="width: 150px"
-          />
-          <q-btn label="筛选" @click="sortData()"></q-btn>
-          <q-btn label="清空" @click="filterDataClear()"></q-btn>
+           <div class="row no-wrap">
+            <q-input
+              outlined
+              v-model="filterData.txnid"
+              label="TxnId"
+              style="padding-right:20px;width:200px"
+              class="q-field--dense q-field__native"
+            />
+            <q-select
+              outlined
+              v-model="filterData.order_type"
+              :options="order_type_list"
+              style="padding-right:20px;width:400px;"
+              label="发货方式"
+              class="q-field__native q-field--dense"
+            />
+             <q-select
+              outlined
+              v-model="filterData.order_line"
+              :options="order_line_list"
+              style="padding-right:20px;width:200px"
+              label="订单行"
+              class="q-field__native q-field--dense"
+            />
+             <q-select
+              outlined
+              v-model="filterData.carrier"
+              :options="carrier_list"
+              style="padding-right:20px;width:200px"
+              label="承运人"
+              class="q-field__native q-field--dense"
+            />
+             <q-input
+              outlined
+              v-model="filterData.sku"
+              label="SKU"
+              style="padding-right:20px;width:200px"
+              class="q-field--dense q-field__native"
+            />
+          </div>
+           <div>
+            <q-btn
+              style="height: 40px;margin-right:10px;"
+              unelevated
+              color="primary"
+              label="查询"
+              @click="sortData()"
+            />
+            <q-btn
+              style="height: 40px;margin-right:10px;"
+              unelevated
+              color="red"
+              label="重置"
+              @click="filterDataClear()"
+            />
+          </div>
+<!--           <q-input-->
+<!--            v-model="filterData.txnid"-->
+<!--            filled-->
+<!--            autogrow-->
+<!--            label="TxnId"-->
+<!--          />-->
+<!--          <q-select v-model="filterData.order_type" outlined :options="order_type_list" label="发货方式" style="width: 150px"/>-->
+<!--          <q-select v-model="filterData.order_line" outlined :options="order_line_list" label="订单行" style="width: 150px"/>-->
+<!--          <q-select v-model="filterData.carrier" outlined :options="carrier_list" label="承运人" style="width: 150px"/>-->
+<!--          <q-input-->
+<!--            v-model="filterData.sku"-->
+<!--            filled-->
+<!--            autogrow-->
+<!--            label="SKU"-->
+<!--            style="width: 150px"-->
+<!--          />-->
+<!--          <q-btn label="筛选" @click="sortData()"></q-btn>-->
+<!--          <q-btn label="清空" @click="filterDataClear()"></q-btn>-->
          </template>
          <template v-slot:body="props">
            <q-tr :props="props">
@@ -100,19 +156,40 @@
       </q-table>
         </transition>
       <template>
+<!--        <div class="q-pa-lg flex flex-center">-->
+<!--          <q-btn v-show="page_count===0" flat push color="dark" :label="$t('no_data')"></q-btn>-->
+<!--          <q-pagination-->
+<!--            v-show="page_count!==0"-->
+<!--            v-model="current"-->
+<!--            color="purple"-->
+<!--            :max="Math.ceil(page_count / 30 ) "-->
+<!--            :max-pages="30"-->
+<!--            boundary-numbers-->
+<!--            direction-links-->
+<!--            @click="getList()"-->
+<!--          />-->
+<!--        </div>-->
         <div class="q-pa-lg flex flex-center">
-          <q-btn v-show="page_count===0" flat push color="dark" :label="$t('no_data')"></q-btn>
-          <q-pagination
-            v-show="page_count!==0"
-            v-model="current"
-            color="purple"
-            :max="Math.ceil(page_count / 30 ) "
-            :max-pages="30"
-            boundary-numbers
-            direction-links
-            @click="getList()"
-          />
-        </div>
+        <q-select outlined v-model="max_page_data" :options="max_page" label="每页数量" class="q-field__native q-field--dense" style="width: 100px" />
+        <q-btn
+          v-show="page_count===0"
+          flat
+          push
+          color="dark"
+          :label="$t('no_data')"
+        ></q-btn>
+        <q-pagination
+          v-show="page_count!==0"
+          v-model="current"
+          color="black"
+          :max="Math.ceil(page_count / max_page_data ) "
+          :max-pages="5"
+          boundary-numbers
+          direction-links
+          @click="getList()"
+        />
+        <div style="margin-left:20px"> Total:  {{ page_count }} </div>
+      </div>
       </template>
     </div>
 </template>
@@ -136,6 +213,8 @@ export default {
       separator: 'cell',
       loading: false,
       height: '',
+      max_page_data: 30,
+      max_page: [30, 100, 500, 1000],
       table_list: [],
       bin_size_list: [],
       bin_property_list: [],
@@ -159,20 +238,20 @@ export default {
       filterData: {
         txnid: '',
         order_type: '',
-        order_line: '单件',
+        order_line: '',
         carrier: '',
         sku: ''
       },
       pagination: {
         page: 1,
-        rowsPerPage: '30'
+        rowsPerPage: '1000'
       },
       order_type_list: [],
       order_line_list: ['单件', '多件'],
       carrier_list: [],
       txnid_list_data: [],
       order_type_data: '',
-      order_line: '单件',
+      order_line: '',
       carrier_data: '',
       sku_list_data: []
     }
@@ -182,13 +261,13 @@ export default {
       this.filterData = {
         txnid: [],
         order_type: '',
-        order_line: '单件',
+        order_line: '',
         carrier: '',
         sku: []
       }
       this.txnid_list_data = []
       this.order_type_data = ''
-      this.order_line = '单件'
+      this.order_line = ''
       this.carrier_data = ''
       this.sku_list_data = []
       this.getList()
@@ -222,11 +301,13 @@ export default {
         } else {
           if (this.order_line === 1) {
             this.order_line = 1
-          } else {
+          } else if (this.order_line === 2) {
             this.order_line = 2
+          } else {
+            this.order_line = ''
           }
         }
-        getauth(_this.pathname + '&page=' + this.current + '&txnid__in=' + this.txnid_list_data + '&order_type=' + this.order_type_data + '&carrier=' + this.carrier_data + '&order_line=' + this.order_line + '&goods_code__in=' + this.sku_list_data, {
+        getauth(_this.pathname + '&max_page=' + _this.max_page_data + '&page=' + this.current + '&txnid__in=' + this.txnid_list_data + '&order_type=' + this.order_type_data + '&carrier=' + this.carrier_data + '&order_line=' + this.order_line + '&goods_code__in=' + this.sku_list_data, {
         }).then(res => {
           _this.page_count = res.count
           _this.table_list = res.results
@@ -333,6 +414,12 @@ export default {
       _this.filterDataClear()
     } else {
       _this.authin = '0'
+    }
+  },
+  watch: {
+    max_page_data (max_page_data) {
+      var _this = this
+      _this.getList()
     }
   },
   mounted () {
