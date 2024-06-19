@@ -242,7 +242,6 @@ class GetOrderViewSet(viewsets.ModelViewSet):
         get_orders = requests.get(
             'https://api.teapplix.com/api2/OrderNotification?DetailLevel=shipping|none|inventory|dropship&NotShipped=1&PageSize=100&WarehouseId=' + str(data.get('warehouse_id', '')),
             headers=headers).json()
-        # order_len = len(get_orders["Orders"])
         for i in range(get_orders.get('Pagination', '').get('TotalPages', '')):
             get_order = requests.get(
                 'https://api.teapplix.com/api2/OrderNotification?DetailLevel=shipping|none|inventory|dropship&NotShipped=1&PageSize=100&PageNumber=' + str(
