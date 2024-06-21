@@ -69,6 +69,7 @@
             @click="getList()"
           />
           <q-btn v-show="page_count===0" flat push color="dark" :label="$t('no_data')"></q-btn>
+          <div style="margin-left:20px"> Total:  {{ page_count }} </div>
         </div>
       </template>
     </div>
@@ -119,7 +120,7 @@ export default {
       resMode: '',
       scan_detail: [],
       sendData: {},
-      picking_status_list: [1,2]
+      picking_status_list: [1, 2]
     }
   },
   methods: {
@@ -176,7 +177,21 @@ export default {
         })
       }
     },
+    // 创建一个防抖函数
+    debounce (func, delay) {
+      let timer = null
+      return function (...args) {
+        const context = this
+        if (timer) {
+          clearTimeout(timer)
+        }
+        timer = setTimeout(() => {
+          func.apply(context, args)
+        }, delay)
+      }
+    },
     getScanData (e) {
+      e = e.replace(/Alt/g, '').replace(/CapeLock/g, '').replace(/Shift/g, '').replace(/Control/g, '')
       axios.get(baseurl + 'scanner/list/' + e + '/',
         {
           headers: {
@@ -194,7 +209,8 @@ export default {
           } else if (this.resMode === 'GOODS') {
             this.PickChange()
           } else if (this.resMode === 'MD') {
-            this.MDConfirm(this.resData)
+            this.debounce(this.MDConfirm(this.resData), 1000);
+            // this.MDConfirm(this.resData)
           } else {
             this.$q.notify({
               message: e + '编码不存在',
