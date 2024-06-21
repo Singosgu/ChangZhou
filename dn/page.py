@@ -10,6 +10,7 @@ from .models import CarrierList as carrierlist
 from binset.models import ListModel as binset
 from staff.models import ListModel as staff
 
+
 class MyPageNumberPaginationDNList(PageNumberPagination):
     page_size = 30
     page_size_query_param = "max_page"
@@ -62,6 +63,7 @@ class MyPageNumberPaginationDNList(PageNumberPagination):
                 "warehouse_id": warehouse_list_data[i].warehouse_id
             }
             warehouse_list.append(warehouse_dict)
+        order_count = warehouse.objects.filter(warehouse_id=warehouse_list_data[i].warehouse_id).first().warehouse_contact
         order_type_list_data = ordertype.objects.all()
         order_type_list = []
         for i in range(len(order_type_list_data)):
@@ -75,6 +77,7 @@ class MyPageNumberPaginationDNList(PageNumberPagination):
             ('order_type_list', order_type_list),
             ('warehouse_list', warehouse_list),
             ('count', self.page.paginator.count),
+            ('order_count', order_count),
             ('next', self.get_next_link()),
             ('previous', self.get_previous_link()),
             ('results', data)

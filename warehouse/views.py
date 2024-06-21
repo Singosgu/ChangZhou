@@ -22,7 +22,7 @@ from utils.datasolve import sumOfList
 from stock.models import StockListModel as stocklist
 from dn.models import OrderTypeList as ordertype
 from dn.models import CarrierList as carrierlist
-
+from warehouse.models import ListModel as warehouselist
 import time
 
 class APIViewSet(viewsets.ModelViewSet):
@@ -242,6 +242,7 @@ class GetOrderViewSet(viewsets.ModelViewSet):
         get_orders = requests.get(
             'https://api.teapplix.com/api2/OrderNotification?DetailLevel=shipping|none|inventory|dropship&NotShipped=1&PageSize=100&WarehouseId=' + str(data.get('warehouse_id', '')),
             headers=headers).json()
+        count = 0
         for i in range(get_orders.get('Pagination', '').get('TotalPages', '')):
             get_order = requests.get(
                 'https://api.teapplix.com/api2/OrderNotification?DetailLevel=shipping|none|inventory|dropship&NotShipped=1&PageSize=100&PageNumber=' + str(
@@ -284,6 +285,7 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                     dn_code = 'DN' + order_day + '1'
                 bar_code = Md5.md5(str(j.get('TxnId', '')))
                 if DnListModel.objects.filter(txnid=j.get('TxnId', ''), is_delete=False).exists() is False:
+                    count = count + 1
                     total_weight_list = []
                     total_volume_list = []
                     total_cost_list = []
@@ -372,4 +374,7 @@ class GetOrderViewSet(viewsets.ModelViewSet):
                                 dn_stock=int(k.get('Quantity'))
                             )
                     scanner.objects.create(openid=data.get('openid', ''), mode="DN", code=dn_code, bar_code=bar_code)
-        return Response({'msg': 'success'}, status=200)
+        warehousedetail = warehouselist.objects.filter(warehouse_id=int(data.get('warehouse_id', ''))).first()
+        warehousedetail.warehouse_contact = count
+        warehousedetail.save()
+        return Response({'msg': '成功获取%d条'%count}, status=200)

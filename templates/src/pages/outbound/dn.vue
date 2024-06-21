@@ -145,6 +145,7 @@
 <!--              </q-tooltip>-->
 <!--            </q-btn>-->
           </q-btn-group>
+          <div style="margin-left:20px">获取订单数量：{{order_count}}</div>
 <!--          <q-input-->
 <!--            v-model="filterData.txnid"-->
 <!--            filled-->
@@ -1704,6 +1705,7 @@ export default {
       goodsData9: { bin: '', code: '', qty: '' },
       goodsData10: { bin: '', code: '', qty: '' },
       editid: 0,
+      order_count:0,
       filter_zero: false,
       editFormData: {},
       pickedForm: false,
@@ -2062,6 +2064,7 @@ export default {
             _this.customer_list1 = res.customer_list
             _this.pathname_previous = res.previous
             _this.pathname_next = res.next
+            _this.order_count = res.order_count
             _this.warehouse_list = res.warehouse_list
             _this.order_type_list = res.order_type_list
             _this.carrier_list = res.carrier_list

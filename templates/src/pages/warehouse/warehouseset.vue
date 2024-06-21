@@ -114,28 +114,28 @@
                 {{ props.row.warehouse_address }}
               </q-td>
             </template>
-            <template v-else-if="props.row.id !== editid">
-              <q-td key="warehouse_contact" :props="props">
-                {{ props.row.warehouse_contact }}
-              </q-td>
-            </template>
-            <template v-if="props.row.id === editid">
-              <q-td key="warehouse_contact" :props="props">
-                <q-input
-                  dense
-                  outlined
-                  square
-                  v-model="editFormData.warehouse_contact"
-                  :label="$t('warehouse.view_warehouse.warehouse_contact')"
-                  :rules="[(val) => (val && val.length > 0) || error4]"
-                />
-              </q-td>
-            </template>
-            <template v-else-if="props.row.id !== editid">
-              <q-td key="warehouse_contact" :props="props">
-                {{ props.row.warehouse_contact }}
-              </q-td>
-            </template>
+<!--            <template v-else-if="props.row.id !== editid">-->
+<!--              <q-td key="warehouse_contact" :props="props">-->
+<!--                {{ props.row.warehouse_contact }}-->
+<!--              </q-td>-->
+<!--            </template>-->
+<!--            <template v-if="props.row.id === editid">-->
+<!--              <q-td key="warehouse_contact" :props="props">-->
+<!--                <q-input-->
+<!--                  dense-->
+<!--                  outlined-->
+<!--                  square-->
+<!--                  v-model="editFormData.warehouse_contact"-->
+<!--                  :label="$t('warehouse.view_warehouse.warehouse_contact')"-->
+<!--                  :rules="[(val) => (val && val.length > 0) || error4]"-->
+<!--                />-->
+<!--              </q-td>-->
+<!--            </template>-->
+<!--            <template v-else-if="props.row.id !== editid">-->
+<!--              <q-td key="warehouse_contact" :props="props">-->
+<!--                {{ props.row.warehouse_contact }}-->
+<!--              </q-td>-->
+<!--            </template>-->
             <template v-if="props.row.id === editid">
               <q-td key="warehouse_manager" :props="props">
                 <q-input
@@ -332,15 +332,15 @@
             :rules="[(val) => (val && val.length > 0) || error3]"
             @keyup.enter="newDataSubmit()"
           />
-          <q-input
-            dense
-            outlined
-            square
-            v-model="newFormData.warehouse_contact"
-            :label="$t('warehouse.view_warehouse.warehouse_contact')"
-            :rules="[(val) => (val && val.length > 0) || error4]"
-            @keyup.enter="newDataSubmit()"
-          />
+<!--          <q-input-->
+<!--            dense-->
+<!--            outlined-->
+<!--            square-->
+<!--            v-model="newFormData.warehouse_contact"-->
+<!--            :label="$t('warehouse.view_warehouse.warehouse_contact')"-->
+<!--            :rules="[(val) => (val && val.length > 0) || error4]"-->
+<!--            @keyup.enter="newDataSubmit()"-->
+<!--          />-->
           <q-input
             dense
             outlined
@@ -446,12 +446,12 @@ export default {
           field: 'warehouse_address',
           align: 'center'
         },
-        {
-          name: 'warehouse_contact',
-          label: this.$t('warehouse.view_warehouse.warehouse_contact'),
-          field: 'warehouse_contact',
-          align: 'center'
-        },
+        // {
+        //   name: 'warehouse_contact',
+        //   label: this.$t('warehouse.view_warehouse.warehouse_contact'),
+        //   field: 'warehouse_contact',
+        //   align: 'center'
+        // },
         {
           name: 'warehouse_manager',
           label: this.$t('warehouse.view_warehouse.warehouse_manager'),
@@ -488,7 +488,7 @@ export default {
         warehouse_name: '',
         warehouse_city: '',
         warehouse_address: '',
-        warehouse_contact: '',
+        // warehouse_contact: '',
         warehouse_manager: '',
         creater: ''
       },
@@ -635,7 +635,7 @@ export default {
         warehouse_name: '',
         warehouse_city: '',
         warehouse_address: '',
-        warehouse_contact: '',
+        // warehouse_contact: '',
         warehouse_manager: '',
         creater: ''
       }
@@ -649,7 +649,7 @@ export default {
         warehouse_name: e.warehouse_name,
         warehouse_city: e.warehouse_city,
         warehouse_address: e.warehouse_address,
-        warehouse_contact: e.warehouse_contact,
+        // warehouse_contact: e.warehouse_contact,
         warehouse_manager: e.warehouse_manager,
         creater: _this.login_name
       }
@@ -685,7 +685,7 @@ export default {
         warehouse_name: '',
         warehouse_city: '',
         warehouse_address: '',
-        warehouse_contact: '',
+        // warehouse_contact: '',
         warehouse_manager: '',
         creater: ''
       }
@@ -725,7 +725,7 @@ export default {
       postauth(_this.pathname + 'getorder/', e)
         .then((res) => {
           _this.$q.notify({
-            message: 'Success Get Order',
+            message: res.msg,
             icon: 'check',
             color: 'green'
           })
