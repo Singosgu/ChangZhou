@@ -50,7 +50,8 @@
                 content-class="bg-amber text-black shadow-4"
                 :offset="[10, 10]"
                 content-style="font-size: 12px"
-                >{{ $t("refreshtip") }}</q-tooltip
+              >{{ $t("refreshtip") }}
+              </q-tooltip
               >
             </q-btn>
             <q-btn
@@ -82,7 +83,7 @@
               </q-tooltip>
             </q-btn> -->
           </q-btn-group>
-          <q-space />
+          <q-space/>
           <q-input
             outlined
             rounded
@@ -95,7 +96,7 @@
             @keyup.enter="getSearchList()"
           >
             <template v-slot:append>
-              <q-icon name="search" @click="getSearchList()" />
+              <q-icon name="search" @click="getSearchList()"/>
             </template>
           </q-input>
         </template>
@@ -104,19 +105,24 @@
             <q-td key="asn_code" :props="props">{{ props.row.asn_code }}</q-td>
             <q-td key="asn_status" :props="props">{{
               props.row.asn_status
-            }}</q-td>
+              }}
+            </q-td>
             <q-td key="patch_number" :props="props">{{
               props.row.patch_number
-            }}</q-td>
+              }}
+            </q-td>
             <q-td key="warehouse_id" :props="props">
-              {{ switchWarehouse(props.row) }}</q-td
+              {{ switchWarehouse(props.row) }}
+            </q-td
             >
             <q-td key="total_weight" :props="props">{{
               props.row.total_weight.toFixed(4)
-            }}</q-td>
+              }}
+            </q-td>
             <q-td key="total_volume" :props="props">{{
               props.row.total_volume.toFixed(4)
-            }}</q-td>
+              }}
+            </q-td>
             <q-td key="total_quantity" :props="props">{{ props.row.total_quantity }}</q-td>
             <q-td key="box_number" :props="props">{{ props.row.box_number }}</q-td>
             <q-td key="confirm_time" :props="props">{{ props.row.confirm_time }}</q-td>
@@ -124,10 +130,12 @@
             <q-td key="creater" :props="props">{{ props.row.creater }}</q-td>
             <q-td key="create_time" :props="props">{{
               props.row.create_time
-            }}</q-td>
+              }}
+            </q-td>
             <q-td key="update_time" :props="props">{{
               props.row.update_time
-            }}</q-td>
+              }}
+            </q-td>
             <q-td key="action" :props="props" style="width: 100px">
               <q-btn
                 v-show="
@@ -144,7 +152,8 @@
                   content-class="bg-amber text-black shadow-4"
                   :offset="[10, 10]"
                   content-style="font-size: 12px"
-                  >调拨</q-tooltip
+                >调拨
+                </q-tooltip
                 >
               </q-btn>
               <q-btn
@@ -165,7 +174,8 @@
                   content-class="bg-amber text-black shadow-4"
                   :offset="[10, 10]"
                   content-style="font-size: 12px"
-                  >{{ $t("printthisasn") }}</q-tooltip
+                >{{ $t("printthisasn") }}
+                </q-tooltip
                 >
               </q-btn>
               <q-btn
@@ -186,7 +196,8 @@
                   content-class="bg-amber text-black shadow-4"
                   :offset="[10, 10]"
                   content-style="font-size: 12px"
-                  >{{ $t("confirmdelivery") }}</q-tooltip
+                >{{ $t("confirmdelivery") }}
+                </q-tooltip
                 >
               </q-btn>
               <q-btn
@@ -195,13 +206,14 @@
                 push
                 color="secondary"
                 icon="file_download"
-                @click="handleRecordDownload(props.row)"
+                @click="pdfDataForm(props.row)"
               >
                 <q-tooltip
                   content-class="bg-amber text-black shadow-4"
                   :offset="[10, 10]"
                   content-style="font-size: 12px"
-                  >{{ $t("twoKai.download_tags") }}</q-tooltip
+                >{{ $t("twoKai.download_tags") }}
+                </q-tooltip
                 >
               </q-btn>
               <q-btn
@@ -222,7 +234,8 @@
                   content-class="bg-amber text-black shadow-4"
                   :offset="[10, 10]"
                   content-style="font-size: 12px"
-                  >{{ $t("finishloading") }}</q-tooltip
+                >{{ $t("finishloading") }}
+                </q-tooltip
                 >
               </q-btn>
               <q-btn
@@ -243,7 +256,8 @@
                   content-class="bg-amber text-black shadow-4"
                   :offset="[10, 10]"
                   content-style="font-size: 12px"
-                  >{{ $t("confirmsorted") }}</q-tooltip
+                >{{ $t("confirmsorted") }}
+                </q-tooltip
                 >
               </q-btn>
               <!-- <q-btn
@@ -286,7 +300,8 @@
                   content-class="bg-amber text-black shadow-4"
                   :offset="[10, 10]"
                   content-style="font-size: 12px"
-                  >{{ $t("delete") }}</q-tooltip
+                >{{ $t("delete") }}
+                </q-tooltip
                 >
               </q-btn>
             </q-td>
@@ -306,12 +321,14 @@
                       <q-item-section>
                         <q-item-label>{{
                           transportation_fee.transportation_supplier
-                        }}</q-item-label>
+                          }}
+                        </q-item-label>
                         <q-item-label
-                          >{{ $t("estimate") }}:
+                        >{{ $t("estimate") }}:
                           {{
-                            transportation_fee.transportation_cost
-                          }}</q-item-label
+                          transportation_fee.transportation_cost
+                          }}
+                        </q-item-label
                         >
                       </q-item-section>
                     </q-item>
@@ -351,11 +368,12 @@
           style="height: 50px"
         >
           <div>{{ newFormData.asn_code }}</div>
-          <q-space />
+          <q-space/>
           <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip content-class="bg-amber text-black shadow-4">{{
               $t("index.close")
-            }}</q-tooltip>
+              }}
+            </q-tooltip>
           </q-btn>
         </q-bar>
         <q-card-section style="max-height: 325px; width: 400px" class="scroll">
@@ -379,7 +397,7 @@
           >
             <template v-slot:Sno-option>
               <q-item>
-                <q-item-section class="text-grey"> No Result </q-item-section>
+                <q-item-section class="text-grey"> No Result</q-item-section>
               </q-item>
             </template>
           </q-select>
@@ -441,9 +459,12 @@
               >
                 <template v-slot:no-option>
                   <q-item
-                    ><q-item-section class="text-grey"
-                      >No results</q-item-section
-                    ></q-item
+                  >
+                    <q-item-section class="text-grey"
+                    >No results
+                    </q-item-section
+                    >
+                  </q-item
                   >
                 </template>
                 <template v-if="goodsData1.code" v-slot:append>
@@ -485,9 +506,12 @@
               >
                 <template v-slot:no-option>
                   <q-item
-                    ><q-item-section class="text-grey"
-                      >No results</q-item-section
-                    ></q-item
+                  >
+                    <q-item-section class="text-grey"
+                    >No results
+                    </q-item-section
+                    >
+                  </q-item
                   >
                 </template>
                 <template v-if="goodsData2.code" v-slot:append>
@@ -529,9 +553,12 @@
               >
                 <template v-slot:no-option>
                   <q-item
-                    ><q-item-section class="text-grey"
-                      >No results</q-item-section
-                    ></q-item
+                  >
+                    <q-item-section class="text-grey"
+                    >No results
+                    </q-item-section
+                    >
+                  </q-item
                   >
                 </template>
                 <template v-if="goodsData3.code" v-slot:append>
@@ -573,9 +600,12 @@
               >
                 <template v-slot:no-option>
                   <q-item
-                    ><q-item-section class="text-grey"
-                      >No results</q-item-section
-                    ></q-item
+                  >
+                    <q-item-section class="text-grey"
+                    >No results
+                    </q-item-section
+                    >
+                  </q-item
                   >
                 </template>
                 <template v-if="goodsData4.code" v-slot:append>
@@ -617,9 +647,12 @@
               >
                 <template v-slot:no-option>
                   <q-item
-                    ><q-item-section class="text-grey"
-                      >No results</q-item-section
-                    ></q-item
+                  >
+                    <q-item-section class="text-grey"
+                    >No results
+                    </q-item-section
+                    >
+                  </q-item
                   >
                 </template>
                 <template v-if="goodsData5.code" v-slot:append>
@@ -661,9 +694,12 @@
               >
                 <template v-slot:no-option>
                   <q-item
-                    ><q-item-section class="text-grey"
-                      >No results</q-item-section
-                    ></q-item
+                  >
+                    <q-item-section class="text-grey"
+                    >No results
+                    </q-item-section
+                    >
+                  </q-item
                   >
                 </template>
                 <template v-if="goodsData6.code" v-slot:append>
@@ -705,9 +741,12 @@
               >
                 <template v-slot:no-option>
                   <q-item
-                    ><q-item-section class="text-grey"
-                      >No results</q-item-section
-                    ></q-item
+                  >
+                    <q-item-section class="text-grey"
+                    >No results
+                    </q-item-section
+                    >
+                  </q-item
                   >
                 </template>
                 <template v-if="goodsData7.code" v-slot:append>
@@ -749,9 +788,12 @@
               >
                 <template v-slot:no-option>
                   <q-item
-                    ><q-item-section class="text-grey"
-                      >No results</q-item-section
-                    ></q-item
+                  >
+                    <q-item-section class="text-grey"
+                    >No results
+                    </q-item-section
+                    >
+                  </q-item
                   >
                 </template>
                 <template v-if="goodsData8.code" v-slot:append>
@@ -793,9 +835,12 @@
               >
                 <template v-slot:no-option>
                   <q-item
-                    ><q-item-section class="text-grey"
-                      >No results</q-item-section
-                    ></q-item
+                  >
+                    <q-item-section class="text-grey"
+                    >No results
+                    </q-item-section
+                    >
+                  </q-item
                   >
                 </template>
                 <template v-if="goodsData9.code" v-slot:append>
@@ -837,9 +882,12 @@
               >
                 <template v-slot:no-option>
                   <q-item
-                    ><q-item-section class="text-grey"
-                      >No results</q-item-section
-                    ></q-item
+                  >
+                    <q-item-section class="text-grey"
+                    >No results
+                    </q-item-section
+                    >
+                  </q-item
                   >
                 </template>
                 <template v-if="goodsData10.code" v-slot:append>
@@ -859,12 +907,56 @@
             text-color="black"
             style="margin-right: 25px"
             @click="isEdit ? editDataCancel() : newDataCancel()"
-            >{{ $t("cancel") }}</q-btn
+          >{{ $t("cancel") }}
+          </q-btn
           >
           <q-btn
             color="primary"
             @click="isEdit ? editDataSubmit() : newDataSubmit()"
-            >{{ $t("submit") }}</q-btn
+          >{{ $t("submit") }}
+          </q-btn
+          >
+        </div>
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="pdfForm">
+      <q-card class="shadow-24">
+        <q-bar
+          class="bg-light-blue-10 text-white rounded-borders"
+          style="height: 50px"
+        >
+          <div>下载PDF</div>
+          <q-space/>
+          <q-btn dense flat icon="close" v-close-popup>
+            <q-tooltip content-class="bg-amber text-black shadow-4">{{
+              $t("index.close")
+              }}
+            </q-tooltip>
+          </q-btn>
+        </q-bar>
+        <q-card-section style="max-height: 325px; width: 400px" class="scroll">
+          <q-input dense
+                   outlined
+                   square
+                   v-model="brand"
+                   label="品牌"
+                   autofocus
+                   @keyup.enter="handleRecordDownload()"/>
+        </q-card-section>
+        <div style="float: right; padding: 15px 15px 15px 0">
+          <q-btn
+            color="white"
+            text-color="black"
+            style="margin-right: 25px"
+            @click="pdfDataCancel()"
+          >{{ $t("cancel") }}
+          </q-btn
+          >
+          <q-btn
+            color="primary"
+            @click="handleRecordDownload()"
+          >{{ $t("submit") }}
+          </q-btn
           >
         </div>
       </q-card>
@@ -876,17 +968,19 @@
           style="height: 50px"
         >
           <div>{{ $t("delete") }}</div>
-          <q-space />
+          <q-space/>
           <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip content-class="bg-amber text-black shadow-4">{{
               $t("index.close")
-            }}</q-tooltip>
+              }}
+            </q-tooltip>
           </q-btn>
         </q-bar>
         <q-card-section
           style="max-height: 325px; width: 400px"
           class="scroll"
-          >{{ $t("deletetip") }}</q-card-section
+        >{{ $t("deletetip") }}
+        </q-card-section
         >
         <div style="float: right; padding: 15px 15px 15px 0">
           <q-btn
@@ -894,11 +988,13 @@
             text-color="black"
             style="margin-right: 25px"
             @click="deleteDataCancel()"
-            >{{ $t("cancel") }}</q-btn
+          >{{ $t("cancel") }}
+          </q-btn
           >
           <q-btn color="primary" @click="deleteDataSubmit()">{{
             $t("submit")
-          }}</q-btn>
+            }}
+          </q-btn>
         </div>
       </q-card>
     </q-dialog>
@@ -909,33 +1005,34 @@
           style="height: 50px"
         >
           <div>{{ $t("confirmdelivery") }}</div>
-          <q-space />
+          <q-space/>
           <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip content-class="bg-amber text-black shadow-4">{{
               $t("index.close")
-            }}</q-tooltip>
+              }}
+            </q-tooltip>
           </q-btn>
         </q-bar>
         <q-card-section
           style="max-height: 325px; width: 400px"
           class="scroll"
-          >
-          <q-input
-          outlined
-          v-model="deliveryData.box_number"
-          :hint="$t('deliveryData.box_number')"
-          :placeholder="$t('deliveryData.box_number_placeholder')"
-        />
-          <br>
-        <q-input
-          outlined
-          v-model="deliveryData.confirm_time"
-          mask="date"
-          type="date"
-          :hint="$t('deliveryData.confirm_time')"
-          :placeholder="$t('deliveryData.confirm_time_placeholder')"
         >
-        </q-input>
+          <q-input
+            outlined
+            v-model="deliveryData.box_number"
+            :hint="$t('deliveryData.box_number')"
+            :placeholder="$t('deliveryData.box_number_placeholder')"
+          />
+          <br>
+          <q-input
+            outlined
+            v-model="deliveryData.confirm_time"
+            mask="date"
+            type="date"
+            :hint="$t('deliveryData.confirm_time')"
+            :placeholder="$t('deliveryData.confirm_time_placeholder')"
+          >
+          </q-input>
         </q-card-section
         >
         <div style="float: right; padding: 15px 15px 15px 0">
@@ -944,11 +1041,13 @@
             text-color="black"
             style="margin-right: 25px"
             @click="preloadDataCancel()"
-            >{{ $t("cancel") }}</q-btn
+          >{{ $t("cancel") }}
+          </q-btn
           >
           <q-btn color="primary" @click="preloadDataSubmit()">{{
             $t("submit")
-          }}</q-btn>
+            }}
+          </q-btn>
         </div>
       </q-card>
     </q-dialog>
@@ -959,17 +1058,19 @@
           style="height: 50px"
         >
           <div>{{ $t("finishloading") }}</div>
-          <q-space />
+          <q-space/>
           <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip content-class="bg-amber text-black shadow-4">{{
               $t("index.close")
-            }}</q-tooltip>
+              }}
+            </q-tooltip>
           </q-btn>
         </q-bar>
         <q-card-section
           style="max-height: 325px; width: 400px"
           class="scroll"
-          >{{ $t("deletetip") }}</q-card-section
+        >{{ $t("deletetip") }}
+        </q-card-section
         >
         <div style="float: right; padding: 15px 15px 15px 0">
           <q-btn
@@ -977,56 +1078,58 @@
             text-color="black"
             style="margin-right: 25px"
             @click="presortDataCancel()"
-            >{{ $t("cancel") }}</q-btn
+          >{{ $t("cancel") }}
+          </q-btn
           >
           <q-btn color="primary" @click="presortDataSubmit()">{{
             $t("submit")
-          }}</q-btn>
+            }}
+          </q-btn>
         </div>
       </q-card>
     </q-dialog>
     <q-dialog v-model="viewForm">
       <div style="min-width: 1500px">
-      <q-card id="printMe">
-        <q-bar
-          class="bg-light-blue-10 text-white rounded-borders"
-          style="height: 50px"
-        >
-          <div>{{ viewAsn }}</div>
-          <q-space />
-          {{ $t("inbound.asn") }}
-        </q-bar>
-        <q-card-section>
-          <div class="row">
-            <div class="col-8">
-              <div class="text-h6">
-                Sender: {{ supplier_detail.supplier_name }}
+        <q-card id="printMe">
+          <q-bar
+            class="bg-light-blue-10 text-white rounded-borders"
+            style="height: 50px"
+          >
+            <div>{{ viewAsn }}</div>
+            <q-space/>
+            {{ $t("inbound.asn") }}
+          </q-bar>
+          <q-card-section>
+            <div class="row">
+              <div class="col-8">
+                <div class="text-h6">
+                  Sender: {{ supplier_detail.supplier_name }}
+                </div>
+                <div class="text-subtitle2">
+                  Address: {{ supplier_detail.supplier_city
+                  }}{{ supplier_detail.supplier_address }}
+                </div>
+                <div class="text-subtitle2">
+                  Tel: {{ supplier_detail.supplier_contact }}
+                </div>
+                <div class="text-h6">
+                  Receiver: {{ warehouse_detail.warehouse_name }}
+                </div>
+                <div class="text-subtitle2">
+                  Address: {{ warehouse_detail.warehouse_city
+                  }}{{ warehouse_detail.warehouse_address }}
+                </div>
+                <div class="text-subtitle2">
+                  Tel: {{ warehouse_detail.warehouse_contact }}
+                </div>
               </div>
-              <div class="text-subtitle2">
-                Address: {{ supplier_detail.supplier_city
-                }}{{ supplier_detail.supplier_address }}
-              </div>
-              <div class="text-subtitle2">
-                Tel: {{ supplier_detail.supplier_contact }}
-              </div>
-              <div class="text-h6">
-                Receiver: {{ warehouse_detail.warehouse_name }}
-              </div>
-              <div class="text-subtitle2">
-                Address: {{ warehouse_detail.warehouse_city
-                }}{{ warehouse_detail.warehouse_address }}
-              </div>
-              <div class="text-subtitle2">
-                Tel: {{ warehouse_detail.warehouse_contact }}
+              <div class="col-4">
+                <img :src="bar_code" style="width: 70%; margin-left: 15%"/>
               </div>
             </div>
-            <div class="col-4">
-              <img :src="bar_code" style="width: 70%; margin-left: 15%" />
-            </div>
-          </div>
-        </q-card-section>
-        <q-markup-table>
-          <thead>
+          </q-card-section>
+          <q-markup-table>
+            <thead>
             <tr>
               <th class="text-left">
                 {{ $t("goods.view_goodslist.goods_code") }}
@@ -1048,8 +1151,8 @@
               </th>
               <th class="text-right">Comments</th>
             </tr>
-          </thead>
-          <tbody>
+            </thead>
+            <tbody>
             <tr v-for="(view, index) in viewprint_table" :key="index">
               <td class="text-left">{{ view.goods_code }}</td>
               <td class="text-right">{{ view.goods_qty }}</td>
@@ -1061,10 +1164,10 @@
               <td class="text-right">{{ view.goods_actual_qty }}</td>
               <td class="text-right"></td>
             </tr>
-          </tbody>
-        </q-markup-table>
-      </q-card>
-        </div>
+            </tbody>
+          </q-markup-table>
+        </q-card>
+      </div>
       <div style="float: right; padding: 15px 15px 15px 0">
         <q-btn color="primary" icon="print" v-print="printObj">print</q-btn>
       </div>
@@ -1076,15 +1179,16 @@
           style="height: 50px"
         >
           <div>{{ sorted_list.asn_code }}</div>
-          <q-space />
+          <q-space/>
           <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip content-class="bg-amber text-black shadow-4">{{
               $t("index.close")
-            }}</q-tooltip>
+              }}
+            </q-tooltip>
           </q-btn>
         </q-bar>
         <q-card-section style="max-height: 325px; width: 400px" class="scroll">
-          <q-select outlined v-model="sorted_list.bin_name" :options="bin_list_detail" label="缓存区" />
+          <q-select outlined v-model="sorted_list.bin_name" :options="bin_list_detail" label="缓存区"/>
           <q-input
             dense
             outlined
@@ -1118,15 +1222,16 @@
             text-color="black"
             style="margin-right: 25px"
             @click="sortedDataCancel()"
-            >{{ $t("cancel") }}</q-btn
+          >{{ $t("cancel") }}
+          </q-btn
           >
           <q-btn color="primary" @click="sortedDataSubmit()">{{
             $t("submit")
-          }}</q-btn>
+            }}
+          </q-btn>
         </div>
       </q-card>
     </q-dialog>
-
     <q-dialog v-model="uploadVisible">
       <q-card class="shadow-24">
         <q-bar
@@ -1134,11 +1239,12 @@
           style="height: 50px"
         >
           <div>{{ $t("twoKai.upload_asn.title") }}</div>
-          <q-space />
+          <q-space/>
           <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip content-class="bg-amber text-black shadow-4">{{
               $t("index.close")
-            }}</q-tooltip>
+              }}
+            </q-tooltip>
           </q-btn>
         </q-bar>
         <q-card-section style="max-height: 325px; width: 400px" class="scroll">
@@ -1167,12 +1273,13 @@
                 dense
                 flat
               >
-                <q-uploader-add-trigger />
+                <q-uploader-add-trigger/>
                 <q-tooltip
                   content-class="bg-amber text-black shadow-4"
                   :offset="[10, 10]"
                   content-style="font-size: 12px"
-                  >{{ $t("upload_center.uploadfiles") }}</q-tooltip
+                >{{ $t("upload_center.uploadfiles") }}
+                </q-tooltip
                 >
               </q-btn>
             </template>
@@ -1193,15 +1300,16 @@
           style="height: 50px"
         >
           <div>调拨</div>
-          <q-space />
+          <q-space/>
           <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip content-class="bg-amber text-black shadow-4">{{
               $t("index.close")
-            }}</q-tooltip>
+              }}
+            </q-tooltip>
           </q-btn>
         </q-bar>
         <q-card-section style="max-height: 325px; width: 400px" class="scroll">
-          <q-select filled v-model="warehouse_model" :options="warehouse_options" label="仓库ID" />
+          <q-select filled v-model="warehouse_model" :options="warehouse_options" label="仓库ID"/>
         </q-card-section>
         <div style="float: right; padding: 15px 15px 15px 0">
           <q-btn
@@ -1209,19 +1317,21 @@
             text-color="black"
             style="margin-right: 25px"
             @click="isEdit ? editDataCancel() : newDataCancel()"
-            >{{ $t("cancel") }}</q-btn
+          >{{ $t("cancel") }}
+          </q-btn
           >
           <q-btn
             color="primary"
             @click="submitWarehouseChange()"
-            >{{ $t("submit") }}</q-btn
+          >{{ $t("submit") }}
+          </q-btn
           >
         </div>
       </q-card>
     </q-dialog>
   </div>
 </template>
-<router-view />
+<router-view/>
 
 <script>
 import {
@@ -1233,6 +1343,7 @@ import {
   getfile,
   getpdfFile
 } from 'boot/axios_request'
+
 import {
   date,
   exportFile,
@@ -1262,6 +1373,7 @@ export default {
       separator: 'cell',
       loading: false,
       height: '',
+      brand: 'MADE IN CHINA',
       table_list: [],
       viewprint_table: [],
       bar_code: '',
@@ -1381,6 +1493,7 @@ export default {
       goodsData10: { code: '', qty: '' },
       editid: 0,
       editFormData: {},
+      pdfData: {},
       sortedForm: false,
       sortedid: 0,
       sorted_list: {
@@ -1391,6 +1504,7 @@ export default {
         creater: ''
       },
       deleteForm: false,
+      pdfForm: false,
       deleteid: 0,
       preloadForm: false,
       preloadid: 0,
@@ -1416,17 +1530,17 @@ export default {
     }
   },
   methods: {
-    handleRecordDownload (record) {
+    handleRecordDownload () {
       if (LocalStorage.has('auth')) {
         getpdfFile(
-          `asn/pdfdownload/${record.id}/?lang=${LocalStorage.getItem('lang')}`
+            `asn/pdfdownload/${this.pdfData.id}/?lang=${LocalStorage.getItem('lang')}&brand=${this.brand}`
         ).then((res) => {
           var timeStamp = Date.now()
           var formattedString = date.formatDate(timeStamp, 'YYYYMMDDHHmmssSSS')
           const status = exportFile(
-            `asn_filedetail_${record.id}_${formattedString}.pdf`,
-            res.data,
-            'application/pdf'
+              `asn_filedetail_${this.pdfData.id}_${formattedString}.pdf`,
+              res.data,
+              'application/pdf'
           )
           if (status !== true) {
             this.$q.notify({
@@ -1674,6 +1788,16 @@ export default {
       _this.table_list = []
       _this.getList()
     },
+    pdfDataForm (e) {
+      var _this = this
+      _this.pdfData = e
+      _this.pdfForm = true
+    },
+    pdfDataCancel () {
+      var _this = this
+      _this.brand = 'MADE IN CHINA'
+      _this.pdfForm = false
+    },
     newFormOpen () {
       var _this = this
       _this.isEdit = false
@@ -1804,9 +1928,9 @@ export default {
       if (e.asn_status !== _this.$t('inbound.predeliverystock')) {
         _this.$q.notify({
           message:
-            e.asn_code +
-            ' ASN Status Is Not ' +
-            _this.$t('inbound.predeliverystock'),
+              e.asn_code +
+              ' ASN Status Is Not ' +
+              _this.$t('inbound.predeliverystock'),
           icon: 'close',
           color: 'negative'
         })
@@ -1915,9 +2039,9 @@ export default {
       if (e.asn_status !== _this.$t('inbound.predeliverystock')) {
         _this.$q.notify({
           message:
-            e.asn_code +
-            ' ASN Status Is Not ' +
-            _this.$t('inbound.predeliverystock'),
+              e.asn_code +
+              ' ASN Status Is Not ' +
+              _this.$t('inbound.predeliverystock'),
           icon: 'close',
           color: 'negative'
         })
@@ -1959,9 +2083,9 @@ export default {
       if (e.asn_status !== _this.$t('inbound.predeliverystock')) {
         _this.$q.notify({
           message:
-            e.asn_code +
-            ' ASN Status Is Not ' +
-            _this.$t('inbound.predeliverystock'),
+              e.asn_code +
+              ' ASN Status Is Not ' +
+              _this.$t('inbound.predeliverystock'),
           icon: 'close',
           color: 'negative'
         })
@@ -2020,9 +2144,9 @@ export default {
       if (e.asn_status !== _this.$t('inbound.preloadstock')) {
         _this.$q.notify({
           message:
-            e.asn_code +
-            ' ASN Status Is Not ' +
-            _this.$t('inbound.preloadstock'),
+              e.asn_code +
+              ' ASN Status Is Not ' +
+              _this.$t('inbound.preloadstock'),
           icon: 'close',
           color: 'negative'
         })
@@ -2119,9 +2243,9 @@ export default {
       if (e.asn_status !== _this.$t('inbound.presortstock')) {
         _this.$q.notify({
           message:
-            e.asn_code +
-            ' ASN Status Is Not ' +
-            _this.$t('inbound.presortstock'),
+              e.asn_code +
+              ' ASN Status Is Not ' +
+              _this.$t('inbound.presortstock'),
           icon: 'close',
           color: 'negative'
         })
@@ -2284,42 +2408,50 @@ export default {
       _this.height = _this.$q.screen.height - 290 + '' + 'px'
     }
   },
-  updated () {},
-  destroyed () {}
+  updated () {
+  },
+  destroyed () {
+  }
 }
 </script>
 
 <style lang="scss">
-.custom-uploader {
-  width: 100%;
-  height: 80px;
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  box-shadow: none;
-  background: transparent !important;
-  .q-uploader__header {
-    height: 100%;
+  .custom-uploader {
+    width: 100%;
+    height: 80px;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    box-shadow: none;
     background: transparent !important;
-    color: #000;
-    text-align: center;
-    .q-btn {
-      width: 100%;
+
+    .q-uploader__header {
       height: 100%;
+      background: transparent !important;
+      color: #000;
+      text-align: center;
+
+      .q-btn {
+        width: 100%;
+        height: 100%;
+      }
+
+      .q-btn--round {
+        border-radius: 0 !important;
+      }
     }
-    .q-btn--round {
-      border-radius: 0 !important;
+
+    .q-uploader__list {
+      display: none;
     }
   }
-  .q-uploader__list {
-    display: none;
+
+  .custom-download {
+    margin-top: 20px;
+
+    span {
+      font-size: 14px;
+      color: #000;
+      cursor: pointer;
+    }
   }
-}
-.custom-download {
-  margin-top: 20px;
-  span {
-    font-size: 14px;
-    color: #000;
-    cursor: pointer;
-  }
-}
 </style>
