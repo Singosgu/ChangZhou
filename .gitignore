@@ -5,7 +5,9 @@ authorization.txt
 authorization.json
 db.sqlite3
 .idea/
-greaterwms/settings.py
-templates/public/statics/baseurl.js
-**/migrations/**
-docker/mysql/**
+delete.py
+*.xlsx
+logs/
+bfg.jar
+error.log
+server.log

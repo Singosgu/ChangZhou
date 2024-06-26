@@ -141,7 +141,7 @@ def register(request, *args, **kwargs):
                                                      warehouse_name='Center Warehouse',
                                                      warehouse_city=str(random.choice(randomcity)),
                                                      warehouse_address='People’s Square # 666 Room 2F',
-                                                     warehouse_contact=str(randomPhone()),
+                                                     warehouse_contact='0',
                                                      warehouse_manager='Tim.Yao',
                                                      creater=system_user.name
                                                      )

@@ -1489,14 +1489,15 @@ class PDFDownload(viewsets.ModelViewSet):
             return self.http_method_not_allowed(request=self.request)
 
     def retrieve(self, request, *args, **kwargs):
+        brand = request.GET.get('brand', 'MADE IN CHINA')
         queryset = self.filter_queryset(self.get_queryset())
         if queryset.exists():
             patch_number = queryset.first().patch_number
             path = os.path.join(settings.BASE_DIR, f'media/asn_label/{patch_number}/{patch_number}.pdf')
             content_type, encoding = mimetypes.guess_type(path)
-            try:
+            if brand == 'MADE IN CHINA':
                 response = StreamingHttpResponse(FileWrapper(open(path, 'rb')), content_type=content_type)
-            except FileNotFoundError:
+            else:
                 all_data = AsnDetailModel.objects.filter(patch_number=patch_number, is_delete=False)
                 all_goods = {}
                 for detail in all_data:
@@ -1516,7 +1517,7 @@ class PDFDownload(viewsets.ModelViewSet):
                     d = dict()
                     d['id'] = j + 1
                     d['patch_number'] = iter_data[j].patch_number
-                    d['brand'] = 'MADE IN CHINA'
+                    d['brand'] = brand
                     d['barcode'] = goods.objects.filter(goods_code=iter_data[j].goods_code).first().bar_code
                     d['total'] = iter_data[j].goods_qty
                     d['goods_code'] = iter_data[j].goods_code
