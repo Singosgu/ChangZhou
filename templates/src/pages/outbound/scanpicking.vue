@@ -199,6 +199,7 @@ export default {
     },
     getScanData (e) {
       e = e.replace(/Alt/g, '').replace(/CapsLock/g, '').replace(/Shift/g, '').replace(/Control/g, '')
+      console.log('扫描的时候，准备发请求给服务器做比对：', new Date().getTime(), new Date())
       axios.get(baseurl + 'scanner/list/' + e + '/',
         {
           headers: {
@@ -208,14 +209,16 @@ export default {
             operator: this.$q.localStorage.getItem('login_id')
           }
         }).then(res => {
+	console.log('扫描之后，和服务器第一次交互完成', new Date().getTime(), new Date())
         if (!res.data.detail) {
           this.resData = res.data.code
           this.resMode = res.data.mode
           if (this.resMode === 'DN') {
             this.getList(this.resData)
           } else if (this.resMode === 'GOODS') {
+            console.log('服务器比对完成后，开始执行面单打印前端代码：', new Date().getTime(), new Date())
             this.debounce(this.PickChange(), 1000);
-            // this.PickChange()
+	          // this.PickChange()
           } else if (this.resMode === 'MD') {
             this.debounce(this.MDConfirm(this.resData), 1000);
             // this.MDConfirm(this.resData)
@@ -236,16 +239,18 @@ export default {
     },
     PickChange () {
       try {
+	console.log('面单打印之前，页面上本地做数据比对：', new Date().getTime(), new Date())
         this.table_list.forEach((item, index) => {
           if (item.goods_code === this.resData && item.picking_status === 1) {
             if (item.pick_qty > 0) {
-              item.picked_qty += 1
+	      item.picked_qty += 1
               item.pick_qty -= 1
               item.picking_status = 2
               this.table_list.unshift(item)
               this.table_list.splice(index + 1, 1)
               this.sendData = item
-              throw new Error('success')
+              console.log('数据比对结束，准备打印面单：', new Date().getTime(), new Date())
+	      throw new Error('success')
             } else {
               if (index + 1 === this.table_list.length) {
                 this.$q.notify({
@@ -275,13 +280,17 @@ export default {
         dn_code: e.dn_code,
         goodsData: this.scan_detail
       }
+      console.log('准备和服务器确认扣除哪张订单的捡货数量：', new Date().getTime(), new Date())
       putauth('dn/picked/' + e.id + '/', submitData, {
       })
         .then((res) => {
+	  console.log('服务器确认订单后，开始打印本地面单：', new Date().getTime(), new Date())
           if (!res.detail) {
             this.scan_detail = []
+	    console.log('准备启动小程序，打印面单：', new Date().getTime(), new Date())
             postauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', { data: e.mian_dan }).then((res) => {
-              this.playAudio()
+              console.log('打印面单完成：', new Date().getTime(), new Date())
+	            this.playAudio()
               this.$q.notify({
                 message: '面单打印成功'
               })
