@@ -72,6 +72,9 @@
           <div style="margin-left:20px"> Total:  {{ page_count }} </div>
         </div>
       </template>
+      <template>
+        <audio ref="audioPlayer" src="/statics/mp3/Outbound_Success.mp3" hidden></audio>
+      </template>
     </div>
 
 </template>
@@ -124,6 +127,10 @@ export default {
     }
   },
   methods: {
+    playAudio () {
+      const audioPlayer = this.$refs.audioPlayer;
+      audioPlayer.play();
+    },
     getList (e) {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
@@ -273,6 +280,7 @@ export default {
           if (!res.detail) {
             this.scan_detail = []
             postauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', { data: e.mian_dan }).then((res) => {
+              this.playAudio()
               this.$q.notify({
                 message: '面单打印成功'
               })
