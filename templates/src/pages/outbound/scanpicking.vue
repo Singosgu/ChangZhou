@@ -198,7 +198,7 @@ export default {
       }
     },
     getScanData (e) {
-      e = e.replace(/Alt/g, '').replace(/CapeLock/g, '').replace(/Shift/g, '').replace(/Control/g, '')
+      e = e.replace(/Alt/g, '').replace(/CapsLock/g, '').replace(/Shift/g, '').replace(/Control/g, '')
       axios.get(baseurl + 'scanner/list/' + e + '/',
         {
           headers: {
@@ -214,7 +214,8 @@ export default {
           if (this.resMode === 'DN') {
             this.getList(this.resData)
           } else if (this.resMode === 'GOODS') {
-            this.PickChange()
+            this.debounce(this.PickChange(), 1000);
+            // this.PickChange()
           } else if (this.resMode === 'MD') {
             this.debounce(this.MDConfirm(this.resData), 1000);
             // this.MDConfirm(this.resData)
