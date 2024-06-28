@@ -236,7 +236,6 @@ export default {
           if (!res.detail) {
             this.scan_detail = []
             postauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', { data: e.mian_dan }).then((res) => {
-              this.playAudio()
               this.$q.notify({
                 message: '面单打印成功'
               })
@@ -259,6 +258,7 @@ export default {
           if (res.results[0].dn_status === 4) {
             postauth('dn/dispatch/' + res.results[0].id + '/', res.results[0]).then((res) => {
               this.table_list.splice(0, 1)
+              this.playAudio()
               this.$q.notify({
                 message: '发货成功',
                 icon: 'check',
