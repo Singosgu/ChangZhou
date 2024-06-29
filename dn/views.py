@@ -2489,9 +2489,7 @@ class DnDispatchViewSet(viewsets.ModelViewSet):
                         binset.objects.filter(openid=self.request.auth.openid,
                                               bin_name=pick_qty_change[j].bin_name).update(empty_label=True)
             pick_qty_change.update(picking_status=3)
-            pick_qty_change.save()
             pick_sum_change.update(picking_status=3)
-            pick_sum_change.save()
             qs.save()
             return Response({"detail": "success"}, status=200)
 
