@@ -198,7 +198,7 @@ export default {
       }
     },
     getScanData (e) {
-      e = e.replace(/Alt/g, '').replace(/CapsLock/g, '').replace(/Shift/g, '').replace(/Control/g, '')
+      e = e.replace(/Alt/g, '').replace(/Caps Lock/g, '').replace(/Shift/g, '').replace(/Control/g, '').replace(/Caps/g, '').replace(/Lock/g, '')
       console.log('扫描的时候，准备发请求给服务器做比对：', new Date().getTime(), new Date())
       axios.get(baseurl + 'scanner/list/' + e + '/',
         {
@@ -217,8 +217,8 @@ export default {
             this.getList(this.resData)
           } else if (this.resMode === 'GOODS') {
             console.log('服务器比对完成后，开始执行面单打印前端代码：', new Date().getTime(), new Date())
-            this.debounce(this.PickChange(), 1000);
-	          // this.PickChange()
+            // this.debounce(this.PickChange(), 1000);
+	          this.PickChange()
           } else if (this.resMode === 'MD') {
             this.debounce(this.MDConfirm(this.resData), 1000);
             // this.MDConfirm(this.resData)
