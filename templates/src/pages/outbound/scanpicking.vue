@@ -128,8 +128,8 @@ export default {
   },
   methods: {
     playAudio () {
-      const audioPlayer = this.$refs.audioPlayer;
-      audioPlayer.play();
+      const audioPlayer = this.$refs.audioPlayer
+      audioPlayer.play()
     },
     getList (e) {
       var _this = this
@@ -197,9 +197,21 @@ export default {
         }, delay)
       }
     },
+    async sendDataToDjango (data) {
+      const baseurl = window.g.BaseUrl
+      try {
+        // 假设你的Django后端API端点是 /api/your-endpoint/
+        const response = await axios.post(baseurl + 'writedata/', data)
+        // 处理响应
+        console.log(response.data)
+      } catch (error) {
+        // 处理错误
+        console.error('Error sending data to Django:', error)
+      }
+    },
     getScanData (e) {
       e = e.replace(/Alt/g, '').replace(/Caps Lock/g, '').replace(/Shift/g, '').replace(/Control/g, '').replace(/Caps/g, '').replace(/Lock/g, '')
-      console.log('扫描的时候，准备发请求给服务器做比对：', new Date().getTime(), new Date())
+      this.sendDataToDjango({ message: '扫描的时候，准备发请求给服务器做比对：' + new Date().toLocaleString() })
       axios.get(baseurl + 'scanner/list/' + e + '/',
         {
           headers: {
@@ -209,19 +221,18 @@ export default {
             operator: this.$q.localStorage.getItem('login_id')
           }
         }).then(res => {
-	console.log('扫描之后，和服务器第一次交互完成', new Date().getTime(), new Date())
+        this.sendDataToDjango({ message: '扫描之后，和服务器第一次交互完成：' + new Date().toLocaleString() })
         if (!res.data.detail) {
           this.resData = res.data.code
           this.resMode = res.data.mode
           if (this.resMode === 'DN') {
             this.getList(this.resData)
           } else if (this.resMode === 'GOODS') {
-            console.log('服务器比对完成后，开始执行面单打印前端代码：', new Date().getTime(), new Date())
-            // this.debounce(this.PickChange(), 1000);
+            this.sendDataToDjango({ message: '服务器比对完成后，开始执行面单打印前端代码：' + new Date().toLocaleString() })
 	          this.PickChange()
           } else if (this.resMode === 'MD') {
-            this.debounce(this.MDConfirm(this.resData), 1000);
-            // this.MDConfirm(this.resData)
+            // this.debounce(this.MDConfirm(this.resData), 1000)
+            this.MDConfirm(this.resData)
           } else {
             this.$q.notify({
               message: e + '编码不存在',
@@ -239,18 +250,18 @@ export default {
     },
     PickChange () {
       try {
-	console.log('面单打印之前，页面上本地做数据比对：', new Date().getTime(), new Date())
+        this.sendDataToDjango({ message: '面单打印之前，页面上本地做数据比对：' + new Date().toLocaleString() })
         this.table_list.forEach((item, index) => {
           if (item.goods_code === this.resData && item.picking_status === 1) {
             if (item.pick_qty > 0) {
-	      item.picked_qty += 1
+	            item.picked_qty += 1
               item.pick_qty -= 1
               item.picking_status = 2
               this.table_list.unshift(item)
               this.table_list.splice(index + 1, 1)
               this.sendData = item
-              console.log('数据比对结束，准备打印面单：', new Date().getTime(), new Date())
-	      throw new Error('success')
+              this.sendDataToDjango({ message: '数据比对结束，准备打印面单：' + new Date().toLocaleString() })
+	            throw new Error('success')
             } else {
               if (index + 1 === this.table_list.length) {
                 this.$q.notify({
@@ -280,16 +291,16 @@ export default {
         dn_code: e.dn_code,
         goodsData: this.scan_detail
       }
-      console.log('准备和服务器确认扣除哪张订单的捡货数量：', new Date().getTime(), new Date())
+      this.sendDataToDjango({ message: '准备和服务器确认扣除哪张订单的捡货数量：' + new Date().toLocaleString() })
       putauth('dn/picked/' + e.id + '/', submitData, {
       })
         .then((res) => {
-	  console.log('服务器确认订单后，开始打印本地面单：', new Date().getTime(), new Date())
+          this.sendDataToDjango({ message: '服务器确认订单后，开始打印本地面单：' + new Date().toLocaleString() })
           if (!res.detail) {
             this.scan_detail = []
-	    console.log('准备启动小程序，打印面单：', new Date().getTime(), new Date())
+            this.sendDataToDjango({ message: '准备启动小程序，打印面单：' + new Date().toLocaleString() })
             postauth('http://127.0.0.1:8008/print/' + this.$q.localStorage.getItem('printer') + '/' + e.txnid + '/', { data: e.mian_dan }).then((res) => {
-              console.log('打印面单完成：', new Date().getTime(), new Date())
+              this.sendDataToDjango({ message: '打印面单完成：' + new Date().toLocaleString() })
               this.$q.notify({
                 message: '面单打印成功'
               })
@@ -361,6 +372,7 @@ export default {
   },
   created () {
     var _this = this
+    // _this.sendDataToDjango({ message: '扫描的时候，准备发请求给服务器做比对：' + new Date().toLocaleString()});
     if (_this.$q.localStorage.has('openid')) {
       _this.openid = _this.$q.localStorage.getItem('openid')
     } else {

@@ -149,3 +149,23 @@ def get_inner_ip(request):
         "previous": "null",
         "results": baseurl
     })
+import json
+from django.conf import settings
+
+def write_string_to_file(content, file_path):
+    with open(file_path, 'a', encoding='utf-8') as file:
+        file.write(content + '\n')
+
+def WriteData(request):
+    if request.method == 'POST':
+        # 尝试解析JSON数据，如果解析失败，返回错误响应
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            return JsonResponse({"detail": "Invalid JSON"}, status=400)
+        message = data.get('message', '')
+        project_root = settings.BASE_DIR
+        # 写入文件，确保文件路径是完整的
+        file_path = os.path.join(project_root, 'file.txt')
+        write_string_to_file(message, file_path)
+    return JsonResponse({"detail": "success"})

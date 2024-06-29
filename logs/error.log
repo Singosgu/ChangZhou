@@ -56985,3 +56985,217 @@ Traceback (most recent call last):
   File "E:\py_env\changzhou\lib\site-packages\MySQLdb\connections.py", line 195, in __init__
     super().__init__(*args, **kwargs2)
 django.db.utils.OperationalError: (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+[2024-06-29 14:02:01,854][django.request.log_response():224] [ERROR] Internal Server Error: /writedata/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File ".\greaterwms\views.py", line 154, in WriteData
+    data = request.data
+AttributeError: 'ASGIRequest' object has no attribute 'data'
+[2024-06-29 14:16:03,124][django.request.log_response():224] [ERROR] Internal Server Error: /writedata/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File ".\greaterwms\views.py", line 164, in WriteData
+    write_string_to_file(message, 'project_root/file.txt')
+  File ".\greaterwms\views.py", line 156, in write_string_to_file
+    with open(file_path, 'w', encoding='utf-8') as file:
+FileNotFoundError: [Errno 2] No such file or directory: 'project_root/file.txt'
+[2024-06-29 14:16:46,408][django.request.log_response():224] [ERROR] Internal Server Error: /writedata/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File ".\greaterwms\views.py", line 164, in WriteData
+    write_string_to_file(message, 'project_root/file.txt')
+  File ".\greaterwms\views.py", line 156, in write_string_to_file
+    with open(file_path, 'w', encoding='utf-8') as file:
+FileNotFoundError: [Errno 2] No such file or directory: 'project_root/file.txt'
+[2024-06-29 14:17:12,095][django.request.log_response():224] [ERROR] Internal Server Error: /writedata/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File ".\greaterwms\views.py", line 164, in WriteData
+    write_string_to_file(message, project_root+'/file.txt')
+TypeError: unsupported operand type(s) for +: 'WindowsPath' and 'str'
+[2024-06-29 14:19:24,356][django.request.log_response():224] [ERROR] Internal Server Error: /writedata/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+TypeError: __init__() takes 1 positional argument but 2 were given
+[2024-06-29 14:21:12,736][django.request.log_response():224] [ERROR] Internal Server Error: /dn/pickingsumfilter/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\silk\middleware.py", line 70, in __call__
+    self.process_request(request)
+  File "E:\py_env\changzhou\lib\site-packages\silk\middleware.py", line 104, in process_request
+    if not _should_intercept(request):
+  File "E:\py_env\changzhou\lib\site-packages\silk\middleware.py", line 49, in _should_intercept
+    silky = request.path.startswith(get_fpath())
+  File "E:\py_env\changzhou\lib\site-packages\silk\middleware.py", line 31, in get_fpath
+    return silky_reverse('summary')
+  File "E:\py_env\changzhou\lib\site-packages\silk\middleware.py", line 21, in silky_reverse
+    r = reverse('silk:%s' % name, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\urls\base.py", line 55, in reverse
+    app_list = resolver.app_dict[ns]
+  File "E:\py_env\changzhou\lib\site-packages\django\urls\resolvers.py", line 526, in app_dict
+    self._populate()
+  File "E:\py_env\changzhou\lib\site-packages\django\urls\resolvers.py", line 460, in _populate
+    for url_pattern in reversed(self.url_patterns):
+  File "E:\py_env\changzhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\py_env\changzhou\lib\site-packages\django\urls\resolvers.py", line 593, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "E:\py_env\changzhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\py_env\changzhou\lib\site-packages\django\urls\resolvers.py", line 586, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 790, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File ".\greaterwms\urls.py", line 47, in <module>
+    path('writedata/', views.WriteDataView, name='writedata'),
+AttributeError: module 'greaterwms.views' has no attribute 'WriteDataView'
+[2024-06-29 14:21:12,831][django.request.log_response():224] [ERROR] Internal Server Error: /writedata/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\silk\middleware.py", line 70, in __call__
+    self.process_request(request)
+  File "E:\py_env\changzhou\lib\site-packages\silk\middleware.py", line 104, in process_request
+    if not _should_intercept(request):
+  File "E:\py_env\changzhou\lib\site-packages\silk\middleware.py", line 49, in _should_intercept
+    silky = request.path.startswith(get_fpath())
+  File "E:\py_env\changzhou\lib\site-packages\silk\middleware.py", line 31, in get_fpath
+    return silky_reverse('summary')
+  File "E:\py_env\changzhou\lib\site-packages\silk\middleware.py", line 21, in silky_reverse
+    r = reverse('silk:%s' % name, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\urls\base.py", line 55, in reverse
+    app_list = resolver.app_dict[ns]
+  File "E:\py_env\changzhou\lib\site-packages\django\urls\resolvers.py", line 526, in app_dict
+    self._populate()
+  File "E:\py_env\changzhou\lib\site-packages\django\urls\resolvers.py", line 460, in _populate
+    for url_pattern in reversed(self.url_patterns):
+  File "E:\py_env\changzhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\py_env\changzhou\lib\site-packages\django\urls\resolvers.py", line 593, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "E:\py_env\changzhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\py_env\changzhou\lib\site-packages\django\urls\resolvers.py", line 586, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 790, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File ".\greaterwms\urls.py", line 47, in <module>
+    path('writedata/', views.WriteDataView, name='writedata'),
+AttributeError: module 'greaterwms.views' has no attribute 'WriteDataView'
+[2024-06-29 14:21:12,926][django.request.log_response():224] [ERROR] Internal Server Error: /dn/pickinglistfilter/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\silk\middleware.py", line 70, in __call__
+    self.process_request(request)
+  File "E:\py_env\changzhou\lib\site-packages\silk\middleware.py", line 104, in process_request
+    if not _should_intercept(request):
+  File "E:\py_env\changzhou\lib\site-packages\silk\middleware.py", line 49, in _should_intercept
+    silky = request.path.startswith(get_fpath())
+  File "E:\py_env\changzhou\lib\site-packages\silk\middleware.py", line 31, in get_fpath
+    return silky_reverse('summary')
+  File "E:\py_env\changzhou\lib\site-packages\silk\middleware.py", line 21, in silky_reverse
+    r = reverse('silk:%s' % name, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\urls\base.py", line 55, in reverse
+    app_list = resolver.app_dict[ns]
+  File "E:\py_env\changzhou\lib\site-packages\django\urls\resolvers.py", line 526, in app_dict
+    self._populate()
+  File "E:\py_env\changzhou\lib\site-packages\django\urls\resolvers.py", line 460, in _populate
+    for url_pattern in reversed(self.url_patterns):
+  File "E:\py_env\changzhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\py_env\changzhou\lib\site-packages\django\urls\resolvers.py", line 593, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "E:\py_env\changzhou\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "E:\py_env\changzhou\lib\site-packages\django\urls\resolvers.py", line 586, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 790, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File ".\greaterwms\urls.py", line 47, in <module>
+    path('writedata/', views.WriteDataView, name='writedata'),
+AttributeError: module 'greaterwms.views' has no attribute 'WriteDataView'
