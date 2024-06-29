@@ -2361,6 +2361,7 @@ class DnPickedSumViewSet(viewsets.ModelViewSet):
                             detail_data[j].picked_qty)
                         pick_qty_change.picked_qty = int(detail_data[j].picked_qty)
                         pick_qty_change.picking_status = 2
+                        pick_qty_change.save()
                         bin_qty_change.goods_qty = bin_qty_change.goods_qty - int(detail_data[j].pick_qty)
                         bin_qty_change.pick_qty = bin_qty_change.pick_qty - int(detail_data[j].picked_qty)
                         bin_qty_change.picked_qty = bin_qty_change.picked_qty + int(detail_data[j].picked_qty)
@@ -2381,6 +2382,7 @@ class DnPickedSumViewSet(viewsets.ModelViewSet):
                                 detail_data[j].pick_qty))
                         pick_qty_change.picked_qty = int(detail_data[j].picked_qty)
                         pick_qty_change.picking_status = 2
+                        pick_qty_change.save()
                         bin_qty_change.goods_qty = bin_qty_change.goods_qty - int(detail_data[j].pick_qty)
                         bin_qty_change.pick_qty = bin_qty_change.pick_qty - pick_qty_change.pick_qty
                         bin_qty_change.picked_qty = bin_qty_change.picked_qty + int(detail_data[j].picked_qty)
@@ -2487,7 +2489,9 @@ class DnDispatchViewSet(viewsets.ModelViewSet):
                         binset.objects.filter(openid=self.request.auth.openid,
                                               bin_name=pick_qty_change[j].bin_name).update(empty_label=True)
             pick_qty_change.update(picking_status=3)
+            pick_qty_change.save()
             pick_sum_change.update(picking_status=3)
+            pick_sum_change.save()
             qs.save()
             return Response({"detail": "success"}, status=200)
 
