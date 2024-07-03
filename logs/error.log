@@ -57199,3 +57199,34 @@ Traceback (most recent call last):
   File ".\greaterwms\urls.py", line 47, in <module>
     path('writedata/', views.WriteDataView, name='writedata'),
 AttributeError: module 'greaterwms.views' has no attribute 'WriteDataView'
+[2024-07-02 08:55:51,254][django.request.log_response():224] [ERROR] Internal Server Error: /asn/sorted/2/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\asn\views.py", line 704, in create
+    staff_name = staff.objects.filter(openid=self.request.auth.openid,
+AttributeError: 'NoneType' object has no attribute 'staff_name'

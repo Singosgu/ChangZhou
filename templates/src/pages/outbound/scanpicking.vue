@@ -186,15 +186,13 @@ export default {
     },
     // 创建一个防抖函数
     debounce (func, delay) {
-      let timer = null
+      let isCooldown = false // 新增变量，用于标记是否处于冷却期
       return function (...args) {
-        const context = this
-        if (timer) {
-          clearTimeout(timer)
+        if (!isCooldown) {
+          func.apply(this, args)
+          isCooldown = true
+          setTimeout(() => (isCooldown = false), delay)
         }
-        timer = setTimeout(() => {
-          func.apply(context, args)
-        }, delay)
       }
     },
     async sendDataToDjango (data) {
@@ -210,7 +208,7 @@ export default {
       }
     },
     getScanData (e) {
-      e = e.replace(/Alt/g, '').replace(/Caps Lock/g, '').replace(/Shift/g, '').replace(/Control/g, '').replace(/Caps/g, '').replace(/Lock/g, '')
+      // e = e.replace(/Alt/g, '').replace(/Caps Lock/g, '').replace(/Shift/g, '').replace(/Control/g, '').replace(/Caps/g, '').replace(/Lock/g, '')
       this.sendDataToDjango({ message: '扫描的时候，准备发请求给服务器做比对：' + new Date().toLocaleString() })
       axios.get(baseurl + 'scanner/list/' + e + '/',
         {
@@ -351,11 +349,17 @@ export default {
       _this.getList('')
     },
     KeyDown (e) {
+      const specialKeys = [
+        'Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'Escape', 'Enter',
+        'Backspace', 'Tab', 'Delete', 'ArrowLeft', 'ArrowUp', 'ArrowRight',
+        'ArrowDown', 'End', 'Home', 'Insert', 'PageUp', 'PageDown', 'Pause'
+      ]
       if (e.key === 'Enter' || e.keyCode === 13) {
         this.getScanData(this.scanData.join(''))
         this.scanData = []
-      } else if (e.key === 'Shift' || e.keyCode === 16) {
-      } else if (e.key === 'Tab' || e.keyCode === 9) {
+      } else if (specialKeys.includes(e.key)) {
+        // 忽略特殊键
+        e.preventDefault()
       } else {
         this.scanData.push(e.key)
       }
@@ -404,6 +408,7 @@ export default {
   updated () {
   },
   destroyed () {
+    window.removeEventListener('keydown', this.KeyDown)
   }
 }
 </script>
