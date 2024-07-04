@@ -280,7 +280,7 @@ export default {
                     getauth('dn/pickinglistfilter/?txnid=' + item.txnid).then((res) => {
                       _this.filter_data.picking_list = res.results
                       console.log('5',_this.filter_data)
-                      _this.filter_data.txnid = res.results.txnid
+                      _this.filter_data.txnid = item.txnid
                       console.log('6',_this.filter_data)
                       postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + item.txnid + '/', _this.filter_data).then((result) => {
                         this.$q.notify({
