@@ -166,9 +166,6 @@ export default {
     getList () {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
-        getauth('dn/pickinglistfilter/?txnid=TEST-2024053113', {}).then((res) => {
-          console.log(res)
-        })
         getauth(_this.pathname + '?page=' + this.current + '&picking_status=0&order_line=2', {
         }).then(res => {
           _this.page_count = res.count
@@ -285,6 +282,7 @@ export default {
         } else {
           if (this.selected.length >= 1) {
             _this.selected.forEach((item, index) => {
+              console.log(item)
               _this.allocateStaff(item)
             })
             _this.$q.notify({
@@ -293,6 +291,7 @@ export default {
               color: 'green'
             })
           }
+          console.log("已打印")
           _this.getList()
         }
       }
