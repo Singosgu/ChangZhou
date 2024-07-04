@@ -255,21 +255,6 @@ export default {
         })
       }
     },
-    allocateStaff (e) {
-      var _this = this
-      if (_this.$q.localStorage.has('auth')) {
-        _this.filter_data.txnid = e.txnid
-        _this.filter_data.dn_code = e.dn_code
-        _this.filter_data.bar_code = e.bar_code
-        _this.resSubmit()
-      } else {
-        _this.$q.notify({
-          message: _this.$t('no_auth'),
-          icon: 'close',
-          color: 'negative'
-        })
-      }
-    },
     allocateSubmit () {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
@@ -283,7 +268,38 @@ export default {
           if (this.selected.length >= 1) {
             _this.selected.forEach((item, index) => {
               console.log(item)
-              _this.allocateStaff(item)
+              if (_this.$q.localStorage.has('auth')) {
+                _this.filter_data.txnid = item.txnid
+                _this.filter_data.dn_code = item.dn_code
+                _this.filter_data.bar_code = item.bar_code
+                if (_this.$q.localStorage.has('auth')) {
+                  postauth(baseurl + 'dn/morepicking/?page=' + this.current + '&picking_status=0&order_line=2&txnid=' + _this.filter_data.txnid, _this.filter_data).then(res => {
+                    getauth('dn/pickinglistfilter/?txnid=' + _this.filter_data.txnid).then((res) => {
+                      _this.filter_data.picking_list = res.results
+                      postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + _this.filter_data.txnid + '/', _this.filter_data).then((result) => {
+                        this.$q.notify({
+                          message: _this.filter_data.txnid + '的拣货单打印成功'
+                        })
+                      })
+                      // _this.cancelSubmit()
+                    })
+                  }).catch(err => {
+                    _this.$q.notify({
+                      message: err.detail,
+                      icon: 'close',
+                      color: 'negative'
+                    })
+                  })
+                  _this.allocte_form = false
+                } else {
+                }
+              } else {
+                _this.$q.notify({
+                  message: _this.$t('no_auth'),
+                  icon: 'close',
+                  color: 'negative'
+                })
+              }
             })
             _this.$q.notify({
               message: '分配成功',
@@ -303,30 +319,6 @@ export default {
       _this.filter_data.dn_code = ''
       _this.filter_data.bar_code = ''
       _this.filter_data.picking_list = []
-    },
-    resSubmit () {
-      var _this = this
-      if (_this.$q.localStorage.has('auth')) {
-        postauth(baseurl + 'dn/morepicking/?page=' + this.current + '&picking_status=0&order_line=2&txnid=' + _this.filter_data.txnid, _this.filter_data).then(res => {
-          getauth('dn/pickinglistfilter/?txnid=' + _this.filter_data.txnid).then((res) => {
-            _this.filter_data.picking_list = res.results
-            postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + _this.filter_data.txnid + '/', _this.filter_data).then((result) => {
-              _this.allocte_form = false
-              this.$q.notify({
-                message: _this.filter_data.txnid + '的拣货单打印成功'
-              })
-            })
-            // _this.cancelSubmit()
-          })
-        }).catch(err => {
-          _this.$q.notify({
-            message: err.detail,
-            icon: 'close',
-            color: 'negative'
-          })
-        })
-      } else {
-      }
     },
     getSelectedString () {
       return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
