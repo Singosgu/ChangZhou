@@ -322,7 +322,9 @@ export default {
             postauth('dn/dispatch/' + res.results[0].id + '/', res.results[0]).then((res) => {
               this.table_list.splice(0, 1)
               this.$set(this.table_list, 0, this.table_list[1]);
-              this.playAudio()
+              this.$nextTick(() => {
+                this.playAudio();
+              });
               this.$q.notify({
                 message: '发货成功',
                 icon: 'check',
