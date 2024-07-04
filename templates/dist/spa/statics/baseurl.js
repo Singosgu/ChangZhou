@@ -1,1 +1,1 @@
-window.g={BaseUrl:baseurl,WsUrl:wsurl};
+var w_location=window.location,w_schema=w_location.protocol,w_host=w_location.host;const baseurl=w_schema+"//"+w_host+"/",wsurl="wss://"+w_host+"/websocket/";window.g={BaseUrl:baseurl,WsUrl:wsurl};
