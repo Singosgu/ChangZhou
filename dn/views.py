@@ -2354,7 +2354,6 @@ class DnPickedSumViewSet(viewsets.ModelViewSet):
                                               goods_code=bin_qty_change.goods_code,
                                               create_time__gte=cur_date).update(goods_qty=cycle_qty)
                     if int(detail_data[j].picked_qty) == pick_qty_change.pick_qty:
-                        print("进来了")
                         goods_qty_change.onhand_stock = goods_qty_change.onhand_stock - int(
                             detail_data[j].pick_qty)
                         goods_qty_change.pick_stock = goods_qty_change.pick_stock - int(
@@ -2376,7 +2375,6 @@ class DnPickedSumViewSet(viewsets.ModelViewSet):
                         pick_qty_change.save()
                         bin_qty_change.save()
                     elif int(detail_data[j].picked_qty) < pick_qty_change.pick_qty:
-                        print("进来了2")
                         goods_qty_change.onhand_stock = goods_qty_change.onhand_stock - int(
                             detail_data[j].pick_qty)
                         goods_qty_change.pick_stock = goods_qty_change.pick_stock - dn_detail.pick_qty
