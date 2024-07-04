@@ -311,11 +311,12 @@ export default {
           getauth('dn/pickinglistfilter/?txnid=' + _this.filter_data.txnid).then((res) => {
             _this.filter_data.picking_list = res.results
             postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + _this.filter_data.txnid + '/', _this.filter_data).then((result) => {
-              _this.cancelSubmit()
+              _this.allocte_form = false
               this.$q.notify({
                 message: _this.filter_data.txnid + '的拣货单打印成功'
               })
             })
+            // _this.cancelSubmit()
           })
         }).catch(err => {
           _this.$q.notify({
