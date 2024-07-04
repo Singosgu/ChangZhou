@@ -291,7 +291,7 @@ export default {
               color: 'green'
             })
           }
-          console.log("已打印")
+          console.log('已打印')
           _this.getList()
         }
       }
