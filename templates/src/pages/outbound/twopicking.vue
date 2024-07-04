@@ -277,8 +277,8 @@ export default {
                   postauth(baseurl + 'dn/morepicking/?page=' + this.current + '&picking_status=0&order_line=2&txnid=' + _this.filter_data.txnid, _this.filter_data).then(res => {
                     console.log('3',_this.filter_data.txnid)
                     console.log('4',item.txnid)
-                    getauth('dn/pickinglistfilter/?txnid=' + item.txnid).then((res) => {
-                      _this.filter_data.picking_list = res.results
+                    getauth('dn/pickinglistfilter/?txnid=' + item.txnid).then((res1) => {
+                      _this.filter_data.picking_list = res1.results
                       console.log('5',_this.filter_data)
                       _this.filter_data.txnid = item.txnid
                       console.log('6',_this.filter_data)
