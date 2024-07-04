@@ -2369,9 +2369,8 @@ class DnPickedSumViewSet(viewsets.ModelViewSet):
                         bin_qty_change.goods_qty = bin_qty_change.goods_qty - int(detail_data[j].pick_qty)
                         bin_qty_change.pick_qty = bin_qty_change.pick_qty - int(detail_data[j].picked_qty)
                         bin_qty_change.picked_qty = bin_qty_change.picked_qty + int(detail_data[j].picked_qty)
-                        if pick_sum_change.exists():
-                            pick_sum_change.first().picking_status = 2
-                            pick_sum_change.first().save()
+                        pick_sum_change.first().picking_status = 2
+                        pick_sum_change.first().save()
                         goods_qty_change.save()
                         pick_qty_change.save()
                         bin_qty_change.save()
@@ -2390,9 +2389,8 @@ class DnPickedSumViewSet(viewsets.ModelViewSet):
                         bin_qty_change.goods_qty = bin_qty_change.goods_qty - int(detail_data[j].pick_qty)
                         bin_qty_change.pick_qty = bin_qty_change.pick_qty - pick_qty_change.pick_qty
                         bin_qty_change.picked_qty = bin_qty_change.picked_qty + int(detail_data[j].picked_qty)
-                        if pick_sum_change.exists():
-                            pick_sum_change.first().picking_status = 2
-                            pick_sum_change.first().save()
+                        pick_sum_change.first().picking_status = 2
+                        pick_sum_change.first().save()
                         goods_qty_change.save()
                         pick_qty_change.save()
                         bin_qty_change.save()
