@@ -2331,12 +2331,12 @@ class DnPickedSumViewSet(viewsets.ModelViewSet):
                                                                       picking_status=1,
                                                                       t_code=str(
                                                                           detail_data[j].t_code)).first()
-                    print(pick_qty_change)
+                    print("pick_qty_change",pick_qty_change)
                     pick_sum_change = PickingSumModel.objects.filter(openid=self.request.auth.openid,
                                                                       dn_code=str(data['dn_code']),
                                                                       picking_status=1,
                                                                       )
-                    print(pick_sum_change)
+                    print("pick_sum_change",pick_sum_change)
                     qtychangerecorder.objects.create(openid=self.request.auth.openid,
                                                      mode_code=dn_detail.dn_code,
                                                      bin_name=bin_qty_change.bin_name,
