@@ -3,6 +3,7 @@ from django.db import models
 class ListModel(models.Model):
     staff_name = models.CharField(max_length=255, verbose_name="Staff Name")
     staff_type = models.CharField(max_length=255, verbose_name="Staff Type")
+    bin_data = models.CharField(max_length=255, verbose_name="Bin Data", blank=True, null=True)
     check_code = models.IntegerField(default=8888, verbose_name="Check Code")
     openid = models.CharField(max_length=255, verbose_name="Openid")
     is_delete = models.BooleanField(default=False, verbose_name='Delete Label')

@@ -83,6 +83,24 @@
             <template v-else-if="props.row.id !== editid">
               <q-td key="staff_type" :props="props">{{ props.row.staff_type }}</q-td>
             </template>
+            <template v-if="props.row.id === editid">
+              <q-td key="bin_data" :props="props">
+                <q-select
+                  dense
+                  outlined
+                  square
+                  v-model="editFormData.bin_data"
+                  :options="bin_list"
+                  transition-show="scale"
+                  transition-hide="scale"
+                  label="巷道名称"
+                  :rules="[(val) => (val && val.length > 0) || '请选择巷道']"
+                />
+              </q-td>
+            </template>
+            <template v-else-if="props.row.id !== editid">
+              <q-td key="bin_data" :props="props">{{ props.row.bin_data }}</q-td>
+            </template>
             <q-td key="create_time" :props="props">{{ props.row.create_time }}</q-td>
             <q-td key="update_time" :props="props">{{ props.row.update_time }}</q-td>
             <template v-if="!editMode">
@@ -203,6 +221,23 @@
             @keyup.enter="newDataSubmit()"
             style="margin-top: 5px"
           />
+          <q-select
+            filled
+            use-input
+            fill-input
+            hide-selected
+            input-debounce="0"
+            dense
+            outlined
+            square
+            v-model="newFormData.bin_data"
+            :options="bin_list"
+            label="巷道名称"
+            style="margin-bottom: 5px"
+            :rules="[(val) => (val && val.length > 0) || '请选择巷道']"
+            @keyup.enter="newDataSubmit()"
+          >
+          </q-select>
         </q-card-section>
         <div style="float: right; padding: 15px 15px 15px 0">
           <q-btn color="white" text-color="black" style="margin-right: 25px" @click="newDataCancel()">{{ $t('cancel') }}</q-btn>
@@ -250,8 +285,9 @@ export default {
       table_list: [],
       staff_type_list: [],
       columns: [
-        { name: 'staff_name', required: true, label: this.$t('staff.view_staff.staff_name'), align: 'left', field: 'staff_name' },
+        { name: 'staff_name', required: true, label: this.$t('staff.view_staff.staff_name'), align: 'center', field: 'staff_name' },
         { name: 'staff_type', label: this.$t('staff.view_staff.staff_type'), field: 'staff_type', align: 'center' },
+        { name: 'bin_data', label: '巷道', field: 'bin_data', align: 'center' },
         { name: 'create_time', label: this.$t('createtime'), field: 'create_time', align: 'center' },
         { name: 'update_time', label: this.$t('updatetime'), field: 'update_time', align: 'center' },
         { name: 'action', label: this.$t('action'), align: 'right' }
@@ -263,9 +299,11 @@ export default {
       newForm: false,
       newFormData: {
         staff_name: '',
+        bin_data: '',
         staff_type: '',
         check_code: ''
       },
+      bin_list: [],
       editid: 0,
       editFormData: {},
       editMode: false,
@@ -304,6 +342,7 @@ export default {
             })
           }
           _this.pathname_previous = res.previous
+          _this.bin_list = res.bin_list
           _this.pathname_next = res.next
         })
         .catch(err => {
@@ -491,6 +530,7 @@ export default {
         } else if (_this.newFormData.staff_type === '供应商') {
           _this.newFormData.staff_type = 'Supplier'
         }
+        console.log(_this.newFormData)
         postauth(_this.pathname, _this.newFormData)
           .then(res => {
             _this.getList()
@@ -533,7 +573,8 @@ export default {
       _this.newForm = false
       _this.newFormData = {
         staff_name: '',
-        staff_type: ''
+        staff_type: '',
+        bin_data: ''
       }
     },
     editData (e) {
@@ -542,7 +583,8 @@ export default {
       _this.editid = e.id
       _this.editFormData = {
         staff_name: e.staff_name,
-        staff_type: e.staff_type
+        staff_type: e.staff_type,
+        bin_data: e.bin_data
       }
     },
     editDataSubmit () {

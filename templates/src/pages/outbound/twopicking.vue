@@ -287,13 +287,13 @@ export default {
             _this.selected.forEach((item, index) => {
               _this.allocateStaff(item)
             })
-            _this.getList()
             _this.$q.notify({
               message: '分配成功',
               icon: 'check',
               color: 'green'
             })
           }
+          _this.getList()
         }
       }
     },

@@ -1897,8 +1897,9 @@ class PickerOneAllocateViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         qs = self.filter_queryset(self.get_queryset())
         data = self.request.data
+        bin_data = data.get("bin_data")
         staff_list = staff.objects.filter(openid=self.request.auth.openid, staff_name=data['staff_name'])
-        staff_list.update(picking_task=1)
+        staff_list.update(picking_task=1,bin_data=bin_data)
         for obj in staff_list:
             obj.save()
         for i in range(len(qs)):
