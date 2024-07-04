@@ -57502,3 +57502,160 @@ Traceback (most recent call last):
   File "E:\py_env\changzhou\lib\site-packages\django\db\models\options.py", line 577, in get_field
     raise FieldDoesNotExist("%s has no field named '%s'" % (self.object_name, field_name))
 django.core.exceptions.FieldDoesNotExist: PickingListModel has no field named 'bin_data'
+[2024-07-04 15:04:56,041][django.request.log_response():224] [ERROR] Internal Server Error: /dn/morepicked/31
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\utils\deprecation.py", line 113, in __call__
+    response = self.process_request(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\middleware\common.py", line 54, in process_request
+    path = self.get_full_path_with_slash(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\middleware\common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 192.168.39.124:8009/dn/morepicked/31/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[2024-07-04 15:06:52,770][django.request.log_response():224] [ERROR] Internal Server Error: /dn/morepicked/31
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\utils\deprecation.py", line 113, in __call__
+    response = self.process_request(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\middleware\common.py", line 54, in process_request
+    path = self.get_full_path_with_slash(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\middleware\common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 192.168.39.124:8009/dn/morepicked/31/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[2024-07-04 15:06:55,286][django.request.log_response():224] [ERROR] Internal Server Error: /dn/morepicked/31
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\utils\deprecation.py", line 113, in __call__
+    response = self.process_request(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\middleware\common.py", line 54, in process_request
+    path = self.get_full_path_with_slash(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\middleware\common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 192.168.39.124:8009/dn/morepicked/31/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[2024-07-04 15:08:15,133][django.request.log_response():224] [ERROR] Internal Server Error: /dn/morepicked/31/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2307, in create
+    qs_query = DnListModel.objects.filter(openid=self.request.auth.openid, dn_code=data['dn_code'], is_delete=False)
+KeyError: 'dn_code'
+[2024-07-04 15:09:18,906][django.request.log_response():224] [ERROR] Internal Server Error: /dn/morepicked/31/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2307, in create
+    qs_query = DnListModel.objects.filter(openid=self.request.auth.openid, dn_code=data['dn_code'], is_delete=False)
+KeyError: 'dn_code'
+[2024-07-04 15:17:54,542][django.request.log_response():224] [ERROR] Internal Server Error: /dn/morepicked/31/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2316, in create
+    id=self.request.META.get('HTTP_OPERATOR')).first().staff_name
+AttributeError: 'NoneType' object has no attribute 'staff_name'
+[2024-07-04 15:33:37,624][django.request.log_response():224] [ERROR] Internal Server Error: /dn/morepicked/28/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2398, in create
+    print(pick_sum_change.first().__dict__)
+AttributeError: 'PickingSumModel' object has no attribute 'first'
