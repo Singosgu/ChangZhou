@@ -2435,6 +2435,7 @@ class DnDispatchViewSet(viewsets.ModelViewSet):
                 goods_qty_change = stocklist.objects.filter(openid=self.request.auth.openid,
                                                             goods_code=dn_detail[i].goods_code).first()
                 goods_qty_change.goods_qty = goods_qty_change.goods_qty - dn_detail[i].picked_qty
+                goods_qty_change.onhand_stock = goods_qty_change.onhand_stock - dn_detail[i].picked_qty
                 goods_qty_change.picked_stock = goods_qty_change.picked_stock - dn_detail[i].picked_qty
                 dn_detail[i].dn_status = 5
                 dn_detail[i].intransit_qty = dn_detail[i].picked_qty
