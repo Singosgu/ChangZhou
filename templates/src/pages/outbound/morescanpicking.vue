@@ -188,11 +188,12 @@ export default {
           } else if (this.resMode === 'MD') {
             this.MDConfirm(this.resData)
           } else {
-            this.$q.notify({
-              message: e + '编码不存在',
-              icon: 'close',
-              color: 'negative'
-            })
+            console.log('编码不存在')
+            // this.$q.notify({
+            //   message: e + '编码不存在',
+            //   icon: 'close',
+            //   color: 'negative'
+            // })
           }
         }
       }).catch(err => {
@@ -269,11 +270,12 @@ export default {
               })
             })
           } else {
-            this.$q.notify({
-              message: '订单已完成，或者还未到发货环节',
-              icon: 'close',
-              color: 'negative'
-            })
+            console.log('订单已完成，或者还未到发货环节')
+            // this.$q.notify({
+            //   message: '订单已完成，或者还未到发货环节',
+            //   icon: 'close',
+            //   color: 'negative'
+            // })
           }
         } else {
           this.$q.notify({
