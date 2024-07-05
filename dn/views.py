@@ -2431,6 +2431,7 @@ class DnDispatchViewSet(viewsets.ModelViewSet):
             pick_sum_change = PickingSumModel.objects.filter(openid=self.request.auth.openid,
                                                              dn_code=str(data['dn_code']),
                                                              picking_status=2)
+
             for i in range(len(dn_detail)):
                 goods_qty_change = stocklist.objects.filter(openid=self.request.auth.openid,
                                                             goods_code=dn_detail[i].goods_code).first()
@@ -2449,6 +2450,7 @@ class DnDispatchViewSet(viewsets.ModelViewSet):
                                                          bin_name=pick_qty_change[j].bin_name,
                                                          t_code=pick_qty_change[j].t_code).first()
                 bin_qty_change.picked_qty = bin_qty_change.picked_qty - pick_qty_change[j].picked_qty
+                bin_qty_change.goods_qty = bin_qty_change.goods_qty - pick_qty_change[j].picked_qty
                 bin_qty_change.save()
                 bin_stock_check = stockbin.objects.filter(openid=self.request.auth.openid,
                                                           goods_code=pick_qty_change[j].goods_code,
