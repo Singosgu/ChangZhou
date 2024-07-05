@@ -229,14 +229,15 @@ export default {
             this.sendDataToDjango({ message: '服务器比对完成后，开始执行面单打印前端代码：' + new Date().toLocaleString() })
 	          this.PickChange()
           } else if (this.resMode === 'MD') {
-            this.debounce(this.MDConfirm(this.resData), 1000)
-            // this.MDConfirm(this.resData)
+            // this.debounce(this.MDConfirm(this.resData), 1000)
+            this.MDConfirm(this.resData)
           } else {
-            this.$q.notify({
-              message: e + '编码不存在',
-              icon: 'close',
-              color: 'negative'
-            })
+            console.log('编码不存在')
+            // this.$q.notify({
+            //   message: e + '编码不存在',
+            //   icon: 'close',
+            //   color: 'negative'
+            // })
           }
         }
       }).catch(err => {
@@ -332,11 +333,12 @@ export default {
               })
             })
           } else {
-            this.$q.notify({
-              message: '订单已完成，或者还未到发货环节',
-              icon: 'close',
-              color: 'negative'
-            })
+            console.log('订单已完成，或者还未到发货环节')
+            // this.$q.notify({
+            //   message: '订单已完成，或者还未到发货环节',
+            //   icon: 'close',
+            //   color: 'negative'
+            // })
           }
         } else {
           this.$q.notify({

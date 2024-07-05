@@ -255,6 +255,42 @@ export default {
         })
       }
     },
+    async processSelectedItems () {
+      for (const item of this.selected) {
+        if (this.$q.localStorage.has('auth')) {
+          this.filter_data.txnid = item.txnid
+          this.filter_data.dn_code = item.dn_code
+          this.filter_data.bar_code = item.bar_code
+          try {
+            // Wait for postauth to complete
+            const postAuthRes = await postauth(baseurl + 'dn/morepicking/?page=' + this.current + '&picking_status=0&order_line=2&txnid=' + item.txnid, this.filter_data)
+            // Wait for getauth to complete
+            const getAuthRes = await getauth('dn/pickinglistfilter/?txnid=' + item.txnid)
+            this.filter_data.picking_list = getAuthRes.results
+            const printRes = await postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + item.txnid + '/', this.filter_data)
+            // Notify success
+            this.$q.notify({
+              message: this.filter_data.txnid + '的拣货单打印成功'
+            })
+            this.cancelSubmit()
+          } catch (err) {
+            this.$q.notify({
+              message: err.detail,
+              icon: 'close',
+              color: 'negative'
+            })
+          }
+
+          this.allocte_form = false
+        }
+      }
+      // Notify after all items processed
+      this.$q.notify({
+        message: '分配成功',
+        icon: 'check',
+        color: 'green'
+      })
+    },
     allocateSubmit () {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
@@ -266,54 +302,55 @@ export default {
           })
         } else {
           if (this.selected.length >= 1) {
-            _this.selected.forEach((item, index) => {
-              console.log('1',item.txnid)
-              if (_this.$q.localStorage.has('auth')) {
-                _this.filter_data.txnid = item.txnid
-                _this.filter_data.dn_code = item.dn_code
-                _this.filter_data.bar_code = item.bar_code
-                if (_this.$q.localStorage.has('auth')) {
-                  console.log('2',_this.filter_data.txnid)
-                  postauth(baseurl + 'dn/morepicking/?page=' + this.current + '&picking_status=0&order_line=2&txnid=' + _this.filter_data.txnid, _this.filter_data).then(res => {
-                    console.log('3',_this.filter_data.txnid)
-                    console.log('4',item.txnid)
-                    getauth('dn/pickinglistfilter/?txnid=' + item.txnid).then((res1) => {
-                      _this.filter_data.picking_list = res1.results
-                      console.log('5',_this.filter_data)
-                      _this.filter_data.txnid = item.txnid
-                      console.log('6',_this.filter_data)
-                      postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + item.txnid + '/', _this.filter_data).then((result) => {
-                        this.$q.notify({
-                          message: _this.filter_data.txnid + '的拣货单打印成功'
-                        })
-                      })
-                      // _this.cancelSubmit()
-                    })
-                  }).catch(err => {
-                    _this.$q.notify({
-                      message: err.detail,
-                      icon: 'close',
-                      color: 'negative'
-                    })
-                  })
-                  _this.allocte_form = false
-                } else {
-                }
-              } else {
-                _this.$q.notify({
-                  message: _this.$t('no_auth'),
-                  icon: 'close',
-                  color: 'negative'
-                })
-              }
-            })
-            _this.$q.notify({
-              message: '分配成功',
-              icon: 'check',
-              color: 'green'
-            })
+            this.processSelectedItems()
           }
-          console.log('已打印')
+          // {
+          //   _this.selected.forEach((item, index) => {
+          //     console.log('1',item)
+          //     if (_this.$q.localStorage.has('auth')) {
+          //       _this.filter_data.txnid = item.txnid
+          //       _this.filter_data.dn_code = item.dn_code
+          //       _this.filter_data.bar_code = item.bar_code
+          //       if (_this.$q.localStorage.has('auth')) {
+          //         postauth(baseurl + 'dn/morepicking/?page=' + this.current + '&picking_status=0&order_line=2&txnid=' + item.txnid, _this.filter_data).then(res => {
+          //           getauth('dn/pickinglistfilter/?txnid=' + item.txnid).then((res) => {
+          //             _this.filter_data.picking_list = res.results
+          //             console.log('2',res.results[0])
+          //             _this.filter_data.txnid = item.txnid
+          //             _this.filter_data.dn_code = item.dn_code
+          //             _this.filter_data.bar_code = item.bar_code
+          //             console.log('3',_this.filter_data)
+          //             postauth('http://127.0.0.1:8008/print_picking/' + this.$q.localStorage.getItem('printer') + '/' + item.txnid + '/', _this.filter_data).then((result) => {
+          //               this.$q.notify({
+          //                 message: _this.filter_data.txnid + '的拣货单打印成功'
+          //               })
+          //             })
+          //             _this.cancelSubmit()
+          //           })
+          //         }).catch(err => {
+          //           _this.$q.notify({
+          //             message: err.detail,
+          //             icon: 'close',
+          //             color: 'negative'
+          //           })
+          //         })
+          //         _this.allocte_form = false
+          //       } else {
+          //       }
+          //     } else {
+          //       _this.$q.notify({
+          //         message: _this.$t('no_auth'),
+          //         icon: 'close',
+          //         color: 'negative'
+          //       })
+          //     }
+          //   })
+          //   _this.$q.notify({
+          //     message: '分配成功',
+          //     icon: 'check',
+          //     color: 'green'
+          //   })
+          // }
           _this.getList()
         }
       }
