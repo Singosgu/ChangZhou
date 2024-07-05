@@ -242,7 +242,7 @@ export default {
               })
             })
             this.$q.notify({
-              message: this.$t('拣货成功')
+              message: this.$t('已拣货成功')
             })
           }
           this.InitData('')
