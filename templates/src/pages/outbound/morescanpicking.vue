@@ -60,7 +60,7 @@
         </div>
       </template>
       <template>
-        <audio ref="audioPlayer" src="/statics/mp3/Outbound_Success.mp3" hidden></audio>
+        <audio ref="audioPlayer" :src=mp3Url hidden></audio>
       </template>
     </div>
 
@@ -80,6 +80,7 @@ export default {
       openid: '',
       login_name: '',
       authin: '0',
+      mp3Url: baseurl + 'media/Outbound_Success.mp3',
       pathname: 'dn/pickingsumfilter/',
       pathname_previous: '',
       pathname_next: '',
