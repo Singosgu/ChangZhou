@@ -2450,7 +2450,6 @@ class DnDispatchViewSet(viewsets.ModelViewSet):
                                                          bin_name=pick_qty_change[j].bin_name,
                                                          t_code=pick_qty_change[j].t_code).first()
                 bin_qty_change.picked_qty = bin_qty_change.picked_qty - pick_qty_change[j].picked_qty
-                bin_qty_change.goods_qty = bin_qty_change.goods_qty - pick_qty_change[j].picked_qty
                 bin_qty_change.save()
                 bin_stock_check = stockbin.objects.filter(openid=self.request.auth.openid,
                                                           goods_code=pick_qty_change[j].goods_code,
