@@ -2252,7 +2252,6 @@ class DnPickedViewSet(viewsets.ModelViewSet):
                     qs.save()
                 return Response({"Detail": "success"}, status=200)
 
-
 class DnPickedSumViewSet(viewsets.ModelViewSet):
     """
         create:
@@ -2312,8 +2311,8 @@ class DnPickedSumViewSet(viewsets.ModelViewSet):
                 raise APIException({"detail": "This dn Status Not Pre Pick"})
             else:
                 qs.dn_status = 4
-                # staff_name = staff.objects.filter(openid=self.request.auth.openid,id=self.request.META.get('HTTP_OPERATOR')).first().staff_name
-                staff_name = 'admin'
+                staff_name = staff.objects.filter(openid=self.request.auth.openid,
+                                                  id=self.request.META.get('HTTP_OPERATOR')).first().staff_name
                 detail_data = PickingListModel.objects.filter(openid=self.request.auth.openid,
                                                               dn_code=str(data['dn_code']),
                                                               picking_status=1)
@@ -2326,11 +2325,6 @@ class DnPickedSumViewSet(viewsets.ModelViewSet):
                                                              goods_code=str(detail_data[j].goods_code)).first()
                     bin_qty_change = stockbin.objects.filter(openid=self.request.auth.openid,
                                                              t_code=str(detail_data[j].t_code)).first()
-                    pick_qty_change = PickingListModel.objects.filter(openid=self.request.auth.openid,
-                                                                      dn_code=str(data['dn_code']),
-                                                                      picking_status=1,
-                                                                      t_code=str(
-                                                                          detail_data[j].t_code)).first()
                     pick_sum_change = PickingSumModel.objects.filter(openid=self.request.auth.openid,
                                                                       dn_code=str(data['dn_code']),
                                                                       picking_status=1,
@@ -2340,7 +2334,7 @@ class DnPickedSumViewSet(viewsets.ModelViewSet):
                                                      bin_name=bin_qty_change.bin_name,
                                                      goods_code=bin_qty_change.goods_code,
                                                      goods_desc=bin_qty_change.goods_desc,
-                                                     goods_qty=0 - int(detail_data[j].picked_qty),
+                                                     goods_qty=0 - int(detail_data[j].pick_qty),
                                                      creater=str(staff_name)
                                                      )
                     cur_date = timezone.now().date()
@@ -2348,57 +2342,29 @@ class DnPickedSumViewSet(viewsets.ModelViewSet):
                                                         bin_name=bin_qty_change.bin_name,
                                                         goods_code=bin_qty_change.goods_code,
                                                         ).aggregate(sum=Sum('goods_qty'))["sum"]
-                    cycle_qty = bin_stock - int(detail_data[j].picked_qty)
+                    cycle_qty = bin_stock - int(detail_data[j].pick_qty)
                     cyclecount.objects.filter(openid=self.request.auth.openid,
                                               bin_name=bin_qty_change.bin_name,
                                               goods_code=bin_qty_change.goods_code,
                                               create_time__gte=cur_date).update(goods_qty=cycle_qty)
-                    if int(detail_data[j].picked_qty) == pick_qty_change.pick_qty:
-                        goods_qty_change.onhand_stock = goods_qty_change.onhand_stock - int(
-                            detail_data[j].pick_qty)
-                        goods_qty_change.pick_stock = goods_qty_change.pick_stock - int(
-                            detail_data[j].picked_qty)
-                        goods_qty_change.picked_stock = goods_qty_change.picked_stock + int(
-                            detail_data[j].picked_qty)
-                        pick_qty_change.picked_qty = int(detail_data[j].picked_qty)
-                        pick_qty_change.picking_status = 2
-                        pick_qty_change.save()
-                        bin_qty_change.goods_qty = bin_qty_change.goods_qty - int(detail_data[j].pick_qty)
-                        bin_qty_change.pick_qty = bin_qty_change.pick_qty - int(detail_data[j].picked_qty)
-                        bin_qty_change.picked_qty = bin_qty_change.picked_qty + int(detail_data[j].picked_qty)
-                        pick_sum_change = PickingSumModel.objects.filter(openid=self.request.auth.openid,
-                                                                      dn_code=str(data['dn_code']),
-                                                                      picking_status=1,
-                                                                      ).first()
-                        pick_sum_change.picking_status = 2
-                        goods_qty_change.save()
-                        pick_qty_change.save()
-                        bin_qty_change.save()
-                    elif int(detail_data[j].picked_qty) < pick_qty_change.pick_qty:
-                        goods_qty_change.onhand_stock = goods_qty_change.onhand_stock - int(
-                            detail_data[j].pick_qty)
-                        goods_qty_change.pick_stock = goods_qty_change.pick_stock - dn_detail.pick_qty
-                        goods_qty_change.picked_stock = goods_qty_change.picked_stock + int(
-                            detail_data[j].picked_qty)
-                        goods_qty_change.can_order_stock = goods_qty_change.can_order_stock + (
-                                    int(pick_qty_change.pick_qty) - int(
-                                detail_data[j].pick_qty))
-                        pick_qty_change.picked_qty = int(detail_data[j].picked_qty)
-                        pick_qty_change.picking_status = 2
-                        pick_qty_change.save()
-                        bin_qty_change.goods_qty = bin_qty_change.goods_qty - int(detail_data[j].pick_qty)
-                        bin_qty_change.pick_qty = bin_qty_change.pick_qty - pick_qty_change.pick_qty
-                        bin_qty_change.picked_qty = bin_qty_change.picked_qty + int(detail_data[j].picked_qty)
-                        pick_sum_change = PickingSumModel.objects.filter(openid=self.request.auth.openid,
-                                                                      dn_code=str(data['dn_code']),
-                                                                      picking_status=1,
-                                                                      ).first()
-                        pick_sum_change.picking_status = 2
-                        pick_sum_change.save()
-                        goods_qty_change.save()
-                        pick_qty_change.save()
-                        bin_qty_change.save()
-                    dn_detail.picked_qty = dn_detail.picked_qty + int(detail_data[j].picked_qty)
+                    goods_qty_change.onhand_stock = goods_qty_change.onhand_stock - int(
+                        detail_data[j].pick_qty)
+                    goods_qty_change.pick_stock = goods_qty_change.pick_stock - int(
+                        detail_data[j].pick_qty)
+                    goods_qty_change.picked_stock = goods_qty_change.picked_stock + int(
+                        detail_data[j].pick_qty)
+                    detail_data[j].picked_qty = int(detail_data[j].pick_qty)
+                    detail_data[j].picking_status = 2
+                    bin_qty_change.goods_qty = bin_qty_change.goods_qty - int(detail_data[j].pick_qty)
+                    bin_qty_change.pick_qty = bin_qty_change.pick_qty - int(detail_data[j].pick_qty)
+                    bin_qty_change.picked_qty = bin_qty_change.picked_qty + int(detail_data[j].pick_qty)
+                    if pick_sum_change.exists():
+                        pick_sum_change.first().picking_status = 2
+                        pick_sum_change.first().save()
+                    goods_qty_change.save()
+                    detail_data[j].save()
+                    bin_qty_change.save()
+                    dn_detail.picked_qty = dn_detail.picked_qty + int(detail_data[j].pick_qty)
                     if dn_detail.dn_status == 3:
                         dn_detail.dn_status = 4
                     if dn_detail.pick_qty > 0:

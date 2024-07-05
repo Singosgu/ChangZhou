@@ -333,7 +333,7 @@ export default {
               })
             })
           } else {
-            console.log('订单已完成，或者还未到发货环节')
+            console.log('订单已完成，或者还未到发货环节',)
             // this.$q.notify({
             //   message: '订单已完成，或者还未到发货环节',
             //   icon: 'close',
