@@ -270,6 +270,8 @@ export default {
                   icon: 'check',
                   color: 'green'
                 })
+              } else if(res.status_code === 500) {
+                console.log(res)
               } else {
                 console.log(res)
               }
