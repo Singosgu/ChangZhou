@@ -118,7 +118,7 @@ export default {
     getList (e) {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
-        getauth(_this.pathname + '?page=' + this.current + '&order_line=2&dn_code=' + '' + e + '&max_page=10000&picking_status__lt=3', {
+        getauth(_this.pathname + '?page=' + this.current + '&order_line=2&dn_code=' + '' + e + '&max_page=10000&picking_status__range=[1,2]', {
         }).then(res => {
           _this.page_count = res.count
           _this.table_list = res.results
