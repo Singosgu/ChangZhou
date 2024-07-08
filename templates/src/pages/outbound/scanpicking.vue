@@ -291,6 +291,7 @@ export default {
         dn_code: e.dn_code,
         goodsData: this.scan_detail
       }
+      console.log(submitData)
       this.sendDataToDjango({ message: '准备和服务器确认扣除哪张订单的捡货数量：' + new Date().toLocaleString() })
       putauth('dn/picked/' + e.id + '/', submitData, {
       })
@@ -323,10 +324,10 @@ export default {
           if (res.results[0].dn_status === 4) {
             postauth('dn/dispatch/' + res.results[0].id + '/', res.results[0]).then((res) => {
               this.table_list.splice(0, 1)
-              this.$set(this.table_list, 0, this.table_list[1]);
+              this.$set(this.table_list, 0, this.table_list[1])
               this.$nextTick(() => {
-                this.playAudio();
-              });
+                this.playAudio()
+              })
               this.$q.notify({
                 message: '发货成功',
                 icon: 'check',
@@ -334,7 +335,7 @@ export default {
               })
             })
           } else {
-            console.log('订单已完成，或者还未到发货环节',)
+            console.log('订单已完成，或者还未到发货环节')
             // this.$q.notify({
             //   message: '订单已完成，或者还未到发货环节',
             //   icon: 'close',

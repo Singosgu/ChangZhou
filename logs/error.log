@@ -57670,3 +57670,685 @@ Traceback (most recent call last):
   File "E:\py_env\changzhou\lib\site-packages\django\middleware\common.py", line 87, in get_full_path_with_slash
     raise RuntimeError(
 RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 192.168.39.124:8009/dn/morepicked/29/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[2024-07-05 15:44:44,713][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/7/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2158, in update
+    raise APIException(
+AttributeError: 'str' object has no attribute 'get'
+[2024-07-05 15:46:59,802][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/7/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2158, in update
+    raise APIException(
+KeyError: 0
+[2024-07-05 15:51:35,822][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/7/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2163, in update
+    {"detail": str(
+AttributeError: 'NoneType' object has no attribute 'pick_qty'
+[2024-07-05 15:52:06,354][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/7/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2163, in update
+    {"detail": str(
+AttributeError: 'NoneType' object has no attribute 'pick_qty'
+[2024-07-05 15:52:54,188][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/7/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2163, in update
+    {"detail": str(
+AttributeError: 'NoneType' object has no attribute 'pick_qty'
+[2024-07-05 15:56:00,146][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/7/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2163, in update
+    {"detail": str(
+AttributeError: 'NoneType' object has no attribute 'pick_qty'
+[2024-07-05 15:57:31,673][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/7/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2163, in update
+    {"detail": str(
+AttributeError: 'NoneType' object has no attribute 'pick_qty'
+[2024-07-05 15:58:07,897][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/7/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2168, in update
+    staff_name = staff.objects.filter(openid=self.request.auth.openid,
+AttributeError: 'NoneType' object has no attribute 'staff_name'
+[2024-07-05 15:59:05,380][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/7/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2190, in update
+    mode_code=dn_detail.dn_code,
+AttributeError: 'NoneType' object has no attribute 'dn_code'
+[2024-07-05 15:59:35,303][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/7/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2190, in update
+    mode_code=dn_detail.dn_code,
+AttributeError: 'NoneType' object has no attribute 'dn_code'
+[2024-07-05 16:00:16,625][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/7/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2199, in update
+    bin_name=bin_qty_change.bin_name,
+AttributeError: 'NoneType' object has no attribute 'bin_name'
+[2024-07-05 16:20:38,466][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/6/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2143, in update
+    qs_query = DnListModel.objects.filter(openid=self.request.auth.openid, dn_code=data['dn_code'], is_delete=False)
+KeyError: 'dn_code'
+[2024-07-05 16:20:49,424][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/6/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2143, in update
+    qs_query = DnListModel.objects.filter(openid=self.request.auth.openid, dn_code=data['dn_code'], is_delete=False)
+KeyError: 'dn_code'
+[2024-07-05 16:21:06,874][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/6/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2199, in update
+    goods_code=bin_qty_change.goods_code,
+AttributeError: 'NoneType' object has no attribute 'bin_name'
+[2024-07-05 16:21:39,381][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/7/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2199, in update
+    goods_code=bin_qty_change.goods_code,
+AttributeError: 'NoneType' object has no attribute 'bin_name'
+[2024-07-05 16:23:51,943][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/7/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2161, in update
+    if int(data['goodsData'][i].get('picked_qty')) > pick_qty_change.pick_qty:
+AttributeError: 'NoneType' object has no attribute 'pick_qty'
+[2024-07-05 16:24:28,598][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/6/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2161, in update
+    if int(data['goodsData'][i].get('picked_qty')) > pick_qty_change.pick_qty:
+AttributeError: 'NoneType' object has no attribute 'pick_qty'
+[2024-07-05 16:25:04,290][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/6/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2189, in update
+    mode_code=dn_detail.dn_code,
+AttributeError: 'NoneType' object has no attribute 'dn_code'
+[2024-07-05 16:26:09,420][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/6/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2192, in update
+    goods_code=bin_qty_change.goods_code,
+AttributeError: 'NoneType' object has no attribute 'goods_code'
+[2024-07-05 16:26:51,156][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/6/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2198, in update
+    bin_name=bin_qty_change.bin_name,
+AttributeError: 'NoneType' object has no attribute 'bin_name'
+[2024-07-05 16:27:45,506][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/6/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2198, in update
+    bin_name=bin_qty_change.bin_name,
+AttributeError: 'NoneType' object has no attribute 'bin_name'
+[2024-07-05 16:28:25,343][django.request.log_response():224] [ERROR] Internal Server Error: /dn/picked/6/
+Traceback (most recent call last):
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 472, in thread_handler
+    raise exc_info[1]
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\exception.py", line 38, in inner
+    response = await get_response(request)
+  File "E:\py_env\changzhou\lib\site-packages\django\core\handlers\base.py", line 233, in _get_response_async
+    response = await wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 435, in __call__
+    ret = await asyncio.wait_for(future, timeout=None)
+  File "c:\users\wlm\appdata\local\programs\python\python39\lib\asyncio\tasks.py", line 442, in wait_for
+    return await fut
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\current_thread_executor.py", line 22, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\asgiref\sync.py", line 476, in thread_handler
+    return func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\py_env\changzhou\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File ".\dn\views.py", line 2206, in update
+    print(int(data['goodsData'][j].get('picked_qty')) ,pick_qty_change.pick_qty)
+AttributeError: 'NoneType' object has no attribute 'pick_qty'
