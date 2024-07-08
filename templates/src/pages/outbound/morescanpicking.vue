@@ -263,7 +263,7 @@ export default {
               this.$nextTick(() => {
                 this.playAudio()
               })
-              console.log('1', res)
+              console.log('2', res)
               if (res.detail === 'success') {
                 this.$q.notify({
                   message: '发货成功',
