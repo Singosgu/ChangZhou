@@ -107,13 +107,13 @@ export default {
       resMode: '',
       scan_detail: [],
       sendData: {},
-      picking_status_list: [1,2]
+      picking_status_list: [1, 2]
     }
   },
   methods: {
     playAudio () {
-      const audioPlayer = this.$refs.audioPlayer;
-      audioPlayer.play();
+      const audioPlayer = this.$refs.audioPlayer
+      audioPlayer.play()
     },
     getList (e) {
       var _this = this
@@ -261,14 +261,17 @@ export default {
             postauth('dn/dispatch/' + res.results[0].id + '/', res.results[0]).then((res) => {
               this.table_list.splice(0, 1)
               this.$nextTick(() => {
-                this.playAudio();
-              });
-              if (res.detail === 'success'){
+                this.playAudio()
+              })
+              console.log('1', res)
+              if (res.detail === 'success') {
                 this.$q.notify({
                   message: '发货成功',
                   icon: 'check',
                   color: 'green'
                 })
+              } else {
+                console.log(res)
               }
             })
           } else {
