@@ -2360,8 +2360,12 @@ class DnPickedSumViewSet(viewsets.ModelViewSet):
                     bin_qty_change.pick_qty = bin_qty_change.pick_qty - int(detail_data[j].pick_qty)
                     bin_qty_change.picked_qty = bin_qty_change.picked_qty + int(detail_data[j].pick_qty)
                     if pick_sum_change.exists():
-                        pick_sum_change.first().picking_status = 2
-                        pick_sum_change.first().save()
+                        pick_detail = PickingSumModel.objects.filter(openid=self.request.auth.openid,
+                                                       dn_code=str(data['dn_code']),
+                                                       picking_status=1,
+                                                       ).first()
+                        pick_detail.picking_status = 2
+                        pick_detail.save()
                     goods_qty_change.save()
                     detail_data[j].save()
                     bin_qty_change.save()
