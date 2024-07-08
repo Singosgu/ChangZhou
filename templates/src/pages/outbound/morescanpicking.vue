@@ -118,7 +118,7 @@ export default {
     getList (e) {
       var _this = this
       if (_this.$q.localStorage.has('auth')) {
-        getauth(_this.pathname + '?page=' + this.current + '&order_line=2&dn_code=' + '' + e + '&max_page=10000&picking_status=1', {
+        getauth(_this.pathname + '?page=' + this.current + '&order_line=2&dn_code=' + '' + e + '&max_page=10000&picking_status__lt=3', {
         }).then(res => {
           _this.page_count = res.count
           _this.table_list = res.results
@@ -263,11 +263,13 @@ export default {
               this.$nextTick(() => {
                 this.playAudio();
               });
-              this.$q.notify({
-                message: '发货成功',
-                icon: 'check',
-                color: 'green'
-              })
+              if (res.detail === 'success'){
+                this.$q.notify({
+                  message: '发货成功',
+                  icon: 'check',
+                  color: 'green'
+                })
+              }
             })
           } else {
             console.log('订单已完成，或者还未到发货环节')
